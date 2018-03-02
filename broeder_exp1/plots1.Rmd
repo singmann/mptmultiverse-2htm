@@ -1,0 +1,369 @@
+---
+title: "Broeder Experiment 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library("tidyr")
+library("dplyr")
+library("tibble")
+library("rlang")
+library("reshape2")
+library("ggplot2")
+library("parallel")
+library("MPTinR")
+library("TreeBUGS")
+library("runjags")
+library("purrr")
+library("readr")
+library("broom") # for tidy
+source("../scripts/auxiliary_functions.R")
+source("../scripts/summary_plots.R")
+
+load("model_1.eqn-exp1.txt.RData")
+results1 <- results
+
+load("model_2.eqn-exp1.txt.RData")
+results2 <- results
+
+load("model_3.eqn-exp1.txt.RData")
+results3 <- results
+
+load("model_orig.eqn-exp1.txt.RData")
+results4 <- results
+
+```
+
+### Some info on the models
+
+**Model 1:** r_1 = r_8 (highest confidence response mapping of detection states equated)  
+**Model 2:** q_4 = q_5 (lowest confidence response mapping of uncertainty states equated)  
+**Model 3:** r_1 = r_8 & q_4 = q_5 (highest confidence response mapping of detection states equated and lowest confidence response mapping of uncertainty states equated)  
+**Model Original:** q_2 = q_7, q_3 = q_6 & r_3 = r_6 (all but highest confidence response mapping of uncertainty states equated and lowest two confidence response mapping of detection states equated)
+
+### Some info on convergence
+
+#### For Model 1
+
+Two approaches failed:  
+partial, TreeBUGS, trait  
+partial, TreeBUGS, beta  
+
+Frequentist approach with complete pooling had no convergence problems (asymptotic.complete.MPTinR).
+
+Bayesian approach with complete pooling Rhat < 1.05, therefore converged well (simple.complete.TreeBUGS).  
+Bayesian approach with no pooling (simple.no.TreeBUGS) had 374 parameters with Rhat > 1.05.  
+Bayesian approach with partial pooling (trait_uncorrelated.partial.TreeBUGS) had 58 parameters with Rhat > 1.05.  
+
+#### For Model 2
+
+One approach failed:  
+partial, TreeBUGS, beta 
+
+Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had some convergence problems:  
+  condition     rank.fisher n.parameters convergence  
+1 aggregated             6          14          0  
+2 strong_naming          6          14          0  
+3 weak_naming            9          14          0  
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) had 7 parameters with Rhat > 1.05.  
+Bayesian approach with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait) had 38 parameters with Rhat > 1.05, but uncorrelated (trait_uncorrelated.partial.TreeBUGS) converged well with all Rhat < 1.05.
+
+#### For Model 3
+
+One approach failed:  
+partial, TreeBUGS, beta 
+
+Frequentist approach with complete pooling had no convergence problems (asymptotic.complete.MPTinR).
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) had 204 parameters with Rhat > 1.05.  
+Bayesian approach with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait) had 259 parameters with Rhat > 1.05, but uncorrelated (trait_uncorrelated.partial.TreeBUGS) had one parameter with Rhat > 1.05.  
+
+#### For Model Original
+
+Two approaches failed:  
+partial, TreeBUGS, trait  
+partial, TreeBUGS, beta  
+
+Frequentist approach with complete pooling had no convergence problems (asymptotic.complete.MPTinR).  
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) had 3 parameters with Rhat > 1.05.  
+Bayesian approach with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05.  
+
+### Parameter estimation
+
+**Model 1**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
+dd <- position_dodge(w = .75)
+
+gg_est1 <- unnest(results1, est_group) %>%
+  ggplot(aes(y = est, x = parameter, 
+             col=interaction(method, pooling,package),
+             shape=interaction(method, pooling,package))) +
+  facet_wrap(~condition, ncol = 1) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw()
+plot(gg_est1)
+```
+
+**Model 2**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
+dd <- position_dodge(w = .75)
+
+gg_est2 <- unnest(results2, est_group) %>%
+  ggplot(aes(y = est, x = parameter, 
+             col=interaction(method, pooling,package),
+             shape=interaction(method, pooling,package))) +
+  facet_wrap(~condition, ncol = 1) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw()
+plot(gg_est2)
+```
+**Model 3**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
+dd <- position_dodge(w = .75)
+
+gg_est3 <- unnest(results3, est_group) %>%
+  ggplot(aes(y = est, x = parameter, 
+             col=interaction(method, pooling,package),
+             shape=interaction(method, pooling,package))) +
+   facet_wrap(~condition, ncol = 1) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw()
+plot(gg_est3)
+```
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
+dd <- position_dodge(w = .75)
+
+gg_est4 <- unnest(results4, est_group) %>%
+  ggplot(aes(y = est, x = parameter, 
+             col=interaction(method, pooling,package),
+             shape=interaction(method, pooling,package))) +
+   facet_wrap(~condition, ncol = 1) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw()
+plot(gg_est4)
+```
+
+### Estimated differences
+
+**Model 1**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+res_between <-  unnest(results1, test_between) 
+
+gg_est2_1 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
+                                     col=interaction(method, pooling,package),
+                                     shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2_1)
+
+```
+**Model 2**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+res_between <-  unnest(results2, test_between) 
+
+gg_est2_2 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
+                                     col=interaction(method, pooling,package),
+                                     shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2_2)
+```
+**Model 3**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+res_between <-  unnest(results3, test_between) 
+
+gg_est2_3 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
+                                     col=interaction(method, pooling,package),
+                                     shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2_3)
+```
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+res_between <-  unnest(results4, test_between) 
+
+gg_est2_4 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
+                                     col=interaction(method, pooling,package),
+                                     shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2_4)
+```
+
+### Goodness of fit
+
+**Model 1**
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gg_gof1_1 <-  unnest(results1, gof) %>%
+    # filter(focus == "mean") %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package))) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() + coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof1_1)
+```
+**Model 2**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gg_gof1_2 <-  unnest(results2, gof) %>%
+    # filter(focus == "mean") %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package))) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() + coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof1_2)
+```
+**Model 3**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gg_gof1_3 <-  unnest(results3, gof) %>%
+    # filter(focus == "mean") %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package))) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() + coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof1_3)
+```
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gg_gof1_4 <-  unnest(results4, gof) %>%
+    # filter(focus == "mean") %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package))) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() + coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof1_4)
+```
+
+### Goodness of fit per condition
+
+**Model 1**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
+gg_gof2_1 <- unnest(results1, gof_group) %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package), 
+               col = condition)) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() +
+    coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof2_1)
+```
+**Model 2**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
+gg_gof2_2 <- unnest(results2, gof_group) %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package), 
+               col = condition)) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() +
+    coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof2_2)
+```
+**Model 3**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
+gg_gof2_3 <- unnest(results3, gof_group) %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package), 
+               col = condition)) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() +
+    coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof2_3)
+```
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
+gg_gof2_4 <- unnest(results4, gof_group) %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package), 
+               col = condition)) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() +
+    coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof2_4)
+```
