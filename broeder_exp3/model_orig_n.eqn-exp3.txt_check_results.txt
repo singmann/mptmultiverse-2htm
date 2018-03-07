@@ -1,0 +1,67 @@
+################ OPTIONS ################
+
+TreeBUGS:
+   n.chain     n.iter    n.adapt   n.burnin     n.thin   Rhat_max   Neff_min extend_max      n.PPP 
+      4.00   50000.00    3000.00    2000.00      10.00       1.05     100.00      20.00    2000.00 
+      nCPU 
+      6.00 
+
+MPTinR:
+bootstrap_samples           n.optim              nCPU 
+              500                10                 6 
+
+CI_SIZE:  0.025 0.1 0.9 0.975 
+MAX_CI_INDIV =  0.99 
+
+################ CHECK RESULTS ################
+
+## Following analyses approaches missing from results:
+ partial, TreeBUGS, beta 
+
+
+## MPTinR: no pooling
+Proportion of participants with non-identified parameters:
+  condition     proportion
+1 strong_naming       1.00
+2 weak_naming         1.00
+
+Table of non-identified parameters:
+   condition     parameter                                               Freq
+ 1 strong_naming q_3_bn, q_3_bo, q_8_bn, r_2_bn, r_3_bn, r_7_bn             2
+ 2 strong_naming q_3_bn, q_3_bo, r_2_bn, r_2_bo, r_3_bn, r_3_bo, r_7_bo     2
+ 3 strong_naming q_3_bo, r_2_bn, r_2_bo, r_3_bn, r_3_bo, r_7_bn, r_7_bo     2
+ 4 strong_naming q_3_bo, r_2_bo, r_7_bn, r_7_bo                             2
+ 5 strong_naming q_8_bn, r_2_bn, r_2_bo, r_3_bn, r_7_bn                     2
+ 6 strong_naming r_1_bn, r_2_bn, r_2_bo, r_3_bn, r_3_bo, r_7_bn, r_7_bo     2
+ 7 strong_naming r_1_bn, r_2_bn, r_2_bo, r_3_bo, r_7_bn, r_7_bo             2
+ 8 strong_naming r_1_bn, r_2_bo, r_3_bn, r_3_bo, r_7_bn, r_7_bo, r_8_bo     2
+ 9 strong_naming r_1_bo, r_2_bn, r_3_bn, r_7_bn                             2
+10 strong_naming r_1_bo, r_2_bo, r_3_bo, r_7_bo                             2
+# ... with 28 more rows
+
+
+## MPTinR: complete pooling
+No convergence problems.
+
+
+## TreeBUGS, no, simple:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, complete, simple:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait_uncorrelated:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+NULL
