@@ -1,3 +1,10 @@
+---
+title: "Broeder Experiment 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 
 library("tidyr")
 library("dplyr")
@@ -15,8 +22,50 @@ library("broom") # for tidy
 source("../scripts/auxiliary_functions.R")
 source("../scripts/summary_plots.R")
 
-load("model_orig_n.eqn-exp2.txt.RData")
+load("model_orig_n.eqn-exp3.txt.RData")
+```
 
+### Some info on the models
+
+**Model Original:** q_2 = q_7, q_3 = q_6 & r_3 = r_6 (all but highest confidence response mapping of uncertainty states equated and lowest two confidence response mapping of detection states equated)
+
+### Some info on convergence
+
+#### For Model Original
+
+One approach failed:  
+partial, TreeBUGS, beta  
+
+Frequentist approach with complete pooling had no convergence problems (asymptotic.complete.MPTinR). 
+No identified parameters for no pooling?
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) converged well, all Rhat < 1.05.  
+Bayesian approach with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait_uncorrelated.partial.TreeBUGS) and uncorrelated (trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05.  
+
+### Parameter estimation
+
+**Model Original**
+```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
+shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
+dd <- position_dodge(w = .75)
+
+gg_est <- unnest(results, est_group) %>%
+  ggplot(aes(y = est, x = parameter, 
+             col=interaction(method, pooling,package),
+             shape=interaction(method, pooling,package))) +
+   facet_wrap(~condition, ncol = 1) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw()
+plot(gg_est)
+```
+***Graphs per Bias Condition***
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 par_est <- unnest(results, est_group)
 parameters_bn <- filter(par_est, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
 shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
@@ -32,8 +81,8 @@ ggplot(parameters_bn, aes(y = est, x = parameter,
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw()
-
-
+```
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 parameters_bo <- filter(par_est, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo","r_7_bo","r_8_bo"))
 
 shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
@@ -49,9 +98,12 @@ ggplot(parameters_bo, aes(y = est, x = parameter,
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw()
+```
 
+***Parameter comparison condition/bias***  
+Core parameters
 
-
+```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
 core <- filter(par_est, parameter %in% c("Do_bn", "Do_bo","Dn_bn", "Dn_bo","g_bn","g_bo"))
 core <- add_column(core,bias=1)
 core$bias <- ifelse(core$parameter=="Dn_bn",
@@ -89,10 +141,10 @@ ggplot(core, aes(y = est, x = interaction(method, pooling,package),
   scale_shape_manual(values=shapes) +
   theme_bw() + 
   coord_flip()
+```
+Q Parameters
 
-
-
-
+```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
 params_q <- filter(par_est, parameter %in% c("q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn"))
 
 params_q <- add_column(params_q,bias=1)
@@ -147,9 +199,10 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
   scale_shape_manual(values=shapes) +
   theme_bw() + 
   coord_flip()
+```
+R parameters
 
-
-
+```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
 params_r <- filter(par_est, parameter %in% c("r_1_bo","r_2_bo","r_3_bo","r_7_bo","r_8_bo","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
 
 params_r <- add_column(params_r,bias=1)
@@ -200,10 +253,67 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
   scale_shape_manual(values=shapes) +
   theme_bw() + 
   coord_flip()
+```
 
+### Estimated differences
 
-######estimated difff
+**Model Original**
 
+```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
+res_between <-  unnest(results, test_between) 
+
+gg_est2 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
+                                     col=interaction(method, pooling,package),
+                                     shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2)
+```
+***Graphs per Bias Condition***
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+
+parameters_bn <- filter(res_between, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
+
+gg_est2_bn <- ggplot(parameters_bn, aes(y = est_diff, x = parameter, 
+                                     col=interaction(method, pooling,package),
+                                     shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2_bn)
+```
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+res_between <-  unnest(results, test_between) 
+
+parameters_bo <- filter(res_between, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo","r_7_bo","r_8_bo"))
+
+gg_est2_bo <- ggplot(parameters_bo, aes(y = est_diff, x = parameter, 
+                                   col=interaction(method, pooling,package),
+                                   shape=interaction(method, pooling,package))) +
+  facet_grid(condition2~condition1) +
+  geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
+                position = dd, width = 0.5)+
+  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  scale_shape_manual(values=shapes) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  coord_flip()
+plot(gg_est2_bo)
+```
+
+***Parameter comparison condition/bias***  
+Core parameters
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results, test_between) 
 
 core <- filter(res_between, parameter %in% c("Do_bn", "Do_bo","Dn_bn", "Dn_bo","g_bn","g_bo"))
@@ -242,6 +352,11 @@ ggplot(core, aes(y = est_diff, x = interaction(method, pooling,package),
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
   coord_flip()
+```
+
+Q Parameters
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 
 res_between <-  unnest(results, test_between)
 
@@ -301,6 +416,11 @@ gg_est2 <- ggplot(params_q, aes(y = est_diff, x = interaction(method, pooling,pa
   coord_flip()
 plot(gg_est2)
 
+```
+
+R Parameters
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 
 res_between <-  unnest(results, test_between)
 
@@ -354,4 +474,39 @@ gg_est3 <- ggplot(params_r, aes(y = est_diff, x = interaction(method, pooling,pa
   coord_flip()
 plot(gg_est3)
 
+```
 
+### Goodness of fit
+
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gg_gof1 <-  unnest(results, gof) %>%
+    # filter(focus == "mean") %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package))) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() + coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof1)
+```
+
+### Goodness of fit per condition
+
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
+gg_gof2 <- unnest(results, gof_group) %>%
+    ggplot(aes(y = p, 
+               x = interaction(method, pooling, package), 
+               col = condition)) + 
+    geom_point(size=2) + ylim(0, 1) + 
+    geom_hline(yintercept = .05, lty = 2)+
+    theme_bw() +
+    coord_flip() +
+    facet_wrap(~focus) +
+    ggtitle("Goodness of fit")
+plot(gg_gof2)
+```

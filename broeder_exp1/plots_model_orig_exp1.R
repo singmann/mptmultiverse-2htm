@@ -62,12 +62,12 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
   geom_point(position = dd, size = 2) + 
-  ylim(0,1) +
   scale_shape_manual(values=shapes) +
-  scale_y_continuous(breaks=seq(0,1,by=.5))+
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+
   theme_bw() + 
-  coord_flip()
+  coord_flip() 
 
+##### tous aksones kai sta 2
 
 par_est <- bind_rows(
   unnest(results1, est_group),
@@ -85,9 +85,8 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
   geom_point(position = dd, size = 2) + 
-  ylim(0,1) +
   scale_shape_manual(values=shapes) +
-  scale_y_continuous(breaks=seq(0,1,by=.5))+
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+
   theme_bw() + 
   coord_flip()
 
@@ -121,10 +120,13 @@ ggplot(params_q, aes(y = est_diff, x = interaction(method, pooling,package),
   facet_wrap(~parameter, ncol=6)+
   geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
                 position = dd, width = 0.5)+
-  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  geom_point(position = dd, size=2) + 
+  scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+
   scale_shape_manual(values=shapes) +
-  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 3) +
   coord_flip()
+
+###aksones ki edw kai sta 2
 
 res_between <- bind_rows(
   unnest(results1, test_between),
@@ -137,14 +139,15 @@ ggplot(params_r, aes(y = est_diff, x = interaction(method, pooling,package),
   facet_wrap(~parameter, ncol=6)+
   geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
                 position = dd, width = 0.5)+
-  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  geom_point(position = dd, size=2) +
+  scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+
   scale_shape_manual(values=shapes) +
-  theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  theme_bw() + geom_hline(yintercept = 0, lty = 3) +
   coord_flip()
 
 
 
-
+##### teleiwnw edw 
 
 
 res_between <-  unnest(results, test_between) 
