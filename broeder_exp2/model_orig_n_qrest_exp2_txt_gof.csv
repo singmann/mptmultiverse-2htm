@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+model_orig_n_qrest.eqn,exp2.txt,no,MPTinR,PB/MLE,pb-G2,mean,801.4939643679609,NA,102,0.001996007984031936
+model_orig_n_qrest.eqn,exp2.txt,no,MPTinR,asymptotic,G2,mean,801.4939643679609,NA,102,4.74172253534973e-109
+model_orig_n_qrest.eqn,exp2.txt,complete,MPTinR,asymptotic,G2,mean,26.166313550100313,NA,2,2.079970649744932e-6
+model_orig_n_qrest.eqn,exp2.txt,no,TreeBUGS,simple,T1_G2,mean,11.262528074624898,2.0667821426190183,NA,0
+model_orig_n_qrest.eqn,exp2.txt,no,TreeBUGS,simple,T2,cov,1356.6861658314106,741.252304340547,NA,0
+model_orig_n_qrest.eqn,exp2.txt,complete,TreeBUGS,simple,T1_G2,mean,83.76949163675965,55.93151646914416,NA,0.028
+model_orig_n_qrest.eqn,exp2.txt,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+model_orig_n_qrest.eqn,exp2.txt,partial,TreeBUGS,trait,T1_G2,mean,5.237722121726052,2.0739286475490695,NA,0
+model_orig_n_qrest.eqn,exp2.txt,partial,TreeBUGS,trait,T2,cov,1393.7681169909147,734.4148910833226,NA,0
+model_orig_n_qrest.eqn,exp2.txt,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,5.025300200277154,2.1016859428672454,NA,0
+model_orig_n_qrest.eqn,exp2.txt,partial,TreeBUGS,trait_uncorrelated,T2,cov,1787.316406208283,741.1036965950672,NA,0

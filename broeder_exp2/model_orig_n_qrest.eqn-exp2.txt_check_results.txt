@@ -1,0 +1,67 @@
+################ OPTIONS ################
+
+TreeBUGS:
+   n.chain     n.iter    n.adapt   n.burnin     n.thin   Rhat_max   Neff_min extend_max      n.PPP 
+      4.00   50000.00    3000.00    2000.00      10.00       1.05     100.00      20.00    2000.00 
+      nCPU 
+      6.00 
+
+MPTinR:
+bootstrap_samples           n.optim              nCPU 
+              500                10                 6 
+
+CI_SIZE:  0.025 0.1 0.9 0.975 
+MAX_CI_INDIV =  0.99 
+
+################ CHECK RESULTS ################
+
+## Following analyses approaches missing from results:
+ partial, TreeBUGS, beta 
+
+
+## MPTinR: no pooling
+Proportion of participants with non-identified parameters:
+  condition     proportion
+1 strong_naming      0.960
+2 weak_naming        0.923
+
+Table of non-identified parameters:
+   condition     parameter                                               Freq
+ 1 strong_naming q_1_bo, r_2_bn, r_3_bn, r_6_bn, r_6_bo, r_7_bn, r_7_bo     2
+ 2 strong_naming q_1_bo, r_6_bn, r_6_bo, r_7_bn                             2
+ 3 strong_naming q_8_bn, r_3_bn, r_6_bn, r_7_bn                             2
+ 4 strong_naming q_8_bn, r_6_bo                                             2
+ 5 strong_naming r_1_bn, r_1_bo, r_2_bn, r_3_bn, r_6_bn, r_7_bn             2
+ 6 strong_naming r_1_bo, r_2_bo, r_6_bo                                     2
+ 7 strong_naming r_1_bo, r_3_bo, r_6_bn, r_6_bo                             2
+ 8 strong_naming r_2_bn, r_3_bn, r_3_bo, r_6_bn, r_7_bn, r_8_bn             2
+ 9 strong_naming r_2_bn, r_3_bn, r_6_bn, r_6_bo                             2
+10 strong_naming r_2_bo, r_3_bn, r_3_bo, r_6_bn, r_6_bo                     2
+# ... with 32 more rows
+
+
+## MPTinR: complete pooling
+No convergence problems.
+
+
+## TreeBUGS, no, simple:
+5 parameters with Rhat > 1.05 :
+theta[1,2], theta[5,2], theta[1,13], theta[3,13], theta[5,13]All effect sample sizes > 100 .
+
+
+## TreeBUGS, complete, simple:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait:
+89 parameters with Rhat > 1.05 :
+theta[1,2], theta[5,2], theta[15,2], theta[17,2], theta[19,2], theta[24,2], theta[24,3], theta[21,12], theta[6,4], theta[18,4], theta[20,4], theta[22,4], theta[24,4], theta[4,6], theta[6,6], theta[22,6], theta[24,6], theta[26,6], theta[6,9], theta[22,9], theta[24,9], theta[6,10], theta[22,10], theta[24,10], theta[25,11], theta[4,12], theta[6,12], theta[22,12], theta[24,12], theta[4,13], theta[6,13], theta[17,13], theta[18,13], theta[20,13], theta[22,13], theta[24,13], theta[26,13], theta[22,17], theta[24,17], theta[22,18], theta[6,20], theta[22,20], theta[24,20], theta[4,22], theta[6,22], theta[18,22], theta[22,22], theta[24,22], theta[26,22], theta[4,25], theta[6,25], theta[16,25], theta[17,25], theta[18,25], theta[20,25], theta[22,25], theta[24,25], mu[6], mu[24], mean[6], mean[22], mean[24], rho[20,4], rho[20,8], rho[20,10], rho[20,14], rho[22,14], rho[20,15], rho[20,16], rho[20,17], rho[4,20], rho[8,20], rho[10,20], rho[14,20], rho[15,20], rho[16,20], rho[17,20], rho[25,20], rho[26,20], rho[14,22], rho[25,22], rho[26,22], rho[20,25], rho[22,25], rho[20,26], rho[22,26], sigma[6], sigma[22], sigma[24]All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait_uncorrelated:
+7 parameters with Rhat > 1.05 :
+sigma[17], sigma[18], sigma[21], sigma[20], sigma[21], sigma[22], sigma[23]All effect sample sizes > 100 .
+
+
+NULL
