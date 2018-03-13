@@ -14,29 +14,28 @@ MAX_CI_INDIV =  0.99
 ################ CHECK RESULTS ################
 
 ## Following analyses approaches missing from results:
- partial, TreeBUGS, trait
-partial, TreeBUGS, beta 
+ partial, TreeBUGS, beta 
 
 
 ## MPTinR: no pooling
 Proportion of participants with non-identified parameters:
   condition     proportion
-1 strong_naming      0.800
-2 weak_naming        0.697
+1 strong_naming      0.857
+2 weak_naming        0.758
 
 Table of non-identified parameters:
    condition     parameter                Freq
- 1 strong_naming Dn                          2
+ 1 strong_naming Dn, q_2                     2
  2 strong_naming Dn, q_2, r_7                2
- 3 strong_naming q_1, q_8                    2
- 4 strong_naming q_2, r_1, r_2, r_8          2
+ 3 strong_naming Do                          2
+ 4 strong_naming q_2, q_3, r_1, r_2, r_8     2
  5 strong_naming q_2, r_7                    2
- 6 strong_naming q_8, r_2, r_7, r_8          2
- 7 strong_naming r_1                         2
- 8 strong_naming r_1, r_2                    2
+ 6 strong_naming q_8                         2
+ 7 strong_naming q_8, r_2, r_7, r_8          2
+ 8 strong_naming r_1, r_2                    4
  9 strong_naming r_1, r_2, r_3, r_7          2
 10 strong_naming r_1, r_2, r_3, r_7, r_8     2
-# ... with 24 more rows
+# ... with 25 more rows
 
 
 ## MPTinR: complete pooling
@@ -44,13 +43,18 @@ No convergence problems.
 
 
 ## TreeBUGS, no, simple:
-3 parameters with Rhat > 1.05 :
-theta[12,21], theta[2,20], theta[12,20]All effect sample sizes > 100 .
+2 parameters with Rhat > 1.05 :
+theta[12,21], theta[8,24]All effect sample sizes > 100 .
 
 
 ## TreeBUGS, complete, simple:
 All Rhat < 1.05 .
 All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait:
+3 parameters with Rhat > 1.05 :
+theta[8,1], theta[8,17], theta[8,21]All effect sample sizes > 100 .
 
 
 ## TreeBUGS, partial, trait_uncorrelated:
