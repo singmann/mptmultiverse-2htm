@@ -58,7 +58,7 @@ partial, TreeBUGS, beta
 
 Bayesian approach with no pooling (simple.no.TreeBUGS) had 4 parameters with Rhat > 1.05.  
 Bayesian approach with complete pooling (simple.complete.TreeBUGS) had 2 parameters with Rhat > 1.05.   
-Bayesian approach with partial pooling (trait_uncorrelated.partial.TreeBUGS) had 53 parameters with Rhat > 1.05  but uncorrelated (trait_uncorrelated.partial.TreeBUGS) had one parameter with Rhat > 1.05.  
+Bayesian approach with partial pooling had 53 parameters with Rhat > 1.05  but uncorrelated (trait_uncorrelated.partial.TreeBUGS) had one parameter with Rhat > 1.05.  
 
 #### For R restricted
 One approach failed:
@@ -68,7 +68,7 @@ Frequentist approach with complete pooling had no convergence problems (asymptot
 
 Bayesian approach with no pooling (simple.no.TreeBUGS) had 54 parameters with Rhat > 1.05.  
 Bayesian approach with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat < 1.05.     
-Bayesian approach with partial pooling (trait_uncorrelated.partial.TreeBUGS) had 8 parameters with Rhat > 1.05  but uncorrelated (trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
+Bayesian approach with partial pooling had 8 parameters with Rhat > 1.05  but uncorrelated (trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
 
 ### Parameter estimation
 
