@@ -87,7 +87,7 @@ head(data)
 ## Settings                    ##
 #################################
 
-AVAILABLE_CORES <- 8  # Set the number of CPU cores that are available on your computer.
+AVAILABLE_CORES <- 6 # Set the number of CPU cores that are available on your computer.
 # most modern computers have at least 4. It is not recommended to set higher numbers than available.
 
 TREEBUGS_MCMC <- c(n.chain = 4, n.iter = 50000, n.adapt = 3000, 
