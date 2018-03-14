@@ -20,22 +20,22 @@ MAX_CI_INDIV =  0.99
 ## MPTinR: no pooling
 Proportion of participants with non-identified parameters:
   condition     proportion
-1 strong_naming      0.857
+1 strong_naming      0.943
 2 weak_naming        0.848
 
 Table of non-identified parameters:
-   condition     parameter                     Freq
- 1 strong_naming Dn                               2
- 2 strong_naming Dn, r_7                          2
- 3 strong_naming q_2, q_3, q_6, q_7, r_2, r_7     2
- 4 strong_naming q_3, q_6, q_7, r_2               2
- 5 strong_naming q_3, r_2, r_3, r_7               2
- 6 strong_naming q_3, r_3                         2
- 7 strong_naming q_3, r_3, r_7                    2
- 8 strong_naming q_3, r_8                         2
- 9 strong_naming q_6                              4
-10 strong_naming q_6, q_7, r_7, r_8               2
-# ... with 32 more rows
+   condition     parameter                          Freq
+ 1 strong_naming Dn                                    2
+ 2 strong_naming Dn, q_7, r_7                          2
+ 3 strong_naming Do                                    2
+ 4 strong_naming q_2, q_3, q_6, q_7, r_1, r_2, r_7     2
+ 5 strong_naming q_3, q_6, q_7, r_2                    2
+ 6 strong_naming q_3, r_3, r_7                         2
+ 7 strong_naming q_6                                   2
+ 8 strong_naming q_6, q_7, r_7                         2
+ 9 strong_naming q_6, q_8, r_1, r_2                    2
+10 strong_naming q_6, r_2                              2
+# ... with 29 more rows
 
 
 ## MPTinR: complete pooling
@@ -43,8 +43,8 @@ No convergence problems.
 
 
 ## TreeBUGS, no, simple:
-54 parameters with Rhat > 1.05 :
-theta[1,11], theta[1,29], theta[2,29], theta[3,29], mean[1], mean[2], mean[3], mean[10], mean[12], mean[14], sd[12], theta[1,4], theta[2,4], theta[3,4], theta[5,4], theta[6,4], theta[7,4], theta[8,4], theta[10,4], theta[10,24], theta[10,30], theta[11,4], theta[12,4], theta[13,4], theta[14,4], theta[14,14], rho[14,1], rho[5,3], rho[7,3], rho[5,4], rho[6,4], rho[3,5], rho[4,5], rho[12,5], rho[4,6], rho[7,6], rho[3,7], rho[6,7], rho[11,7], rho[13,7], rho[14,7], rho[13,10], rho[7,11], rho[13,11], rho[5,12], rho[13,12], rho[7,13], rho[10,13], rho[11,13], rho[12,13], rho[14,13], rho[1,14], rho[7,14], rho[13,14]All effect sample sizes > 100 .
+44 parameters with Rhat > 1.05 :
+theta[14,15], theta[14,21], mean[1], mean[10], mean[14], theta[1,4], theta[2,4], theta[3,4], theta[5,4], theta[6,4], theta[7,4], theta[10,4], theta[10,17], theta[10,24], theta[11,4], theta[12,4], theta[13,4], theta[14,4], rho[5,3], rho[6,3], rho[7,3], rho[5,4], rho[6,4], rho[3,5], rho[4,5], rho[14,5], rho[3,6], rho[4,6], rho[7,6], rho[10,6], rho[3,7], rho[6,7], rho[11,7], rho[13,7], rho[6,10], rho[13,10], rho[7,11], rho[13,11], rho[13,12], rho[7,13], rho[10,13], rho[11,13], rho[12,13], rho[5,14]All effect sample sizes > 100 .
 
 
 ## TreeBUGS, complete, simple:
@@ -53,13 +53,13 @@ All effect sample sizes > 100 .
 
 
 ## TreeBUGS, partial, trait:
-8 parameters with Rhat > 1.05 :
-theta[1,2], theta[10,17], theta[10,18], theta[10,21], sigma[11], theta[10,14], theta[2,20], theta[3,20]All effect sample sizes > 100 .
+33 parameters with Rhat > 1.05 :
+theta[10,1], theta[11,11], theta[11,15], theta[10,17], theta[10,18], theta[10,21], theta[11,29], rho[11,4], rho[11,5], rho[11,6], rho[11,7], rho[11,8], rho[11,9], rho[11,10], rho[4,11], rho[5,11], rho[6,11], rho[7,11], rho[8,11], rho[9,11], rho[10,11], rho[14,11], rho[11,14], sigma[11], theta[1,4], theta[3,4], theta[10,11], theta[1,14], theta[11,14], mu[4], mu[10], mean[4], mean[10]All effect sample sizes > 100 .
 
 
 ## TreeBUGS, partial, trait_uncorrelated:
-All Rhat < 1.05 .
-All effect sample sizes > 100 .
+1 parameters with Rhat > 1.05 :
+sigma[11]All effect sample sizes > 100 .
 
 
 NULL
