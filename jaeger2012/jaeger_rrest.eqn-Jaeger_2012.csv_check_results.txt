@@ -1,0 +1,71 @@
+################ OPTIONS ################
+
+TreeBUGS:
+   n.chain     n.iter    n.adapt   n.burnin     n.thin   Rhat_max   Neff_min extend_max      n.PPP       nCPU 
+      4.00   50000.00    3000.00    2000.00      10.00       1.05     100.00      20.00    2000.00       4.00 
+
+MPTinR:
+bootstrap_samples           n.optim              nCPU 
+              500                10                 4 
+
+CI_SIZE:  0.025 0.1 0.9 0.975 
+MAX_CI_INDIV =  0.99 
+
+################ CHECK RESULTS ################
+
+## Following analyses approaches missing from results:
+ partial, TreeBUGS, beta 
+
+
+## MPTinR: no pooling
+Proportion of participants with non-identified parameters:
+  condition   proportion
+1 Jaeger_2012      0.492
+
+Table of non-identified parameters:
+   condition   parameter           Freq
+ 1 Jaeger_2012 Dn                     2
+ 2 Jaeger_2012 q_1                    2
+ 3 Jaeger_2012 q_1, r_1               2
+ 4 Jaeger_2012 q_2                    2
+ 5 Jaeger_2012 q_2, r_1               2
+ 6 Jaeger_2012 q_2, r_1, r_2, r_6     2
+ 7 Jaeger_2012 q_5                    6
+ 8 Jaeger_2012 q_5, q_6, r_1, r_2     2
+ 9 Jaeger_2012 q_5, q_6, r_6          2
+10 Jaeger_2012 q_5, r_1, r_2          2
+11 Jaeger_2012 q_5, r_2               2
+12 Jaeger_2012 q_5, r_6               2
+13 Jaeger_2012 q_6, r_2               2
+14 Jaeger_2012 r_1                   16
+15 Jaeger_2012 r_1, r_6               2
+16 Jaeger_2012 r_2                   10
+17 Jaeger_2012 r_2, r_6               2
+18 Jaeger_2012 r_6                    2
+
+
+## MPTinR: complete pooling
+No convergence problems.
+
+
+## TreeBUGS, no, simple:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, complete, simple:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait:
+4 parameters with Rhat > 1.05 :
+theta[8,11], theta[8,33], theta[8,49], theta[8,62]All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait_uncorrelated:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+NULL
