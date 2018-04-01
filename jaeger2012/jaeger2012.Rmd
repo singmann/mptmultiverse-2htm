@@ -119,6 +119,7 @@ ggplot(pars,aes(y = est, x = parameter,
   scale_shape_manual(values=shapes) +
   theme_bw()+
   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+
 ```
 
 **Q restricted**
@@ -250,6 +251,20 @@ ggplot(core, aes(y = est, x = model,
   facet_wrap(~parameter) +
   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
+
+
+ggplot(core, aes(y = est, x = interaction(method, pooling,package),
+                 shape=model, color =model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
 ```
 **Q parameters**
 
@@ -269,6 +284,18 @@ ggplot(params_q, aes(y = est, x = model,
   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 
+ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
+                 shape=model, color =model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
+  labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
 ```
 **R parameters**
 
@@ -285,6 +312,19 @@ ggplot(params_r, aes(y = est, x = model,
   scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
   labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of R Parameters Across Models')+
   theme_bw() +
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+
+ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
+                 shape=model, color =model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  scale_shape_manual(values=shapes) +
+   scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
+   labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
+  theme_bw() + 
   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 ```
