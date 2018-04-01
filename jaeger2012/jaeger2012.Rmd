@@ -255,7 +255,7 @@ ggplot(core, aes(y = est, x = model,
 
 ggplot(core, aes(y = est, x = interaction(method, pooling,package),
                  shape=model, color =model)) +
-  facet_grid(condition ~parameter) +
+  facet_wrap(~parameter) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
   geom_point(position = dd, size = 2) + 
@@ -286,7 +286,7 @@ ggplot(params_q, aes(y = est, x = model,
 
 ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
                  shape=model, color =model)) +
-  facet_grid(condition ~parameter) +
+  facet_wrap(~parameter, ncol = 4) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
   geom_point(position = dd, size = 2) + 
@@ -317,7 +317,7 @@ ggplot(params_r, aes(y = est, x = model,
 
 ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
                  shape=model, color =model)) +
-  facet_grid(condition ~parameter) +
+ facet_wrap(~parameter, ncol = 4) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
   geom_point(position = dd, size = 2) + 
