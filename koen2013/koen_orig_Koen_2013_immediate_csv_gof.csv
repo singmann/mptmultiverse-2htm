@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+koen_orig.eqn,Koen_2013_immediate.csv,no,MPTinR,PB/MLE,pb-G2,mean,196.19218034824962,NA,48,0.001996007984031936
+koen_orig.eqn,Koen_2013_immediate.csv,no,MPTinR,asymptotic,G2,mean,196.19218034824962,NA,48,8.07660155545738e-20
+koen_orig.eqn,Koen_2013_immediate.csv,complete,MPTinR,asymptotic,G2,mean,1.543832896371896,NA,1,0.21404818669827866
+koen_orig.eqn,Koen_2013_immediate.csv,no,TreeBUGS,simple,T1_G2,mean,0.34843115594568674,0.19051319703202596,NA,0.1465
+koen_orig.eqn,Koen_2013_immediate.csv,no,TreeBUGS,simple,T2,cov,338.0389033297253,107.56026052146619,NA,0.001
+koen_orig.eqn,Koen_2013_immediate.csv,complete,TreeBUGS,simple,T1_G2,mean,10.747289771790555,10.138258599164283,NA,0.4555
+koen_orig.eqn,Koen_2013_immediate.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+koen_orig.eqn,Koen_2013_immediate.csv,partial,TreeBUGS,trait,T1_G2,mean,0.24306432714986584,0.1931830280330697,NA,0.3465
+koen_orig.eqn,Koen_2013_immediate.csv,partial,TreeBUGS,trait,T2,cov,335.66183468559973,108.12940039938645,NA,5e-4
+koen_orig.eqn,Koen_2013_immediate.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,0.24260004833304005,0.19607988671397283,NA,0.3465
+koen_orig.eqn,Koen_2013_immediate.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,390.12003952501357,109.22341126259435,NA,0
