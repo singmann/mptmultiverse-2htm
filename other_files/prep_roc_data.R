@@ -15,6 +15,13 @@ d1 <- roc6[ roc6$exp == "Jaeger_2012",]
 d2 <- roc6[ roc6$exp == "Koen-2013_immediate",]
 d3 <- roc6[ roc6$exp == "Dube_2012-P",]
 d4 <- roc6[ roc6$exp == "Dube_2012-W",]
+d5 <- roc6[ roc6$exp == "Heathcote_2006_e1",]
+d6 <- roc6[ roc6$exp == "Heathcote_2006_e2",]
+d7 <- roc6[ roc6$exp == "Jang_2009",]
+d8 <- roc6[ roc6$exp == "Koen_2010_pure",]
+d9 <- roc6[ roc6$exp == "Koen_2011",]
+
+
 
 htm <- "
 (1-Do)*(1-g)*(1-gn1)*(1-gn2)
@@ -105,3 +112,6 @@ write.csv(d1, "Jaeger_2012.csv")
 write.csv(d2, "Koen_2013_immediate.csv", row.names = FALSE)
 write.csv(d3, "Dube_2012-P.csv", row.names = FALSE)
 write.csv(d4, "Dube_2012-W.csv", row.names = FALSE)
+
+write.csv(d5, "Heathcote_2006_e1.csv", row.names = FALSE)
+write.csv(d6, "Heathcote_2006_e2.csv", row.names = FALSE)
