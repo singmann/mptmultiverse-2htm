@@ -1,0 +1,68 @@
+################ OPTIONS ################
+
+TreeBUGS:
+   n.chain     n.iter    n.adapt   n.burnin     n.thin   Rhat_max   Neff_min extend_max      n.PPP       nCPU 
+      4.00   50000.00    3000.00    2000.00      10.00       1.05     100.00      20.00    2000.00       4.00 
+
+MPTinR:
+bootstrap_samples           n.optim              nCPU 
+              500                10                 4 
+
+CI_SIZE:  0.025 0.1 0.9 0.975 
+MAX_CI_INDIV =  0.99 
+
+################ CHECK RESULTS ################
+
+## Following analyses approaches missing from results:
+ partial, TreeBUGS, beta 
+
+
+## MPTinR: no pooling
+Proportion of participants with non-identified parameters:
+  condition   proportion
+1 Dube_2012-P      0.778
+
+Table of non-identified parameters:
+   condition   parameter                Freq
+ 1 Dube_2012-P q_1, r_2, r_5               2
+ 2 Dube_2012-P q_2, q_6, r_1, r_2, r_5     2
+ 3 Dube_2012-P q_6                         2
+ 4 Dube_2012-P q_6, r_2, r_5               4
+ 5 Dube_2012-P q_6, r_2, r_6               2
+ 6 Dube_2012-P q_6, r_5                    2
+ 7 Dube_2012-P r_1, r_2, r_5               2
+ 8 Dube_2012-P r_2                         4
+ 9 Dube_2012-P r_2, r_5                   12
+10 Dube_2012-P r_2, r_5, r_6               2
+11 Dube_2012-P r_5                         8
+
+
+## MPTinR: complete pooling
+Convergence problems:
+  condition   rank.fisher n.parameters convergence
+1 aggregated            4           10           0
+2 Dube_2012-P           5           10           0
+
+
+
+## TreeBUGS, no, simple:
+1 parameters with Rhat > 1.05 :
+theta[2,27]All effect sample sizes > 100 .
+
+
+## TreeBUGS, complete, simple:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+## TreeBUGS, partial, trait_uncorrelated:
+All Rhat < 1.05 .
+All effect sample sizes > 100 .
+
+
+NULL
