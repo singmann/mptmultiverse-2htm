@@ -1,0 +1,282 @@
+---
+title: "A Multiverse Pipeline for MPT models "
+subtitle: "Applications to Recognition Memory"
+author: "Henrik Singmann (Twitter: <a href='https://twitter.com/HenrikSingmann'>@HenrikSingmann</a>)<br/>Georgia Eleni Kapetaniou<br/>University of Zurich"
+date: "April 2018"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "my-theme.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+# see: https://github.com/yihui/xaringan
+# install.packages("xaringan")
+# see: 
+# https://github.com/yihui/xaringan/wiki
+# https://github.com/gnab/remark/wiki/Markdown
+options(width=110)
+options(digits = 4)
+```
+
+
+class: inline-grey
+# Summary: Analysis with Statistical Models in R
+
+1. Identify probability distribution of data (more correct: of residuals/conditional distribution)
+2. Make sure variables are of correct type via `str()`
+3. Set appropriate contrasts (orthogonal contrasts if model includes interaction): `afex::set_sum_contrasts()`
+4. Describe statistical model using `formula`
+4. Fit model: pass `formula` and `data.frame` to corresponding modeling function (e.g., `lm()`, `glm()`)
+4. Check model fit (e.g., inspect residuals)
+5. Test terms (i.e., main effects and interactions): Pass fitted model to `car::Anova()`
+7. Follow-up tests: 
+   - Estimated marginal means: Pass fitted model to `lsmeans::lsmeans()`/`emmeans::emmeans()`
+   - Specify specific contrasts on estimated marginal means (e.g., `contrast()`, `pairs()`)
+
+`afex` combines fitting (5.) and testing (7.):
+- ANOVAs: `afex::aov_car()`, `afex::aov_ez()`, or `afex::aov_4()`
+- (Generalized) linear mixed-effects models: `afex::mixed()`
+
+---
+
+# Overview: Part I
+
+- Statistical Modeling with `lm` (no mixed-model)
+    - Model setup and model formulas
+    - Continuous versus categorical covariates 
+    - `model.matrix()` and factor codings.
+    - Categorical covariates and interactions
+
+- Tests of Model Terms/Effects with `car::Anova()`
+- Follow-up Tests with `lsmeans`/`emmeans`
+- ANOVAs with `afex`
+- Problem with Repeated-Measures: IID assumption
+
+
+---
+class: small
+
+# Some Example Data
+
+Data from Revelle, Wilt and Rosenthal (2009). `?sat.act`:
+> Items were collected as part of the SAPA project (http://sapa-project.org) to develop online measures of ability (Revelle, Wilt and Rosenthal, 2009). The score means are higher than national norms suggesting both self selection for people taking on line personality and ability tests and a self reporting bias in scores.
+
+```{r, message=FALSE}
+require(psych)
+data(sat.act)
+sat.act$gender <- factor(sat.act$gender, 1:2, labels = c("male", "female"))
+sat.act$education <- factor(sat.act$education)
+summary(sat.act) # alternatively: psych::describe(sat.act)
+sat.act <- na.omit(sat.act)
+```
+
+
+---
+# Linear Regression Model
+
+- $\bf{y}$ = vector of ACT scores of length $n$ (*dependent variable*)
+- $\bf{x_{\mbox{SATV}}}$ = vector of SATV scores of length $n$ (*independent variable* or *covariate*)
+
+$$y_i = \beta_0x_{0,i}+\beta_{\mbox{SATV}}x_{\mbox{SATV},i}+\epsilon_i, \ \ i = 1, ..., n, \\
+\bf{\epsilon} \sim \mathcal{N}(0, \sigma^2_{\epsilon}),$$
+where $\bf{x_0}$ is a vector of 1s of length $n$.
+
+- Errors $\bf{\epsilon}$ are assumed to come from a normal distribution (i.e., uncorrelated).
+
+- $\beta_0$ and  $\beta_{\mbox{SATV}}$ are scalars (i.e., of length 1) and called *regression coefficients* or *parameters* ( $\sigma^2_{\epsilon}$ is also a parameter). $\beta_0$ is also known as the *intercept*.
+
+******
+
+In matrix form this model can be expressed as:
+$$\bf{y} = \bf{X}\bf{\beta}+\bf{\epsilon}$$
+
+---
+class: small
+
+# Linear Model in R
+
+.pull-left2[
+```{r}
+m1 <- lm(ACT ~ SATQ, sat.act)
+summary(m1)
+```
+
+]
+.pull-right2[
+```{r}
+coef(m1)
+```
+
+```{r, fig.height=3.7, fig.width=4, dev='svg'}
+plot(sat.act$SATQ, sat.act$ACT)
+abline(m1)
+```
+]
+---
+class: small
+
+# Linear Model in R (Centered)
+
+.pull-left2[
+```{r}
+sat.act$SATQ_c <- sat.act$SATQ - mean(sat.act$SATQ, na.rm = TRUE)
+sat.act$SATV_c <- sat.act$SATV - mean(sat.act$SATV)
+m2 <- lm(ACT ~ SATQ_c, sat.act)
+summary(m2)
+```
+
+]
+.pull-right2[
+```{r}
+coef(m2)
+```
+
+```{r, fig.height=3.7, fig.width=4, dev='svg'}
+plot(sat.act$SATQ_c, sat.act$ACT)
+abline(m2)
+```
+]
+---
+
+class: inline-grey
+# Formula Interface for Statistical Models: `~`
+
+Allows symbolic specification of statistical model, e.g. linear models: `lm(ACT ~ SATQ, sat.act)`
+
+Everything to the left of `~` is the dependent variable:
+```r
+y ~ x # univariate model
+cbind(y1, y2, y3) ~ x # multivariate model
+~ x # one sided formula
+```
+
+Independent variables are to the right of the `~`:
+
+| Formula | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Interpretation  |
+| ------------------------|---|----------------------------------|
+| `~ x` or `~1+x`         || Intercept and main effect of `x` | 
+| ` ~ x-1` or `~0 + x`    || Only main effect of `x` and no intercept (questionable) |
+| `~ x+y`                 || Main effects of `x` and `y`|
+| `~ x:y`                 || Interaction between `x` and `y` (and no main effect) |
+| `~ x*y` or `~ x+y+x:y`  || Main effects and interaction between `x` and `y` |
+
+---
+class: small
+
+# How many Parameters in each Model?
+
+```{r, eval=FALSE}
+lm(ACT ~ SATQ_c + SATV_c, sat.act)   # a
+lm(ACT ~ SATQ_c : SATV_c, sat.act)   # b
+lm(ACT ~ 0 + SATQ_c:SATV_c, sat.act) # c
+lm(ACT ~ SATQ_c*SATV_c, sat.act)     # d
+lm(ACT ~ 0+SATQ_c*SATV_c, sat.act)   # e
+```
+
+--
+.pull-left[
+```{r}
+coef(lm(ACT ~ SATQ_c + SATV_c, sat.act))   # a
+coef(lm(ACT ~ SATQ_c : SATV_c, sat.act))   # b
+coef(lm(ACT ~ 0 + SATQ_c:SATV_c, sat.act)) # c
+```
+
+
+]
+
+.pull-right[
+```{r}
+coef(lm(ACT ~ SATQ_c*SATV_c, sat.act))     # d
+coef(lm(ACT ~ 0+SATQ_c*SATV_c, sat.act))   # e
+```
+
+]
+
+```{r, eval=FALSE, include=FALSE}
+summary(lm(ACT ~ SATQ + SATV, sat.act))   # a
+summary(lm(ACT ~ SATQ : SATV, sat.act))   # b
+summary(lm(ACT ~ 0 + SATQ:SATV, sat.act)) # c
+summary(lm(ACT ~ SATQ*SATV, sat.act))     # d
+summary(lm(ACT ~ 0+SATQ*SATV, sat.act))   # e
+```
+
+
+---
+class: center, middle, inverse
+
+# Categorical Covariates
+
+---
+class: small
+# Categorical Covariates
+
+`R` modeling functions behave differently for numerical and categorical covariates. 
+
+It is important to always know of what type variables are. Use `str()` on a `data.frame` to obtain information regarding the structure, including variable types: 
+
+```{r}
+str(sat.act)
+```
+
+- Numerical covariates are `int` or `num`.
+- Categorical covariates are `Factor` (or `character`).
+
+**Make sure all categorical variables are factors before adding them to a statistical model!**
+
+---
+# Categorical Covariates and Model Matrices
+
+.pull-left3[
+```{r, eval=FALSE}
+lm(ACT ~ SATQ + SATV, sat.act)   # a: 3
+lm(ACT ~ SATQ : SATV, sat.act)   # b: 2
+lm(ACT ~ 0 + SATQ:SATV, sat.act) # c: 1
+lm(ACT ~ SATQ*SATV, sat.act)     # d: 4
+lm(ACT ~ 0+SATQ*SATV, sat.act)   # e: 3
+
+lm(ACT ~ SATQ, sat.act)          # f: 2
+lm(ACT ~ 0 + SATQ, sat.act)      # g: 1
+```
+
+]
+
+--
+.pull-right3[
+```{r, eval=FALSE}
+lm(ACT ~ gender, sat.act)                  # a
+lm(ACT ~ 0+gender, sat.act)                # b
+lm(ACT ~ gender+education, sat.act)        # c
+lm(ACT ~ 0+gender+education, sat.act)      # d
+lm(ACT ~ gender:education, sat.act)        # e
+lm(ACT ~ 0+gender:education, sat.act)      # f
+lm(ACT ~ gender*education, sat.act)        # g
+lm(ACT ~ 0+gender*education, sat.act)      # h
+lm(ACT ~ gender+gender:education, sat.act) # i
+```
+
+```{r}
+levels(sat.act$gender)
+levels(sat.act$education)
+```
+
+
+]
+
+
+
+---
+### References 
+- Bröder, A., Kellen, D., Schütz, J., & Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916–944. https://doi.org/10.1080/09658211.2013.767348
+- Dube, C., Starns, J. J., Rotello, C. M., & Ratcliff, R. (2012). Beyond ROC curvature: Strength effects and response time data support continuous-evidence models of recognition memory. *Journal of Memory and Language*, 67(3), 389–406. https://doi.org/10.1016/j.jml.2012.06.002
+- Jaeger, A., Cox, J. C., & Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282–301. https://doi.org/10.1037/a0025687
+- Koen, J. D., Aly, M., Wang, W.-C., & Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726–1741. https://doi.org/10.1037/a0033671
+- Steegen, S., Tuerlinckx, F., Gelman, A., & Vanpaemel, W. (2016). Increasing Transparency Through a Multiverse Analysis. *Perspectives on Psychological Science*, 11(5), 702–712. https://doi.org/10.1177/1745691616658637
