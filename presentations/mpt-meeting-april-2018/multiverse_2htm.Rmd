@@ -25,6 +25,29 @@ options(htmltools.dir.version = FALSE)
 # https://github.com/gnab/remark/wiki/Markdown
 options(width=110)
 options(digits = 4)
+library("tidyr")
+library("dplyr")
+library("tibble")
+library("rlang")
+library("reshape2")
+library("ggplot2")
+library("parallel")
+library("MPTinR")
+library("TreeBUGS")
+library("runjags")
+library("purrr")
+library("readr")
+library("broom") # for tidy
+source("../../scripts/auxiliary_functions.R")
+source("../../scripts/summary_plots.R")
+load("../../broeder_exp1/model_orig.eqn-exp1.txt.RData")
+results1 <- results
+
+load("../../broeder_exp1/model_orig_qrest.eqn-exp1.txt.RData")
+results2 <- results
+
+load("../../broeder_exp1/model_orig_rrest.eqn-exp1.txt.RData")
+results3 <- results
 ```
 
 
@@ -70,7 +93,7 @@ class: small
 Data from Revelle, Wilt and Rosenthal (2009). `?sat.act`:
 > Items were collected as part of the SAPA project (http://sapa-project.org) to develop online measures of ability (Revelle, Wilt and Rosenthal, 2009). The score means are higher than national norms suggesting both self selection for people taking on line personality and ability tests and a self reporting bias in scores.
 
-```{r, message=FALSE}
+```{r, message=FALSE, echo=FALSE}
 require(psych)
 data(sat.act)
 sat.act$gender <- factor(sat.act$gender, 1:2, labels = c("male", "female"))

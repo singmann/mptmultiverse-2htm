@@ -68,14 +68,6 @@ Data from Revelle, Wilt and Rosenthal (2009). `?sat.act`:
 &gt; Items were collected as part of the SAPA project (http://sapa-project.org) to develop online measures of ability (Revelle, Wilt and Rosenthal, 2009). The score means are higher than national norms suggesting both self selection for people taking on line personality and ability tests and a self reporting bias in scores.
 
 
-```r
-require(psych)
-data(sat.act)
-sat.act$gender &lt;- factor(sat.act$gender, 1:2, labels = c("male", "female"))
-sat.act$education &lt;- factor(sat.act$education)
-summary(sat.act) # alternatively: psych::describe(sat.act)
-```
-
 ```
 ##     gender    education      age            ACT            SATV          SATQ    
 ##  male  :247   0: 57     Min.   :13.0   Min.   : 3.0   Min.   :200   Min.   :200  
@@ -85,10 +77,6 @@ summary(sat.act) # alternatively: psych::describe(sat.act)
 ##               4:138     3rd Qu.:29.0   3rd Qu.:32.0   3rd Qu.:700   3rd Qu.:700  
 ##               5:141     Max.   :65.0   Max.   :36.0   Max.   :800   Max.   :800  
 ##                                                                     NA's   :13
-```
-
-```r
-sat.act &lt;- na.omit(sat.act)
 ```
 
 
