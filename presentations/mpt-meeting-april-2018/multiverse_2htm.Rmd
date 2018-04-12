@@ -25,6 +25,29 @@ options(htmltools.dir.version = FALSE)
 # https://github.com/gnab/remark/wiki/Markdown
 options(width=110)
 options(digits = 4)
+library("tidyr")
+library("dplyr")
+library("tibble")
+library("rlang")
+library("reshape2")
+library("ggplot2")
+library("parallel")
+library("MPTinR")
+library("TreeBUGS")
+library("runjags")
+library("purrr")
+library("readr")
+library("broom") # for tidy
+source("../../scripts/auxiliary_functions.R")
+source("../../scripts/summary_plots.R")
+load("../../broeder_exp1/model_orig.eqn-exp1.txt.RData")
+results1 <- results
+
+load("../../broeder_exp1/model_orig_qrest.eqn-exp1.txt.RData")
+results2 <- results
+
+load("../../broeder_exp1/model_orig_rrest.eqn-exp1.txt.RData")
+results3 <- results
 ```
 
 
