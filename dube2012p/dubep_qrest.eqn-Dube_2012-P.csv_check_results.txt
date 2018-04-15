@@ -18,23 +18,40 @@ MAX_CI_INDIV =  0.99
 
 
 ## MPTinR: no pooling
-Proportion of participants with non-identified parameters:
+Based on asymptotic CIs, proportion of participants with non-identified parameters:
   condition   proportion
 1 Dube_2012-P      0.778
 
-Table of non-identified parameters:
+Based on asymptotic CIs, table of non-identified parameters:
    condition   parameter                Freq
- 1 Dube_2012-P q_1, r_2, r_5               2
- 2 Dube_2012-P q_2, q_6, r_1, r_2, r_5     2
- 3 Dube_2012-P q_6                         2
- 4 Dube_2012-P q_6, r_2, r_5               4
- 5 Dube_2012-P q_6, r_2, r_6               2
- 6 Dube_2012-P q_6, r_5                    2
- 7 Dube_2012-P r_1, r_2, r_5               2
- 8 Dube_2012-P r_2                         4
- 9 Dube_2012-P r_2, r_5                   12
-10 Dube_2012-P r_2, r_5, r_6               2
-11 Dube_2012-P r_5                         8
+ 1 Dube_2012-P q_1, r_2, r_5               1
+ 2 Dube_2012-P q_2, q_6, r_1, r_2, r_5     1
+ 3 Dube_2012-P q_6                         1
+ 4 Dube_2012-P q_6, r_2, r_5               2
+ 5 Dube_2012-P q_6, r_2, r_6               1
+ 6 Dube_2012-P q_6, r_5                    1
+ 7 Dube_2012-P r_1, r_2, r_5               1
+ 8 Dube_2012-P r_2                         2
+ 9 Dube_2012-P r_2, r_5                    6
+10 Dube_2012-P r_2, r_5, r_6               1
+11 Dube_2012-P r_5                         4
+Based on PB/MLE CIs, proportion of participants with non-identified parameters:
+  condition   proportion
+1 Dube_2012-P      0.778
+
+Based on PB/MLE CIs, table of non-identified parameters:
+   condition   parameter                Freq
+ 1 Dube_2012-P q_1, r_2, r_5               1
+ 2 Dube_2012-P q_2, q_6, r_1, r_2, r_5     1
+ 3 Dube_2012-P q_6                         1
+ 4 Dube_2012-P q_6, r_2, r_5               2
+ 5 Dube_2012-P q_6, r_2, r_6               1
+ 6 Dube_2012-P q_6, r_5                    1
+ 7 Dube_2012-P r_1, r_2, r_5               1
+ 8 Dube_2012-P r_2                         2
+ 9 Dube_2012-P r_2, r_5                    6
+10 Dube_2012-P r_2, r_5, r_6               1
+11 Dube_2012-P r_5                         4
 
 
 ## MPTinR: complete pooling

@@ -18,19 +18,32 @@ MAX_CI_INDIV =  0.99
 
 
 ## MPTinR: no pooling
-Proportion of participants with non-identified parameters:
+Based on asymptotic CIs, proportion of participants with non-identified parameters:
   condition   proportion
 1 Dube_2012-P      0.444
 
-Table of non-identified parameters:
+Based on asymptotic CIs, table of non-identified parameters:
   condition   parameter           Freq
-1 Dube_2012-P q_1, r_1               2
-2 Dube_2012-P q_2, q_6, r_1, r_2     2
-3 Dube_2012-P q_6                    4
-4 Dube_2012-P q_6, r_2               2
-5 Dube_2012-P q_6, r_6               4
-6 Dube_2012-P r_1, r_2               4
-7 Dube_2012-P r_2                    6
+1 Dube_2012-P q_1, r_1               1
+2 Dube_2012-P q_2, q_6, r_1, r_2     1
+3 Dube_2012-P q_6                    2
+4 Dube_2012-P q_6, r_2               1
+5 Dube_2012-P q_6, r_6               2
+6 Dube_2012-P r_1, r_2               2
+7 Dube_2012-P r_2                    3
+Based on PB/MLE CIs, proportion of participants with non-identified parameters:
+  condition   proportion
+1 Dube_2012-P      0.444
+
+Based on PB/MLE CIs, table of non-identified parameters:
+  condition   parameter           Freq
+1 Dube_2012-P q_1, r_1               1
+2 Dube_2012-P q_2, q_6, r_1, r_2     1
+3 Dube_2012-P q_6                    2
+4 Dube_2012-P q_6, r_2               1
+5 Dube_2012-P q_6, r_6               2
+6 Dube_2012-P r_1, r_2               2
+7 Dube_2012-P r_2                    3
 
 
 ## MPTinR: complete pooling

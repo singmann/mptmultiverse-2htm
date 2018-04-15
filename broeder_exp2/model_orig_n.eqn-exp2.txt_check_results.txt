@@ -1,10 +1,8 @@
 ################ OPTIONS ################
 
 TreeBUGS:
-   n.chain     n.iter    n.adapt   n.burnin     n.thin   Rhat_max   Neff_min extend_max      n.PPP 
-      4.00   50000.00    3000.00    2000.00      10.00       1.05     100.00      20.00    2000.00 
-      nCPU 
-      8.00 
+   n.chain     n.iter    n.adapt   n.burnin     n.thin   Rhat_max   Neff_min extend_max      n.PPP       nCPU 
+      4.00   50000.00    3000.00    2000.00      10.00       1.05     100.00      20.00    2000.00       8.00 
 
 MPTinR:
 bootstrap_samples           n.optim              nCPU 
@@ -20,23 +18,41 @@ MAX_CI_INDIV =  0.99
 
 
 ## MPTinR: no pooling
-Proportion of participants with non-identified parameters:
+Based on asymptotic CIs, proportion of participants with non-identified parameters:
   condition     proportion
-1 strong_naming         1.
-2 weak_naming           1.
+1 strong_naming       1.00
+2 weak_naming         1.00
 
-Table of non-identified parameters:
+Based on asymptotic CIs, table of non-identified parameters:
    condition     parameter                               Freq
- 1 strong_naming q_1_bo, r_2_bn, r_3_bn, r_7_bn, r_7_bo     2
- 2 strong_naming q_8_bn, r_2_bn, r_3_bn, r_7_bn, r_8_bn     2
- 3 strong_naming q_8_bn, r_2_bo                             2
- 4 strong_naming r_1_bn, r_1_bo, r_2_bn, r_3_bn, r_7_bn     2
- 5 strong_naming r_1_bn, r_1_bo, r_2_bo, r_3_bo             2
- 6 strong_naming r_1_bn, r_2_bn, r_2_bo, r_3_bo, r_7_bn     2
- 7 strong_naming r_1_bo, r_2_bn, r_3_bn, r_7_bo             2
- 8 strong_naming r_2_bn                                     2
- 9 strong_naming r_2_bn, r_2_bo, r_3_bn, r_3_bo             2
-10 strong_naming r_2_bn, r_3_bn, r_7_bn, r_8_bn             2
+ 1 strong_naming q_1_bo, r_2_bn, r_3_bn, r_7_bn, r_7_bo     1
+ 2 strong_naming q_8_bn, r_2_bn, r_3_bn, r_7_bn, r_8_bn     1
+ 3 strong_naming q_8_bn, r_2_bo                             1
+ 4 strong_naming r_1_bn, r_1_bo, r_2_bn, r_3_bn, r_7_bn     1
+ 5 strong_naming r_1_bn, r_1_bo, r_2_bo, r_3_bo             1
+ 6 strong_naming r_1_bn, r_2_bn, r_2_bo, r_3_bo, r_7_bn     1
+ 7 strong_naming r_1_bo, r_2_bn, r_3_bn, r_7_bo             1
+ 8 strong_naming r_2_bn                                     1
+ 9 strong_naming r_2_bn, r_2_bo, r_3_bn, r_3_bo             1
+10 strong_naming r_2_bn, r_3_bn, r_7_bn, r_8_bn             1
+# ... with 32 more rows
+Based on PB/MLE CIs, proportion of participants with non-identified parameters:
+  condition     proportion
+1 strong_naming       1.00
+2 weak_naming         1.00
+
+Based on PB/MLE CIs, table of non-identified parameters:
+   condition     parameter                               Freq
+ 1 strong_naming q_1_bo, r_2_bn, r_3_bn, r_7_bn, r_7_bo     1
+ 2 strong_naming q_8_bn, r_2_bn, r_3_bn, r_7_bn, r_8_bn     1
+ 3 strong_naming q_8_bn, r_2_bo                             1
+ 4 strong_naming r_1_bn, r_1_bo, r_2_bn, r_3_bn, r_7_bn     1
+ 5 strong_naming r_1_bn, r_1_bo, r_2_bo, r_3_bo             1
+ 6 strong_naming r_1_bn, r_2_bn, r_2_bo, r_3_bo, r_7_bn     1
+ 7 strong_naming r_1_bo, r_2_bn, r_3_bn, r_7_bo             1
+ 8 strong_naming r_2_bn                                     1
+ 9 strong_naming r_2_bn, r_2_bo, r_3_bn, r_3_bo             1
+10 strong_naming r_2_bn, r_3_bn, r_7_bn, r_8_bn             1
 # ... with 32 more rows
 
 

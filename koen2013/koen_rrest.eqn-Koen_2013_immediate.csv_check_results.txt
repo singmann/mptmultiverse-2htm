@@ -14,21 +14,36 @@ MAX_CI_INDIV =  0.99
 ################ CHECK RESULTS ################
 
 ## MPTinR: no pooling
-Proportion of participants with non-identified parameters:
+Based on asymptotic CIs, proportion of participants with non-identified parameters:
   condition           proportion
 1 Koen-2013_immediate      0.667
 
-Table of non-identified parameters:
+Based on asymptotic CIs, table of non-identified parameters:
   condition           parameter      Freq
-1 Koen-2013_immediate q_2, r_2          2
-2 Koen-2013_immediate q_5, r_2, r_6     2
-3 Koen-2013_immediate r_1              18
-4 Koen-2013_immediate r_1, r_2         18
-5 Koen-2013_immediate r_1, r_2, r_6     2
-6 Koen-2013_immediate r_1, r_6          2
-7 Koen-2013_immediate r_2              14
-8 Koen-2013_immediate r_2, r_6          4
-9 Koen-2013_immediate r_6               2
+1 Koen-2013_immediate q_2, r_2          1
+2 Koen-2013_immediate q_5, r_2, r_6     1
+3 Koen-2013_immediate r_1               9
+4 Koen-2013_immediate r_1, r_2          9
+5 Koen-2013_immediate r_1, r_2, r_6     1
+6 Koen-2013_immediate r_1, r_6          1
+7 Koen-2013_immediate r_2               7
+8 Koen-2013_immediate r_2, r_6          2
+9 Koen-2013_immediate r_6               1
+Based on PB/MLE CIs, proportion of participants with non-identified parameters:
+  condition           proportion
+1 Koen-2013_immediate      0.667
+
+Based on PB/MLE CIs, table of non-identified parameters:
+  condition           parameter      Freq
+1 Koen-2013_immediate q_2, r_2          1
+2 Koen-2013_immediate q_5, r_2, r_6     1
+3 Koen-2013_immediate r_1               9
+4 Koen-2013_immediate r_1, r_2          9
+5 Koen-2013_immediate r_1, r_2, r_6     1
+6 Koen-2013_immediate r_1, r_6          1
+7 Koen-2013_immediate r_2               7
+8 Koen-2013_immediate r_2, r_6          2
+9 Koen-2013_immediate r_6               1
 
 
 ## MPTinR: complete pooling
