@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+heathcote_orig.eqn,Heathcote_2006_e1.csv,no,MPTinR,PB/MLE,pb-G2,mean,150.34818012018445,NA,16,0.001996007984031936
+heathcote_orig.eqn,Heathcote_2006_e1.csv,no,MPTinR,asymptotic,G2,mean,150.34818012018445,NA,16,6.670671601041696e-24
+heathcote_orig.eqn,Heathcote_2006_e1.csv,complete,MPTinR,asymptotic,G2,mean,109.38438906387819,NA,1,1.3367821765189228e-25
+heathcote_orig.eqn,Heathcote_2006_e1.csv,no,TreeBUGS,simple,T1_G2,mean,6.88722124210742,0.6110860606087384,NA,0
+heathcote_orig.eqn,Heathcote_2006_e1.csv,no,TreeBUGS,simple,T2,cov,846.720224344424,703.6444859671759,NA,0.2865
+heathcote_orig.eqn,Heathcote_2006_e1.csv,complete,TreeBUGS,simple,T1_G2,mean,118.242276589078,9.878286009180382,NA,0
+heathcote_orig.eqn,Heathcote_2006_e1.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+heathcote_orig.eqn,Heathcote_2006_e1.csv,partial,TreeBUGS,trait,T1_G2,mean,6.746647268888097,0.6089928688798005,NA,0
+heathcote_orig.eqn,Heathcote_2006_e1.csv,partial,TreeBUGS,trait,T2,cov,820.5382731408602,697.8541088765843,NA,0.32
+heathcote_orig.eqn,Heathcote_2006_e1.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,6.879151701383825,0.6153809380877747,NA,0
+heathcote_orig.eqn,Heathcote_2006_e1.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,873.1370584577616,690.045952736568,NA,0.2545
