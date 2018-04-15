@@ -1,3 +1,4 @@
+
 ########### data structure
 
 # results <- tibble(
@@ -24,7 +25,7 @@ make_results_row <- function(model, dataset, pooling, package, method,
   data$condition <- data[[col_condition]]
   conditions <- levels(factor(data$condition))
   parameters <- check.mpt(model)$parameters
-  
+
   est_ind <-
     as_tibble(expand.grid(parameter = parameters,
                           id = data$id))
@@ -52,19 +53,19 @@ make_results_row <- function(model, dataset, pooling, package, method,
   
   # group comparisons
   if (length(conditions) > 1) {
-    pairs <- combn(conditions, 2)
-    test_between <- 
-      as_tibble(expand.grid(parameter = parameters, 
-                            condition1 = factor(pairs[1,], levels = conditions),
-                            condition2 = factor(pairs[2,], levels = conditions))) %>% 
-      mutate(est_diff = NA_real_, se = NA_real_, p = NA_real_)
-    tibble_ci <- as_tibble(matrix(NA_real_, nrow(test_between), length(CI_SIZE),
-                                  dimnames = list(NULL, paste0("ci_", CI_SIZE))))
-    test_between <- bind_cols(test_between, tibble_ci)
+      pairs <- combn(conditions, 2)
+      test_between <- 
+        as_tibble(expand.grid(parameter = parameters, 
+                              condition1 = factor(pairs[1,], levels = conditions),
+                              condition2 = factor(pairs[2,], levels = conditions))) %>% 
+        mutate(est_diff = NA_real_, se = NA_real_, p = NA_real_)
+      tibble_ci <- as_tibble(matrix(NA_real_, nrow(test_between), length(CI_SIZE),
+                                    dimnames = list(NULL, paste0("ci_", CI_SIZE))))
+      test_between <- bind_cols(test_between, tibble_ci)
   } else {
     test_between <- tibble()
   }
-  
+
   
   
   ## est_covariate <- ##MISSING
@@ -162,7 +163,7 @@ check_results <- function(results) {
   missing <- anti_join(expected, results[,3:5], by = c("pooling", "package", "method"))
   if (nrow(missing) > 0) {
     cat("## Following analyses approaches missing from results:\n", 
-        paste(apply(missing, 1, paste, collapse = ", "), collapse = "\n"), 
+            paste(apply(missing, 1, paste, collapse = ", "), collapse = "\n"), 
         "\n\n\n")
   }
   
@@ -172,7 +173,7 @@ check_results <- function(results) {
   
   tryCatch({
     for(meth in c("asymptotic", "PB/MLE")){
-      
+    
       conv_mptinr_no <- results %>% 
         filter(package == "MPTinR" & pooling == "no" & method == meth) %>% 
         select(convergence) %>% 
@@ -182,9 +183,9 @@ check_results <- function(results) {
         group_by(condition) %>% 
         summarise(proportion = mean(!is.na(parameter)))
       not_id2 <- suppressWarnings(conv_mptinr_no %>% 
-                                    group_by(condition) %>% 
-                                    summarise(not_identified = list(tidy(table(parameter)))) %>% 
-                                    unnest(not_identified)) 
+        group_by(condition) %>% 
+        summarise(not_identified = list(tidy(table(parameter)))) %>% 
+        unnest(not_identified)) 
       if (any(not_id$proportion > 0)) {
         cat("Based on", meth, "CIs, proportion of participants with non-identified parameters:\n")
         cat(format(not_id)[-c(1,3)], "", sep = "\n")
@@ -223,7 +224,7 @@ check_results <- function(results) {
     }
   }, error = function(e) 
     cat("Convergence checks failed for unkown reason.\n"))
-  
+
   cat("\n\n")
   
   ### TreeBUGS
@@ -272,4 +273,11 @@ write_check_results <- function(DATA_FILE, results){
   cat("################ CHECK RESULTS ################\n\n")
   print(check_results(results))
   sink()
+}
+
+
+cat_method <- function(method){
+  cat(" ######################################################\n",
+      "############## ", method, "\n",      
+      "######################################################\n\n")
 }

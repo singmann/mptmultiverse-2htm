@@ -14,6 +14,8 @@ aggregate_ppp <- function(ppp_list, stat = "T1"){
 mpt_treebugs <- function (method, dataset, data, model,
                           col_id = "id", col_condition = "condition"){
   
+  cat_method(paste0("TreeBUGS - ", method))
+  
   # dlist <- prepare_data(model, data, col_id = "id", col_condition = "condition")
   conditions <- levels(factor(data[[col_condition]]))
   parameters <- check.mpt(EQN_FILE)$parameters
@@ -40,6 +42,10 @@ mpt_treebugs <- function (method, dataset, data, model,
     data <- aggregate(data[,col_freq], list(condition = data$condition), sum)
     data[[col_condition]] <- data$condition
     data[[col_id]] <- data$id <- 1:nrow(data)
+    if(col_condition!="condition"){
+      data$condition <- NULL
+    }
+    
     freq_list <- lapply(freq_list, function(x) as.matrix(colSums(x)))
   } 
   if (method == "trait_uncorrelated"){
