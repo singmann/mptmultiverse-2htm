@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+dubep_rrest.eqn,Dube_2012-P.csv,no,MPTinR,PB/MLE,pb-G2,mean,16.154712998464618,NA,0,0.4151696606786427
+dubep_rrest.eqn,Dube_2012-P.csv,no,MPTinR,asymptotic,G2,mean,16.154712998464618,NA,0,0
+dubep_rrest.eqn,Dube_2012-P.csv,complete,MPTinR,asymptotic,G2,mean,0,NA,0,1
+dubep_rrest.eqn,Dube_2012-P.csv,no,TreeBUGS,simple,T1_G2,mean,0.7905446270231922,0.34037201397305,NA,0.0645
+dubep_rrest.eqn,Dube_2012-P.csv,no,TreeBUGS,simple,T2,cov,255.9439531664608,241.57138554086495,NA,0.4615
+dubep_rrest.eqn,Dube_2012-P.csv,complete,TreeBUGS,simple,T1_G2,mean,10.171852081408284,10.013886649853333,NA,0.489
+dubep_rrest.eqn,Dube_2012-P.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+dubep_rrest.eqn,Dube_2012-P.csv,partial,TreeBUGS,trait,T1_G2,mean,0.3396695980613887,0.33969829212417374,NA,0.4925
+dubep_rrest.eqn,Dube_2012-P.csv,partial,TreeBUGS,trait,T2,cov,249.1801176370642,245.62685629627313,NA,0.5035
+dubep_rrest.eqn,Dube_2012-P.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,0.3489297295541069,0.33725574932327995,NA,0.4825
+dubep_rrest.eqn,Dube_2012-P.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,277.86147028748127,243.3230004034242,NA,0.4015
