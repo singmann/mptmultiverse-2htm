@@ -69,11 +69,10 @@ class: inline-grey
 
 ---
 
-class: small, middle
+class: small, center
 
-### Goodness of fit
 
-```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
 gof <- bind_rows(unnest(results1, gof),
                  unnest(results2, gof),
                  unnest(results3, gof)
@@ -118,17 +117,16 @@ ggplot(gof, aes(y = p,
   theme_bw() + coord_flip() +
   facet_wrap(~focus) +
   labs(x='Analysis approach',y='p value', color='Model', title='Goodness of fit')+
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))
 
 ```
 
 ---
 
-class: small, middle
+class: small, center
 
-### Goodness of fit per condition
 
-```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8}
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
 gof_group <- bind_rows(unnest(results1, gof_group),
                  unnest(results2, gof_group),
                  unnest(results3, gof_group)
@@ -181,16 +179,15 @@ ggplot(gof_group, aes(y = p,
   theme_bw() +
   coord_flip() +
   labs(x='Analysis approach', y='p value', color='Model', title='Goodness of fit per condition')+
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))
 ```
 
 ---
 
-class: small, middle
+class: small, center
 
-### Core parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
 pars <- bind_rows(
   unnest(results1, est_group),
   unnest(results2, est_group),
@@ -242,17 +239,16 @@ ggplot(core, aes(y = est, x = interaction(method, pooling,package),
   labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Core Parameters Across Models')+
   scale_shape_manual(values=shapes) +
   theme_bw() + 
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
 ---
 
-class: small, middle
+class: small, center
 
-### Core parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
 core <- filter(pars, parameter %in% c("Do", "Dn", "g"))
 ggplot(core, aes(y = est, x = model,
                  col=interaction(method, pooling,package),
@@ -265,17 +261,16 @@ ggplot(core, aes(y = est, x = model,
   labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
   scale_shape_manual(values=shapes) +
   theme_bw() + 
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
 ---
 
-class: small, middle
+class: small, center
 
-### Estimated differences across conditions
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
 res_between <- bind_rows(
   unnest(results1, test_between),
   unnest(results2, test_between),
@@ -322,17 +317,16 @@ ggplot(core2, aes(y = est_diff, x = model,
   labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: Core Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
 ---
 
-class: small, middle
+class: small, center
 
-### Q parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8}
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8.5}
 
 params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
@@ -345,18 +339,17 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+ 
   labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
   theme_bw() + 
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
 
 ---
 
-class: small, middle
+class: small, center
 
-### Estimated differences across conditions
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
 params_q <- filter(res_between, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est_diff, x = model,
                      col=interaction(method, pooling,package),
@@ -369,17 +362,16 @@ ggplot(params_q, aes(y = est_diff, x = model,
   labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: Q Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
 ---
 
-class: small, middle
+class: small, center
 
-### R parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8}
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8.5}
 
 params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
@@ -392,18 +384,17 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+ 
   labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
   theme_bw() + 
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
 
 ---
 
-class: small, middle
+class: small, center
 
-### Estimated differences across conditions
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
 params_r <- filter(res_between, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est_diff, x = model,
                      col=interaction(method, pooling,package),
@@ -416,7 +407,7 @@ ggplot(params_r, aes(y = est_diff, x = model,
   labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: R Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
-  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
 
@@ -425,7 +416,7 @@ ggplot(params_r, aes(y = est_diff, x = model,
 class: small
 
 ### References 
-- Bröder, A., Kellen, D., Schütz, J., & Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916–944. https://doi.org/10.1080/09658211.2013.767348
+- Bröder, A., Kellen, D., Schütz, J., & Rohrmeier, C. (1613). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916–944. https://doi.org/10.1080/09658211.2013.767348
 - Dube, C., Starns, J. J., Rotello, C. M., & Ratcliff, R. (2012). Beyond ROC curvature: Strength effects and response time data support continuous-evidence models of recognition memory. *Journal of Memory and Language*, 67(3), 389–406. https://doi.org/10.1016/j.jml.2012.06.002
 - Jaeger, A., Cox, J. C., & Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282–301. https://doi.org/10.1037/a0025687
 - Koen, J. D., Aly, M., Wang, W.-C., & Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726–1741. https://doi.org/10.1037/a0033671
