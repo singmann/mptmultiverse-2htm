@@ -1,5 +1,6 @@
+
 ---
-title: "Dube 2012w"
+title: "Heathcote 2006_2"
 output: html_document
 ---
 
@@ -22,13 +23,13 @@ library("broom") # for tidy
 source("../scripts/auxiliary_functions.R")
 source("../scripts/summary_plots.R")
 
-load("dubew_orig.eqn-Dube_2012-W.csv.RData")
+load("heathcote2_orig.eqn-Heathcote_2006_e2.csv.RData")
 results1 <- results
 
-load("dubew_qrest.eqn-Dube_2012-W.csv.RData")
+load("heathcote2_qrest.eqn-Heathcote_2006_e2.csv.RData")
 results2 <- results
 
-load("dubew_rrest.eqn-Dube_2012-W.csv.RData")
+load("heathcote2_rrest.eqn-Heathcote_2006_e2.csv.RData")
 results3 <- results
 ```
 
@@ -44,35 +45,29 @@ results3 <- results
 ### Some information on convergence
 
 #### For Model Original
-One approach failed:
-partial, TreeBUGS, beta
-
-Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.682 as proportion of participants with non-identified parameters.
+Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.087 as proportion of participants with non-identified parameters.
 Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.  
 
 Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
-Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait.partial.Treebugs, trait_uncorrelated.partial.TreeBUGS and beta.partial.Treebugs) converged well, all Rhat < 1.05. 
 
 #### For Q restricted
 One approach failed:
 partial, TreeBUGS, beta
 
-Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.909 as proportion of participants with non-identified parameters.
+Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.261 as proportion of participants with non-identified parameters.
 Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had some convergence problems:  
-rank.fischer = 4, n.parameters = 10, convergence = 0.  
+rank.fischer = 10 (individual) 4 (aggregated), n.parameters = 10, convergence = 1 (individual) 0 (aggregated).  
 
-Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
+Bayesian approach with no pooling (simple.no.TreeBUGS) converged well, all Rhat < 1.05 and with complete pooling (simple.complete.TreeBUGS) had 10 parameters with Rhat > 1.05.  
 Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
 
 #### For R restricted
-One approach failed:
-partial, TreeBUGS, beta
-
-Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.591 as proportion of participants with non-identified parameters.
+Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.870 as proportion of participants with non-identified parameters.
 Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.  
 
-Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
-Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
+Bayesian approach with no pooling (simple.no.TreeBUGS) had 1 parameter with Rhat > 1.05 and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait.partial.Treebugs, trait_uncorrelated.partial.TreeBUGS and beta.partial.Treebugs) converged well, all Rhat < 1.05. 
 
 ### Parameter estimation
 
@@ -228,9 +223,9 @@ pars$method <- ifelse(pars$method=="PB/MLE",
                                                   'trait_u',
                                                   'beta')))))
 
-pars$model <- ifelse(pars$model=='dubew_orig.eqn',
+pars$model <- ifelse(pars$model=='heathcote2_orig.eqn',
                      'Original Model',
-                     ifelse(pars$model=='dubew_qrest.eqn',
+                     ifelse(pars$model=='heathcote2_qrest.eqn',
                             'Q Restricted',
                             'R Restricted'))
 

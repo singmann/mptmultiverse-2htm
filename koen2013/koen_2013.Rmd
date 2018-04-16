@@ -63,7 +63,7 @@ Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had some
 rank.fischer = 4, n.parameters = 10, convergence = 0 (aggregated), 1 (individual)
 
 Bayesian approach with no pooling (simple.no.TreeBUGS) had 2 parameters with Rhat > 1.05 and with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat < 1.05. 
-Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
+Bayesian approach with partial pooling (trait.partial.Treebugs) had 1 Parameter with Rhat > 1.05 and uncorrelated (trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
 
 #### For R restricted
 Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.667 as proportion of participants with non-identified parameters.  
@@ -92,14 +92,14 @@ pars$package <- ifelse(pars$package=="MPTinR",
 pars$method <- ifelse(pars$method=="PB/MLE",
                       'PB',
                       ifelse(pars$method=="asymptotic",
-                             'as',
+                             'asy',
                              ifelse(pars$method=="simple",
-                                    'sim',
+                                    '',
                                     ifelse(pars$method=="trait",
-                                           't',
+                                           'trait',
                                            ifelse(pars$method=="trait_uncorrelated",
-                                                  't_u',
-                                                  'b')))))
+                                                  'trait_u',
+                                                  'beta')))))
 
 shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
 dd <- position_dodge(w = .75)
@@ -135,14 +135,14 @@ pars$package <- ifelse(pars$package=="MPTinR",
 pars$method <- ifelse(pars$method=="PB/MLE",
                       'PB',
                       ifelse(pars$method=="asymptotic",
-                             'as',
+                             'asy',
                              ifelse(pars$method=="simple",
-                                    'sim',
+                                    '',
                                     ifelse(pars$method=="trait",
-                                           't',
+                                           'trait',
                                            ifelse(pars$method=="trait_uncorrelated",
-                                                  't_u',
-                                                  'b')))))
+                                                  'trait_u',
+                                                  'beta')))))
 
 
 ggplot(pars,aes(y = est, x = parameter, 
@@ -175,14 +175,14 @@ pars$package <- ifelse(pars$package=="MPTinR",
 pars$method <- ifelse(pars$method=="PB/MLE",
                       'PB',
                       ifelse(pars$method=="asymptotic",
-                             'as',
+                             'asy',
                              ifelse(pars$method=="simple",
-                                    'sim',
+                                    '',
                                     ifelse(pars$method=="trait",
-                                           't',
+                                           'trait',
                                            ifelse(pars$method=="trait_uncorrelated",
-                                                  't_u',
-                                                  'b')))))
+                                                  'trait_u',
+                                                  'beta')))))
 
 
 ggplot(pars,aes(y = est, x = parameter, 
@@ -218,14 +218,14 @@ pars$package <- ifelse(pars$package=="MPTinR",
 pars$method <- ifelse(pars$method=="PB/MLE",
                       'PB',
                       ifelse(pars$method=="asymptotic",
-                             'as',
+                             'asy',
                              ifelse(pars$method=="simple",
-                                    'sim',
+                                    '',
                                     ifelse(pars$method=="trait",
-                                           't',
+                                           'trait',
                                            ifelse(pars$method=="trait_uncorrelated",
-                                                  't_u',
-                                                  'b')))))
+                                                  'trait_u',
+                                                  'beta')))))
 
 pars$model <- ifelse(pars$model=='koen_orig.eqn',
                      'Original Model',
@@ -344,14 +344,14 @@ gof$package <- ifelse(gof$package=="MPTinR",
 gof$method <- ifelse(gof$method=="PB/MLE",
                      'PB',
                      ifelse(gof$method=="asymptotic",
-                            'as',
+                            'asy',
                             ifelse(gof$method=="simple",
-                                   'sim',
+                                   '',
                                    ifelse(gof$method=="trait",
-                                          't',
+                                          'trait',
                                           ifelse(gof$method=="trait_uncorrelated",
-                                                 't_u',
-                                                 'b')))))
+                                                 'trait_u',
+                                                 'beta')))))
 gof$focus <- ifelse(gof$focus=="mean",
                     'Mean',
                     ifelse(gof$focus=="cov",
@@ -386,14 +386,14 @@ gof$package <- ifelse(gof$package=="MPTinR",
 gof$method <- ifelse(gof$method=="PB/MLE",
                      'PB',
                      ifelse(gof$method=="asymptotic",
-                            'as',
+                            'asy',
                             ifelse(gof$method=="simple",
-                                   'sim',
+                                   '',
                                    ifelse(gof$method=="trait",
-                                          't',
+                                          'trait',
                                           ifelse(gof$method=="trait_uncorrelated",
-                                                 't_u',
-                                                'b')))))
+                                                 'trait_u',
+                                                'beta')))))
 gof$focus <- ifelse(gof$focus=="mean",
                     'Mean',
                     ifelse(gof$focus=="cov",
@@ -429,14 +429,14 @@ gof$package <- ifelse(gof$package=="MPTinR",
 gof$method <- ifelse(gof$method=="PB/MLE",
                      'PB',
                      ifelse(gof$method=="asymptotic",
-                            'as',
+                            'asy',
                             ifelse(gof$method=="simple",
-                                   'sim',
+                                   '',
                                    ifelse(gof$method=="trait",
-                                          't',
+                                          'trait',
                                           ifelse(gof$method=="trait_uncorrelated",
-                                                 't_u',
-                                                'b')))))
+                                                 'trait_u',
+                                                'beta')))))
 gof$focus <- ifelse(gof$focus=="mean",
                     'Mean',
                     ifelse(gof$focus=="cov",
