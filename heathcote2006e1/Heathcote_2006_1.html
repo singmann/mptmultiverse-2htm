@@ -124,6 +124,7 @@ $(document).ready(function () {
 
 <div id="experiment-summary" class="section level3">
 <h3>Experiment summary</h3>
+<p>The aim of the experiment was to test the main effects of frequency and density separately for each factor keeping the other controlled. The stimuli were words of varying frequency (high-low) and neighborhood-density (high-low) forming 4 categories. 16 subjects participated in 8 study and test cycles, where 560 words were randomly allocated to seven study test lists of equal length. For each list, half of the words were allocated to the study task and the other half were presented as new during the test phase. The study phase included 40 words, 10 from each category, and the test phase includies the studied items and an equal number of new words. The participants were informed that they would view lists of words then subsequently be presented with a list containing both old and new words. They were instructed to indicate whether each word during the test phase was old or new and to rate their confidence on a 3 point scale. The six possible responses were sure old, probably old, possibly old, possibly new, probably new, and sure new. Participants were reminded to make use of all six response categories in the recognition memory tests.</p>
 </div>
 <div id="some-information-on-the-models" class="section level3">
 <h3>Some information on the models</h3>
@@ -136,24 +137,23 @@ $(document).ready(function () {
 <div id="for-model-original" class="section level4">
 <h4>For Model Original</h4>
 <p>One approach failed: partial, TreeBUGS, beta</p>
-<p>Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.682 as proportion of participants with non-identified parameters. Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.</p>
-<p>Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat &lt; 1.05.<br />
+<p>Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.125 as proportion of participants with non-identified parameters. Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.</p>
+<p>Bayesian approach with no pooling (simple.no.TreeBUGS) had 4 parameters with Rhat &gt; 1.05 and with complete pooling (simple.complete.TreeBUGS) converged well, all Rhat &lt; 1.05.<br />
 Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat &lt; 1.05.</p>
 </div>
 <div id="for-q-restricted" class="section level4">
 <h4>For Q restricted</h4>
 <p>One approach failed: partial, TreeBUGS, beta</p>
-<p>Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.909 as proportion of participants with non-identified parameters. Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had some convergence problems:<br />
+<p>Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.625 as proportion of participants with non-identified parameters. Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had some convergence problems:<br />
 rank.fischer = 4, n.parameters = 10, convergence = 0.</p>
 <p>Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat &lt; 1.05.<br />
 Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat &lt; 1.05.</p>
 </div>
 <div id="for-r-restricted" class="section level4">
 <h4>For R restricted</h4>
-<p>One approach failed: partial, TreeBUGS, beta</p>
-<p>Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.591 as proportion of participants with non-identified parameters. Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.</p>
+<p>Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.250 as proportion of participants with non-identified parameters. Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.</p>
 <p>Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat &lt; 1.05.<br />
-Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat &lt; 1.05.</p>
+Bayesian approach with partial pooling (trait.partial.Treebugs, trait_uncorrelated.partial.TreeBUGS and beta.partial.Treebugs) converged well, all Rhat &lt; 1.05.</p>
 </div>
 </div>
 <div id="parameter-estimation" class="section level3">

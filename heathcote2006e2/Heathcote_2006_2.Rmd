@@ -35,6 +35,7 @@ results3 <- results
 
 ###Experiment summary
 
+The aim of the experiment was to test the main effects of frequency and density separately for each factor keeping the other controlled. The stimuli were words of varying frequency (high-low) and neighborhood-density (high-low) forming 4 categories. 23 subjects participated in 8 study and test cycles, where 560 words were randomly allocated to seven study and test lists of equal length. For each list, half of the words were allocated to the study task and the other half were presented as new during the test phase. The study phase consisted of a lexical decision task, which required responses to 80 words and an equal number of nonwords and the test phase includied the studied items and an equal number of new words. The participants were instructed to indicate whether each word during the test phase was old or new and to rate their confidence on a 3 point scale. The six possible responses were sure old, probably old, possibly old, possibly new, probably new, and sure new. Participants were reminded to make use of all six response categories in the recognition memory tests.
 
 ### Some information on the models
 
