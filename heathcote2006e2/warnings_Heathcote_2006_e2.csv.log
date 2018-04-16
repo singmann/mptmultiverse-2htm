@@ -18,21 +18,21 @@
  ##############  TreeBUGS - trait 
  ######################################################
 
-MCMC sampling started at  2018-04-16 13:29:15 
-MCMC sampling finished at 2018-04-16 13:32:52 
-  Time difference of 3.6133 mins
-Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  177 
+MCMC sampling started at  2018-04-16 17:53:30 
+MCMC sampling finished at 2018-04-16 17:58:40 
+  Time difference of 5.171522 mins
+Drawing additional samples for method =  trait . max(Rhat) =  1.08  ; min(n.eff) =  116 
  ######################################################
  ##############  TreeBUGS - beta 
  ######################################################
 
-MCMC sampling started at  2018-04-16 13:37:57 
-MCMC sampling finished at 2018-04-16 13:40:28 
-  Time difference of 2.529918 mins
+MCMC sampling started at  2018-04-16 18:05:37 
+MCMC sampling finished at 2018-04-16 18:09:15 
+  Time difference of 3.639604 mins
  ######################################################
  ##############  TreeBUGS - trait_uncorrelated 
  ######################################################
 
-MCMC sampling started at  2018-04-16 13:41:23 
-MCMC sampling finished at 2018-04-16 13:44:41 
-  Time difference of 3.304182 mins
+MCMC sampling started at  2018-04-16 18:10:21 
+MCMC sampling finished at 2018-04-16 18:15:01 
+  Time difference of 4.665875 mins
