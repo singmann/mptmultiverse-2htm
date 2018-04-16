@@ -72,7 +72,7 @@ class: inline-grey
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=8.5}
 gof <- bind_rows(unnest(results1, gof),
                  unnest(results2, gof),
                  unnest(results3, gof)
@@ -112,11 +112,12 @@ gof$model <- ifelse(gof$model=='model_orig.eqn',
 
 ggplot(gof, aes(y = p, 
              x = interaction(method, pooling, package), col=model)) + 
-  geom_point(size=2) + ylim(0, 1) + 
+  geom_point(size=3) + ylim(0, 1) + 
   geom_hline(yintercept = .05, lty = 2)+
   theme_bw() + coord_flip() +
   facet_wrap(~focus) +
   labs(x='Analysis approach',y='p value', color='Model', title='Goodness of fit')+
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))
 
 ```
@@ -126,68 +127,7 @@ ggplot(gof, aes(y = p,
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
-gof_group <- bind_rows(unnest(results1, gof_group),
-                 unnest(results2, gof_group),
-                 unnest(results3, gof_group)
-)
-
-gof_group$pooling <- ifelse(gof_group$pooling=="no",
-                       'No',
-                       ifelse(gof_group$pooling=="complete",
-                              'Comp',
-                              'PP'))
-gof_group$package <- ifelse(gof_group$package=="MPTinR",
-                       'MR',
-                       'TB')
-
-gof_group$method <- ifelse(gof_group$method=="PB/MLE",
-                      'PB',
-                      ifelse(gof_group$method=="asymptotic",
-                             'asy',
-                             ifelse(gof_group$method=="simple",
-                                    '',
-                                    ifelse(gof_group$method=="trait",
-                                           'trait',
-                                           ifelse(gof_group$method=="trait_uncorrelated",
-                                                  'trait_u',
-                                                  'beta')))))
-gof_group$focus <- ifelse(gof_group$focus=="mean",
-                      'Mean',
-                      ifelse(gof_group$focus=="cov",
-                             'Covariance',
-                             gof_group$focus))
-
-gof_group$model <- ifelse(gof_group$model=='model_orig.eqn',
-                     'Original Model',
-                     ifelse(gof_group$model=='model_orig_qrest.eqn',
-                            'Q Restricted',
-                            'R Restricted'))
-
-                          
-gof_group$condition <- ifelse(gof_group$condition=="strong_naming",
-                         'Strong wording',
-                         'Weak wording'
-)
-
-ggplot(gof_group, aes(y = p, 
-             x = interaction(method, pooling, package), 
-             col = model)) + 
-  geom_point(size=2) + ylim(0, 1) + 
-  geom_hline(yintercept = .05, lty = 2)+
-  facet_grid(condition ~ focus) +
-  theme_bw() +
-  coord_flip() +
-  labs(x='Analysis approach', y='p value', color='Model', title='Goodness of fit per condition')+
-  theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))
-```
-
----
-
-class: small, center
-
-
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=8.5}
 pars <- bind_rows(
   unnest(results1, est_group),
   unnest(results2, est_group),
@@ -234,11 +174,12 @@ ggplot(core, aes(y = est, x = interaction(method, pooling,package),
   facet_grid(condition ~parameter) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
-  geom_point(position = dd, size = 2) + 
+  geom_point(position = dd, size = 2.5) + 
   ylim(0,1) + 
   labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Core Parameters Across Models')+
   scale_shape_manual(values=shapes) +
   theme_bw() + 
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
@@ -248,7 +189,7 @@ ggplot(core, aes(y = est, x = interaction(method, pooling,package),
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
 core <- filter(pars, parameter %in% c("Do", "Dn", "g"))
 ggplot(core, aes(y = est, x = model,
                  col=interaction(method, pooling,package),
@@ -256,11 +197,12 @@ ggplot(core, aes(y = est, x = model,
   facet_grid(condition ~parameter) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
-  geom_point(position = dd, size = 2) + 
+  geom_point(position = dd, size = 2.5) + 
   ylim(0,1) + 
   labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
   scale_shape_manual(values=shapes) +
   theme_bw() + 
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
@@ -270,7 +212,7 @@ ggplot(core, aes(y = est, x = model,
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
 res_between <- bind_rows(
   unnest(results1, test_between),
   unnest(results2, test_between),
@@ -313,10 +255,11 @@ ggplot(core2, aes(y = est_diff, x = model,
   facet_wrap(~parameter, ncol=3)+
   geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
                 position = dd, width = 0.5)+
-  geom_point(position = dd, size=2) + ylim(-1,1) + 
+  geom_point(position = dd, size=2.5) + ylim(-1,1) + 
   labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: Core Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
@@ -326,7 +269,7 @@ ggplot(core2, aes(y = est_diff, x = model,
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=8.5}
 
 params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
@@ -334,12 +277,13 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
   facet_grid(condition ~parameter) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
-  geom_point(position = dd, size = 2) + 
+  geom_point(position = dd, size = 2.5) + 
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+ 
   labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
   theme_bw() + 
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
+  theme(text=element_text(size = 16))+
   coord_flip()
 ```
 
@@ -349,7 +293,7 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=8.5}
 params_q <- filter(res_between, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est_diff, x = model,
                      col=interaction(method, pooling,package),
@@ -357,11 +301,12 @@ ggplot(params_q, aes(y = est_diff, x = model,
   facet_wrap(~parameter, ncol=6)+
   geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
                 position = dd, width = 0.5)+
-  geom_point(position = dd, size=2) +  
+  geom_point(position = dd, size=2.5) +  
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+ 
   labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: Q Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
@@ -371,7 +316,7 @@ ggplot(params_q, aes(y = est_diff, x = model,
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=8.5}
 
 params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
@@ -379,11 +324,12 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
   facet_grid(condition ~parameter) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.4)+
-  geom_point(position = dd, size = 2) + 
+  geom_point(position = dd, size = 2.5) + 
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+ 
   labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
   theme_bw() + 
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
@@ -394,7 +340,7 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
 class: small, center
 
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=8.5}
 params_r <- filter(res_between, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est_diff, x = model,
                      col=interaction(method, pooling,package),
@@ -402,11 +348,12 @@ ggplot(params_r, aes(y = est_diff, x = model,
   facet_wrap(~parameter, ncol=6)+
   geom_errorbar(aes(ymin = ci_0.025, ymax = ci_0.975), 
                 position = dd, width = 0.5)+
-  geom_point(position = dd, size=2) + 
+  geom_point(position = dd, size=2.5) + 
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+ 
   labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: R Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
+  theme(text=element_text(size = 16))+
   theme(plot.title=element_text(face = 'bold',size=16, hjust = 0.5))+
   coord_flip()
 ```
