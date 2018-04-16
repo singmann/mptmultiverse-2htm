@@ -73,7 +73,8 @@ class: small, middle
 
 ### Goodness of fit
 
-```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5}
+.pull-left[
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=10}
 gof <- bind_rows(unnest(results1, gof),
                  unnest(results2, gof),
                  unnest(results3, gof)
@@ -122,13 +123,11 @@ ggplot(gof, aes(y = p,
 
 ```
 
----
+]
 
-class: small, middle
-
-### Goodness of fit per condition
-
-```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8}
+--
+.pull-right[
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=10}
 gof_group <- bind_rows(unnest(results1, gof_group),
                  unnest(results2, gof_group),
                  unnest(results3, gof_group)
@@ -184,13 +183,17 @@ ggplot(gof_group, aes(y = p,
   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
+]
+
+
 ---
 
 class: small, middle
 
 ### Core parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+.pull-left[
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=10}
 pars <- bind_rows(
   unnest(results1, est_group),
   unnest(results2, est_group),
@@ -246,13 +249,11 @@ ggplot(core, aes(y = est, x = interaction(method, pooling,package),
   coord_flip()
 ```
 
----
+]
 
-class: small, middle
-
-### Core parameter estimation
-
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+--
+.pull-right[
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=10}
 core <- filter(pars, parameter %in% c("Do", "Dn", "g"))
 ggplot(core, aes(y = est, x = model,
                  col=interaction(method, pooling,package),
@@ -269,13 +270,16 @@ ggplot(core, aes(y = est, x = model,
   coord_flip()
 ```
 
+]
+
+
 ---
 
-class: small, middle
+class: small
 
 ### Estimated differences across conditions
 
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7.5}
+```{r, echo = FALSE, warning=FALSE, fig.width=10.5, fig.height=7.5}
 res_between <- bind_rows(
   unnest(results1, test_between),
   unnest(results2, test_between),
@@ -332,7 +336,9 @@ class: small, middle
 
 ### Q parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8}
+
+.pull-left[
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=10}
 
 params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
@@ -349,14 +355,11 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
   coord_flip()
 ```
 
+]
 
----
-
-class: small, middle
-
-### Estimated differences across conditions
-
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7.5}
+--
+.pull-right[
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=10}
 params_q <- filter(res_between, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est_diff, x = model,
                      col=interaction(method, pooling,package),
@@ -373,13 +376,18 @@ ggplot(params_q, aes(y = est_diff, x = model,
   coord_flip()
 ```
 
+]
+
+
 ---
 
 class: small, middle
 
 ### R parameter estimation
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8}
+
+.pull-left[
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=10}
 
 params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
@@ -396,14 +404,11 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
   coord_flip()
 ```
 
+]
 
----
-
-class: small, middle
-
-### Estimated differences across conditions
-
-```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7.5}
+--
+.pull-right[
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=10}
 params_r <- filter(res_between, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est_diff, x = model,
                      col=interaction(method, pooling,package),
@@ -420,7 +425,11 @@ ggplot(params_r, aes(y = est_diff, x = model,
   coord_flip()
 ```
 
+]
+
+
 ---
+
 
 class: small
 
