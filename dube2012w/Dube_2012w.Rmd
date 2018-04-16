@@ -1,0 +1,457 @@
+---
+title: "Dube 2012w"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library("tidyr")
+library("dplyr")
+library("tibble")
+library("rlang")
+library("reshape2")
+library("ggplot2")
+library("parallel")
+library("MPTinR")
+library("TreeBUGS")
+library("runjags")
+library("purrr")
+library("readr")
+library("broom") # for tidy
+source("../scripts/auxiliary_functions.R")
+source("../scripts/summary_plots.R")
+
+load("dubep_orig.eqn-Dube_2012-P.csv.RData")
+results1 <- results
+
+load("dubep_qrest.eqn-Dube_2012-P.csv.RData")
+results2 <- results
+
+load("dubep_rrest.eqn-Dube_2012-P.csv.RData")
+results3 <- results
+```
+
+###Experiment summary
+
+
+### Some information on the models
+
+**Model Original:** q_2 = q_5, & r_2 = r_5 (all but highest confidence response mapping of uncertainty and detection states equated)  
+**Q restricted:** q_2 = q_5 (all but highest confidence response mapping of uncertainty states equated)  
+**R restricted:** r_2 = r_5 (all but highest confidence response mapping of detection states equated)  
+
+### Some information on convergence
+
+#### For Model Original
+One approach failed:
+partial, TreeBUGS, beta
+
+Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.682 as proportion of participants with non-identified parameters.
+Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.  
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05.  
+
+#### For Q restricted
+One approach failed:
+partial, TreeBUGS, beta
+
+Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.909 as proportion of participants with non-identified parameters.
+Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had some convergence problems:  
+rank.fischer = 4, n.parameters = 10, convergence = 0.  
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
+
+#### For R restricted
+One approach failed:
+partial, TreeBUGS, beta
+
+Frequentist approach with no pooling (asymptotic.no.MPTinR) had 0.591 as proportion of participants with non-identified parameters.
+Frequentist approach with complete pooling (asymptotic.complete.MPTinR) had no convergence problems.  
+
+Bayesian approach with no pooling (simple.no.TreeBUGS) and with complete pooling (simple.complete.TreeBUGS) both converged well, all Rhat < 1.05.  
+Bayesian approach with partial pooling (trait.partial.Treebugs and trait_uncorrelated.partial.TreeBUGS) converged well, all Rhat < 1.05. 
+
+### Parameter estimation
+
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7} 
+pars <- bind_rows(unnest(results1, est_group))
+
+pars$pooling <- ifelse(pars$pooling=="no",
+                       'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                      'PB',
+                      ifelse(pars$method=="asymptotic",
+                             'asy',
+                             ifelse(pars$method=="simple",
+                                    '',
+                                    ifelse(pars$method=="trait",
+                                           'trait',
+                                           ifelse(pars$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+
+shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
+dd <- position_dodge(w = .75)
+
+ggplot(pars,aes(y = est, x = parameter, 
+                col=interaction(method, pooling,package),
+                shape=interaction(method, pooling,package))) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Original Model')+
+  scale_shape_manual(values=shapes) +
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+
+```
+
+**Q restricted**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7}
+pars <- bind_rows(unnest(results2, est_group))
+
+pars$pooling <- ifelse(pars$pooling=="no",
+                       'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                      'PB',
+                      ifelse(pars$method=="asymptotic",
+                             'asy',
+                             ifelse(pars$method=="simple",
+                                    '',
+                                    ifelse(pars$method=="trait",
+                                           'trait',
+                                           ifelse(pars$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+
+
+ggplot(pars,aes(y = est, x = parameter, 
+                col=interaction(method, pooling,package),
+                shape=interaction(method, pooling,package))) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Q Restricted')+
+  scale_shape_manual(values=shapes) +
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+```
+
+**R restricted**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=7}
+pars <- bind_rows(unnest(results3, est_group))
+
+pars$pooling <- ifelse(pars$pooling=="no",
+                       'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                      'PB',
+                      ifelse(pars$method=="asymptotic",
+                             'asy',
+                             ifelse(pars$method=="simple",
+                                    '',
+                                    ifelse(pars$method=="trait",
+                                           'trait',
+                                           ifelse(pars$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+
+
+ggplot(pars,aes(y = est, x = parameter, 
+                col=interaction(method, pooling,package),
+                shape=interaction(method, pooling,package))) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for R Restricted')+
+  scale_shape_manual(values=shapes) +
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+```
+
+**Core parameters**
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
+pars <- bind_rows(
+  unnest(results1, est_group),
+  unnest(results2, est_group),
+  unnest(results3, est_group)
+)
+
+pars$pooling <- ifelse(pars$pooling=="no",
+                       'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                      'PB',
+                      ifelse(pars$method=="asymptotic",
+                             'asy',
+                             ifelse(pars$method=="simple",
+                                    '',
+                                    ifelse(pars$method=="trait",
+                                           'trait',
+                                           ifelse(pars$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+
+pars$model <- ifelse(pars$model=='dubep_orig.eqn',
+                     'Original Model',
+                     ifelse(pars$model=='dubep_qrest.eqn',
+                            'Q Restricted',
+                            'R Restricted'))
+
+core <- filter(pars, parameter %in% c("Do", "Dn", "g"))
+ggplot(core, aes(y = est, x = model,
+                 col=interaction(method, pooling,package),
+                 shape=interaction(method, pooling,package))) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() +
+  facet_wrap(~parameter) +
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+
+
+ggplot(core, aes(y = est, x = interaction(method, pooling,package),
+                 shape=model, color =model)) +
+  facet_wrap(~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  ylim(0,1) + 
+  labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+```
+**Q parameters**
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8}
+params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_5", "q_6"))
+ggplot(params_q, aes(y = est, x = model,
+                     col=interaction(method, pooling,package),
+                     shape=interaction(method, pooling,package))) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  facet_wrap(~parameter, ncol = 4) +
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+
+ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
+                 shape=model, color =model)) +
+  facet_wrap(~parameter, ncol = 4) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
+  labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+```
+**R parameters**
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE, fig.width=9.5, fig.height=8}
+params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_5", "r_6"))
+ggplot(params_r, aes(y = est, x = model,
+                     col=interaction(method, pooling,package),
+                     shape=interaction(method, pooling,package))) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  facet_wrap(~parameter, ncol=4) +
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of R Parameters Across Models')+
+  theme_bw() +
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+
+ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
+                 shape=model, color =model)) +
+ facet_wrap(~parameter, ncol = 4) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.4)+
+  geom_point(position = dd, size = 2) + 
+  scale_shape_manual(values=shapes) +
+   scale_y_continuous(breaks=seq(0,1,by=.25),limits=c(0,1))+ 
+   labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
+  coord_flip()
+```
+
+### Goodness of fit
+
+**Model Original**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gof <- bind_rows(unnest(results1, gof))
+
+gof$pooling <- ifelse(gof$pooling=="no",
+                      'No',
+                      ifelse(gof$pooling=="complete",
+                             'Comp',
+                             'PP'))
+gof$package <- ifelse(gof$package=="MPTinR",
+                      'MR',
+                      'TB')
+
+gof$method <- ifelse(gof$method=="PB/MLE",
+                     'PB',
+                     ifelse(gof$method=="asymptotic",
+                            'asy',
+                            ifelse(gof$method=="simple",
+                                   '',
+                                   ifelse(gof$method=="trait",
+                                          'trait',
+                                          ifelse(gof$method=="trait_uncorrelated",
+                                                 'trait_u',
+                                                 'beta')))))
+gof$focus <- ifelse(gof$focus=="mean",
+                    'Mean',
+                    ifelse(gof$focus=="cov",
+                           'Covariance',
+                           gof$focus))
+
+
+ggplot(gof, aes(y = p, 
+                x = interaction(method, pooling, package))) + 
+  geom_point(size=2) + ylim(0, 1) + 
+  geom_hline(yintercept = .05, lty = 2)+
+  theme_bw() + coord_flip() +
+  facet_wrap(~focus) +
+  labs(x='Analysis approach',y='p value', title='Goodness of fit: Original model')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+
+```
+**Q restricted**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gof <- bind_rows(unnest(results2, gof))
+
+gof$pooling <- ifelse(gof$pooling=="no",
+                      'No',
+                      ifelse(gof$pooling=="complete",
+                             'Comp',
+                             'PP'))
+gof$package <- ifelse(gof$package=="MPTinR",
+                      'MR',
+                      'TB')
+
+gof$method <- ifelse(gof$method=="PB/MLE",
+                     'PB',
+                     ifelse(gof$method=="asymptotic",
+                            'asy',
+                            ifelse(gof$method=="simple",
+                                   '',
+                                   ifelse(gof$method=="trait",
+                                          'trait',
+                                          ifelse(gof$method=="trait_uncorrelated",
+                                                 'trait_u',
+                                                'beta')))))
+gof$focus <- ifelse(gof$focus=="mean",
+                    'Mean',
+                    ifelse(gof$focus=="cov",
+                           'Covariance',
+                           gof$focus))
+
+
+ggplot(gof, aes(y = p, 
+                x = interaction(method, pooling, package))) + 
+  geom_point(size=2) + ylim(0, 1) + 
+  geom_hline(yintercept = .05, lty = 2)+
+  theme_bw() + coord_flip() +
+  facet_wrap(~focus) +
+  labs(x='Analysis approach',y='p value', title='Goodness of fit: Q restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+
+```
+
+**R restricted**
+
+```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
+gof <- bind_rows(unnest(results3, gof))
+
+gof$pooling <- ifelse(gof$pooling=="no",
+                      'No',
+                      ifelse(gof$pooling=="complete",
+                             'Comp',
+                             'PP'))
+gof$package <- ifelse(gof$package=="MPTinR",
+                      'MR',
+                      'TB')
+
+gof$method <- ifelse(gof$method=="PB/MLE",
+                     'PB',
+                     ifelse(gof$method=="asymptotic",
+                            'asy',
+                            ifelse(gof$method=="simple",
+                                   '',
+                                   ifelse(gof$method=="trait",
+                                          'trait',
+                                          ifelse(gof$method=="trait_uncorrelated",
+                                                 'trait_u',
+                                                'beta')))))
+gof$focus <- ifelse(gof$focus=="mean",
+                    'Mean',
+                    ifelse(gof$focus=="cov",
+                           'Covariance',
+                           gof$focus))
+
+
+ggplot(gof, aes(y = p, 
+                x = interaction(method, pooling, package))) + 
+  geom_point(size=2) + ylim(0, 1) + 
+  geom_hline(yintercept = .05, lty = 2)+
+  theme_bw() + coord_flip() +
+  facet_wrap(~focus) +
+  labs(x='Analysis approach',y='p value', title='Goodness of fit: R restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+
+```
