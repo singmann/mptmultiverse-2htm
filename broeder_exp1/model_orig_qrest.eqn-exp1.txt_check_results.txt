@@ -19,23 +19,41 @@ partial, TreeBUGS, beta
 
 
 ## MPTinR: no pooling
-Proportion of participants with non-identified parameters:
+Based on asymptotic CIs, proportion of participants with non-identified parameters:
   condition     proportion
 1 strong_naming      0.857
 2 weak_naming        0.697
 
-Table of non-identified parameters:
+Based on asymptotic CIs, table of non-identified parameters:
    condition     parameter                     Freq
- 1 strong_naming Dn, q_2                          2
- 2 strong_naming Dn, r_7                          2
- 3 strong_naming Do                               2
- 4 strong_naming q_2, r_1, r_2, r_3               2
- 5 strong_naming q_2, r_7                         2
- 6 strong_naming q_8, r_6                         4
- 7 strong_naming r_1, r_2, r_3, r_6, r_7          2
- 8 strong_naming r_1, r_2, r_3, r_6, r_7, r_8     2
- 9 strong_naming r_1, r_2, r_6                    2
-10 strong_naming r_2, r_3, r_6                    2
+ 1 strong_naming Dn, q_2                          1
+ 2 strong_naming Dn, r_7                          1
+ 3 strong_naming Do                               1
+ 4 strong_naming q_2, r_1, r_2, r_3               1
+ 5 strong_naming q_2, r_7                         1
+ 6 strong_naming q_8, r_6                         2
+ 7 strong_naming r_1, r_2, r_3, r_6, r_7          1
+ 8 strong_naming r_1, r_2, r_3, r_6, r_7, r_8     1
+ 9 strong_naming r_1, r_2, r_6                    1
+10 strong_naming r_2, r_3, r_6                    1
+# ... with 23 more rows
+Based on PB/MLE CIs, proportion of participants with non-identified parameters:
+  condition     proportion
+1 strong_naming      0.857
+2 weak_naming        0.697
+
+Based on PB/MLE CIs, table of non-identified parameters:
+   condition     parameter                     Freq
+ 1 strong_naming Dn, q_2                          1
+ 2 strong_naming Dn, r_7                          1
+ 3 strong_naming Do                               1
+ 4 strong_naming q_2, r_1, r_2, r_3               1
+ 5 strong_naming q_2, r_7                         1
+ 6 strong_naming q_8, r_6                         2
+ 7 strong_naming r_1, r_2, r_3, r_6, r_7          1
+ 8 strong_naming r_1, r_2, r_3, r_6, r_7, r_8     1
+ 9 strong_naming r_1, r_2, r_6                    1
+10 strong_naming r_2, r_3, r_6                    1
 # ... with 23 more rows
 
 
