@@ -80,11 +80,38 @@ Bayesian approach with partial pooling (trait.partial.Treebugs) had 41 parameter
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
 
+pars <- bind_rows(unnest(results1, est_group))
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+
+
 shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
 dd <- position_dodge(w = .75)
 
-gg_est_1 <- unnest(results1, est_group) %>%
-  ggplot(aes(y = est, x = parameter, 
+
+ggplot(pars, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
                           shape=interaction(method, pooling,package))) +
    facet_wrap(~condition, ncol = 1) +
@@ -93,19 +120,41 @@ gg_est_1 <- unnest(results1, est_group) %>%
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
-plot(gg_est_1)
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Original Model')+
+    theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **Q restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
+pars <- bind_rows(unnest(results2, est_group))
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
 
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
 
-gg_est_2 <- unnest(results2, est_group) %>%
-  ggplot(aes(y = est, x = parameter, 
+ggplot(pars, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
                           shape=interaction(method, pooling,package))) +
    facet_wrap(~condition, ncol = 1) +
@@ -114,19 +163,40 @@ gg_est_2 <- unnest(results2, est_group) %>%
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
-plot(gg_est_2)
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Q restricted')+
+    theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **R restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=15, fig.height=12}
+pars <- bind_rows(unnest(results3, est_group))
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
 
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
-
-gg_est_3 <- unnest(results3, est_group) %>%
-  ggplot(aes(y = est, x = parameter, 
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+ggplot(pars, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
                           shape=interaction(method, pooling,package))) +
    facet_wrap(~condition, ncol = 1) +
@@ -135,8 +205,10 @@ gg_est_3 <- unnest(results3, est_group) %>%
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
-plot(gg_est_3)
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for R restricted')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+  
 ```
 
 ***Graphs per Bias Condition***
@@ -144,11 +216,36 @@ plot(gg_est_3)
 **Model Original**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
-par_est <- unnest(results1, est_group)
+pas <- unnest(results1, est_group)
 
-parameters_bn <- filter(par_est, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
+pars <- bind_rows(unnest(results1, est_group))
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+
+
+parameters_bn <- filter(pars, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
 
 ggplot(parameters_bn, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
@@ -159,13 +256,13 @@ ggplot(parameters_bn, aes(y = est, x = parameter,
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Original Model per condition')+
+   theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+ 
 ```
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
-parameters_bo <- filter(par_est, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo","r_7_bo","r_8_bo"))
-
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
+parameters_bo <- filter(pars, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo","r_7_bo","r_8_bo"))
 
 ggplot(parameters_bo, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
@@ -176,17 +273,44 @@ ggplot(parameters_bo, aes(y = est, x = parameter,
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Original Model per condition')+
+  theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+  
 ```
 
 **Q restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
-par_est <- unnest(results2, est_group)
+pars <- unnest(results2, est_group)
 
-parameters_bn <- filter(par_est, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+
+
+parameters_bn <- filter(pars, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
 
 ggplot(parameters_bn, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
@@ -197,10 +321,13 @@ ggplot(parameters_bn, aes(y = est, x = parameter,
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Q restricted per condition')+
+   theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
+ 
 ```
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
-parameters_bo <- filter(par_est, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo",'r_6_bo',"r_7_bo","r_8_bo"))
+parameters_bo <- filter(pars, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo",'r_6_bo',"r_7_bo","r_8_bo"))
 
 shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
 dd <- position_dodge(w = .75)
@@ -214,17 +341,43 @@ ggplot(parameters_bo, aes(y = est,x = parameter,
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for Q restricted per condition')+
+  theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **R restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
-par_est <- unnest(results3, est_group)
+pars <- unnest(results3, est_group)
 
-parameters_bn <- filter(par_est, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+
+
+parameters_bn <- filter(pars, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
 
 ggplot(parameters_bn, aes(y = est, x = parameter, 
                           col=interaction(method, pooling,package),
@@ -235,13 +388,12 @@ ggplot(parameters_bn, aes(y = est, x = parameter,
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for R restricted per condition')+
+   theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
-parameters_bo <- filter(par_est, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo",'r_6_bo',"r_7_bo","r_8_bo"))
-
-shapes <- c(16, 18, 15, 1, 0, 8, 11, 12)
-dd <- position_dodge(w = .75)
+parameters_bo <- filter(pars, parameter %in% c("Do_bo", "Dn_bo", "g_bo","q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","r_1_bo","r_2_bo","r_3_bo",'r_6_bo',"r_7_bo","r_8_bo"))
 
 ggplot(parameters_bo, aes(y = est,x = parameter, 
                           col=interaction(method, pooling,package),
@@ -252,19 +404,51 @@ ggplot(parameters_bo, aes(y = est,x = parameter,
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw()
+  labs(x='Parameter',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Estimation for R restricted per condition')+
+   theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 ***Parameter comparison condition/bias***  
 Core parameters
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=12}
-par_est <- bind_rows(
+pars <- bind_rows(
   unnest(results1, est_group),
   unnest(results2, est_group),
   unnest(results3, est_group)
 )
 
-core <- filter(par_est, parameter %in% c("Do_bn", "Do_bo","Dn_bn", "Dn_bo","g_bn","g_bo"))
+pars$condition <- ifelse(pars$condition=="strong_naming",
+                                    'Strong wording',
+                         'Weak wording'
+)
+pars$pooling <- ifelse(pars$pooling=="no",
+                         'No',
+                       ifelse(pars$pooling=="complete",
+                              'Comp',
+                              'PP'))
+pars$package <- ifelse(pars$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+pars$method <- ifelse(pars$method=="PB/MLE",
+                       'PB',
+                       ifelse(pars$method=="asymptotic",
+                              'asy',
+                              ifelse(pars$method=="simple",
+                                     '',
+                                     ifelse(pars$method=="trait",
+                                            'trait',
+                                            ifelse(pars$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+pars$model <- ifelse(pars$model=='model_orig_n.eqn',
+                     'Original Model',
+                     ifelse(pars$model=='model_orig_n_qrest.eqn',
+                            'Q Restricted',
+                            'R Restricted'))
+
+core <- filter(pars, parameter %in% c("Do_bn", "Do_bo","Dn_bn", "Dn_bo","g_bn","g_bo"))
 core <- add_column(core,bias=1)
 core$bias <- ifelse(core$parameter=="Dn_bn",
                     'bn',
@@ -299,19 +483,16 @@ ggplot(core, aes(y = est, x = interaction(method, pooling,package),
   geom_point(position = dd, size = 2) + 
   ylim(0,1) + 
   scale_shape_manual(values=shapes) +
-  theme_bw() + 
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
+  theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+ 
   coord_flip()
 ```
 Q Parameters
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=12}
-par_est <- bind_rows(
-  unnest(results1, est_group),
-  unnest(results2, est_group),
-  unnest(results3, est_group)
-)
 
-params_q <- filter(par_est, parameter %in% c("q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn"))
+params_q <- filter(pars, parameter %in% c("q_1_bo", "q_2_bo","q_3_bo","q_6_bo","q_7_bo","q_8_bo","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn"))
 
 params_q <- add_column(params_q,bias=1)
 params_q$bias <- ifelse(params_q$parameter=="q_1_bn",
@@ -363,19 +544,16 @@ ggplot(params_q, aes(y = est, x = interaction(method, pooling,package),
   geom_point(position = dd, size = 2) + 
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+ 
   scale_shape_manual(values=shapes) +
-  theme_bw() + 
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Q Parameters Across Models')+
+  theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+ 
   coord_flip()
 ```
 R parameters
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=12}
-par_est <- bind_rows(
-  unnest(results1, est_group),
-  unnest(results2, est_group),
-  unnest(results3, est_group)
-)
 
-params_r <- filter(par_est, parameter %in% c("r_1_bo","r_2_bo","r_3_bo",'r_6_bo',"r_7_bo","r_8_bo","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
+params_r <- filter(pars, parameter %in% c("r_1_bo","r_2_bo","r_3_bo",'r_6_bo',"r_7_bo","r_8_bo","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
 
 params_r <- add_column(params_r,bias=1)
 params_r$bias <- ifelse(params_r$parameter=="r_1_bn",
@@ -429,7 +607,9 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
   geom_point(position = dd, size = 2) + 
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1))+ 
   scale_shape_manual(values=shapes) +
-  theme_bw() + 
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of R Parameters Across Models')+
+  theme_bw()+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+ 
   coord_flip()
 ```
 
@@ -440,6 +620,30 @@ ggplot(params_r, aes(y = est, x = interaction(method, pooling,package),
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results1, test_between) 
 
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+
+
 gg_est2_1 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
                                      col=interaction(method, pooling,package),
                                      shape=interaction(method, pooling,package))) +
@@ -449,6 +653,8 @@ gg_est2_1 <- ggplot(res_between, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: Original Model')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_1)
 ```
@@ -457,6 +663,29 @@ plot(gg_est2_1)
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results2, test_between) 
+
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
 
 gg_est2_2 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
                                      col=interaction(method, pooling,package),
@@ -467,6 +696,8 @@ gg_est2_2 <- ggplot(res_between, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: Q restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_2)
 ```
@@ -475,6 +706,29 @@ plot(gg_est2_2)
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results3, test_between) 
+
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
 
 gg_est2_3 <- ggplot(res_between, aes(y = est_diff, x = parameter, 
                                      col=interaction(method, pooling,package),
@@ -485,6 +739,8 @@ gg_est2_3 <- ggplot(res_between, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: R restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_3)
 ```
@@ -495,6 +751,29 @@ plot(gg_est2_3)
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results1, test_between) 
+
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
 
 parameters_bn <- filter(res_between, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
 
@@ -507,6 +786,8 @@ gg_est2_bn <- ggplot(parameters_bn, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: Original Model, bn')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_bn)
 ```
@@ -523,6 +804,8 @@ gg_est2_bo <- ggplot(parameters_bo, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: Original Model, bo')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_bo)
 ```
@@ -530,6 +813,29 @@ plot(gg_est2_bo)
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results2, test_between) 
+
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
 
 parameters_bn <- filter(res_between, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
 
@@ -542,6 +848,8 @@ gg_est2_bn <- ggplot(parameters_bn, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: Q restricted, bn')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_bn)
 ```
@@ -558,6 +866,8 @@ gg_est2_bo <- ggplot(parameters_bo, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+   labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: Q restricted, bo')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2_bo)
 ```
@@ -565,6 +875,29 @@ plot(gg_est2_bo)
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=8}
 res_between <-  unnest(results3, test_between) 
+
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
 
 parameters_bn <- filter(res_between, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn",'r_6_bn',"r_7_bn","r_8_bn"))
 
@@ -577,6 +910,8 @@ gg_est3_bn <- ggplot(parameters_bn, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+   labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: R restricted, bn')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est3_bn)
 ```
@@ -593,6 +928,8 @@ gg_est3_bo <- ggplot(parameters_bo, aes(y = est_diff, x = parameter,
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+   labs(x='Parameter',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions: R restricted, bn')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est3_bo)
 ```
@@ -606,6 +943,34 @@ res_between <- bind_rows(
   unnest(results2, test_between),
   unnest(results3, test_between)
 )
+
+res_between$condition1 <- 'Strong wording'
+res_between$condition2 <- 'Weak wording'
+res_between$pooling <- ifelse(res_between$pooling=="no",
+                         'No',
+                       ifelse(res_between$pooling=="complete",
+                              'Comp',
+                              'PP'))
+res_between$package <- ifelse(res_between$package=="MPTinR",
+                       'MR',
+                              'TB')
+
+res_between$method <- ifelse(res_between$method=="PB/MLE",
+                       'PB',
+                       ifelse(res_between$method=="asymptotic",
+                              'asy',
+                              ifelse(res_between$method=="simple",
+                                     '',
+                                     ifelse(res_between$method=="trait",
+                                            'trait',
+                                            ifelse(res_between$method=="trait_uncorrelated",
+                                                   'trait_u',
+                                                   'beta')))))
+res_between$model <- ifelse(res_between$model=='model_orig_n.eqn',
+                     'Original Model',
+                     ifelse(res_between$model=='model_orig_n_qrest.eqn',
+                            'Q Restricted',
+                            'R Restricted'))
 
 core <- filter(res_between, parameter %in% c("Do_bn", "Do_bo","Dn_bn", "Dn_bo","g_bn","g_bo"))
 core <- add_column(core,bias=1)
@@ -642,6 +1007,8 @@ ggplot(core, aes(y = est_diff, x = interaction(method, pooling,package),
   geom_point(position = dd, size=2) + ylim(-1,1) + 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Differences across conditions and models')+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 ```
 
@@ -702,6 +1069,8 @@ gg_est2 <- ggplot(params_q, aes(y = est_diff, x = interaction(method, pooling,pa
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+ 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Differences across conditions and models')+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est2)
 
@@ -764,6 +1133,8 @@ gg_est3 <- ggplot(params_r, aes(y = est_diff, x = interaction(method, pooling,pa
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+ 
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Parameter Differences across conditions and models')+
+   theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))+
   coord_flip()
 plot(gg_est3)
 ```
@@ -773,46 +1144,125 @@ plot(gg_est3)
 **Model Original**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
-gg_gof1 <-  unnest(results1, gof) %>%
-    # filter(focus == "mean") %>%
-    ggplot(aes(y = p, 
+gof <- bind_rows(unnest(results1, gof))
+
+gof$pooling <- ifelse(gof$pooling=="no",
+                       'No',
+                       ifelse(gof$pooling=="complete",
+                              'Comp',
+                              'PP'))
+gof$package <- ifelse(gof$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+gof$method <- ifelse(gof$method=="PB/MLE",
+                      'PB',
+                      ifelse(gof$method=="asymptotic",
+                             'asy',
+                             ifelse(gof$method=="simple",
+                                    '',
+                                    ifelse(gof$method=="trait",
+                                           'trait',
+                                           ifelse(gof$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+gof$focus <- ifelse(gof$focus=="mean",
+                      'Mean',
+                      ifelse(gof$focus=="cov",
+                             'Covariance',
+                             gof$focus))
+
+
+ggplot(gof, aes(y = p, 
                x = interaction(method, pooling, package))) + 
     geom_point(size=2) + ylim(0, 1) + 
     geom_hline(yintercept = .05, lty = 2)+
     theme_bw() + coord_flip() +
     facet_wrap(~focus) +
-    ggtitle("Goodness of fit")
-plot(gg_gof1)
+    labs(x='Analysis approach',y='p value', title='Goodness of fit: Model Original')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **Q restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
-gg_gof1_2 <-  unnest(results2, gof) %>%
-    # filter(focus == "mean") %>%
-    ggplot(aes(y = p, 
+gof <- bind_rows(unnest(results2, gof))
+
+gof$pooling <- ifelse(gof$pooling=="no",
+                       'No',
+                       ifelse(gof$pooling=="complete",
+                              'Comp',
+                              'PP'))
+gof$package <- ifelse(gof$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+gof$method <- ifelse(gof$method=="PB/MLE",
+                      'PB',
+                      ifelse(gof$method=="asymptotic",
+                             'asy',
+                             ifelse(gof$method=="simple",
+                                    '',
+                                    ifelse(gof$method=="trait",
+                                           'trait',
+                                           ifelse(gof$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+gof$focus <- ifelse(gof$focus=="mean",
+                      'Mean',
+                      ifelse(gof$focus=="cov",
+                             'Covariance',
+                             gof$focus))
+
+
+ggplot(gof, aes(y = p, 
                x = interaction(method, pooling, package))) + 
     geom_point(size=2) + ylim(0, 1) + 
     geom_hline(yintercept = .05, lty = 2)+
     theme_bw() + coord_flip() +
     facet_wrap(~focus) +
-    ggtitle("Goodness of fit")
-plot(gg_gof1_2)
+    labs(x='Analysis approach',y='p value', title='Goodness of fit: Q restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **R restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=5}
-gg_gof1_3 <-  unnest(results3, gof) %>%
-    # filter(focus == "mean") %>%
-    ggplot(aes(y = p, 
+gof <- bind_rows(unnest(results3, gof))
+
+gof$pooling <- ifelse(gof$pooling=="no",
+                       'No',
+                       ifelse(gof$pooling=="complete",
+                              'Comp',
+                              'PP'))
+gof$package <- ifelse(gof$package=="MPTinR",
+                       'MR',
+                       'TB')
+
+gof$method <- ifelse(gof$method=="PB/MLE",
+                      'PB',
+                      ifelse(gof$method=="asymptotic",
+                             'asy',
+                             ifelse(gof$method=="simple",
+                                    '',
+                                    ifelse(gof$method=="trait",
+                                           'trait',
+                                           ifelse(gof$method=="trait_uncorrelated",
+                                                  'trait_u',
+                                                  'beta')))))
+gof$focus <- ifelse(gof$focus=="mean",
+                      'Mean',
+                      ifelse(gof$focus=="cov",
+                             'Covariance',
+                             gof$focus))
+ggplot(gof, aes(y = p, 
                x = interaction(method, pooling, package))) + 
     geom_point(size=2) + ylim(0, 1) + 
     geom_hline(yintercept = .05, lty = 2)+
     theme_bw() + coord_flip() +
     facet_wrap(~focus) +
-    ggtitle("Goodness of fit")
-plot(gg_gof1_3)
+    labs(x='Analysis approach',y='p value', title='Goodness of fit: R restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 ### Goodness of fit per condition
@@ -820,8 +1270,38 @@ plot(gg_gof1_3)
 **Model Original**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
-gg_gof2 <- unnest(results1, gof_group) %>%
-    ggplot(aes(y = p, 
+gof_group <- bind_rows(unnest(results1, gof_group))
+
+gof_group$pooling <- ifelse(gof_group$pooling=="no",
+                      'No',
+                      ifelse(gof_group$pooling=="complete",
+                             'Comp',
+                             'PP'))
+gof_group$package <- ifelse(gof_group$package=="MPTinR",
+                      'MR',
+                      'TB')
+
+gof_group$method <- ifelse(gof_group$method=="PB/MLE",
+                     'PB',
+                     ifelse(gof_group$method=="asymptotic",
+                            'asy',
+                            ifelse(gof_group$method=="simple",
+                                   '',
+                                   ifelse(gof_group$method=="trait",
+                                          'trait',
+                                          ifelse(gof_group$method=="trait_uncorrelated",
+                                                 'trait_u',
+                                                 'beta')))))
+gof_group$focus <- ifelse(gof_group$focus=="mean",
+                    'Mean',
+                    ifelse(gof_group$focus=="cov",
+                           'Covariance',
+                           gof_group$focus))
+gof_group$condition <- ifelse(gof_group$condition=="strong_naming",
+                         'Strong wording',
+                         'Weak wording'
+)
+ggplot(gof_group, aes(y = p, 
                x = interaction(method, pooling, package), 
                col = condition)) + 
     geom_point(size=2) + ylim(0, 1) + 
@@ -829,15 +1309,45 @@ gg_gof2 <- unnest(results1, gof_group) %>%
     theme_bw() +
     coord_flip() +
     facet_wrap(~focus) +
-    ggtitle("Goodness of fit")
-plot(gg_gof2)
+    labs(x='Analysis approach',y='p value', title='Goodness of fit per condition: Model Original')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **Q restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
-gg_gof2_2 <- unnest(results2, gof_group) %>%
-    ggplot(aes(y = p, 
+gof_group <- bind_rows(unnest(results2, gof_group))
+
+gof_group$pooling <- ifelse(gof_group$pooling=="no",
+                      'No',
+                      ifelse(gof_group$pooling=="complete",
+                             'Comp',
+                             'PP'))
+gof_group$package <- ifelse(gof_group$package=="MPTinR",
+                      'MR',
+                      'TB')
+
+gof_group$method <- ifelse(gof_group$method=="PB/MLE",
+                     'PB',
+                     ifelse(gof_group$method=="asymptotic",
+                            'asy',
+                            ifelse(gof_group$method=="simple",
+                                   '',
+                                   ifelse(gof_group$method=="trait",
+                                          'trait',
+                                          ifelse(gof_group$method=="trait_uncorrelated",
+                                                 'trait_u',
+                                                 'beta')))))
+gof_group$focus <- ifelse(gof_group$focus=="mean",
+                    'Mean',
+                    ifelse(gof_group$focus=="cov",
+                           'Covariance',
+                           gof_group$focus))
+gof_group$condition <- ifelse(gof_group$condition=="strong_naming",
+                         'Strong wording',
+                         'Weak wording'
+)
+ggplot(gof_group, aes(y = p, 
                x = interaction(method, pooling, package), 
                col = condition)) + 
     geom_point(size=2) + ylim(0, 1) + 
@@ -845,15 +1355,45 @@ gg_gof2_2 <- unnest(results2, gof_group) %>%
     theme_bw() +
     coord_flip() +
     facet_wrap(~focus) +
-    ggtitle("Goodness of fit")
-plot(gg_gof2_2)
+    labs(x='Analysis approach',y='p value', title='Goodness of fit per condition: Q restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
 
 **R restricted**
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=9.5, fig.height=4.5}
-gg_gof2_3 <- unnest(results3, gof_group) %>%
-    ggplot(aes(y = p, 
+gof_group <- bind_rows(unnest(results3, gof_group))
+
+gof_group$pooling <- ifelse(gof_group$pooling=="no",
+                      'No',
+                      ifelse(gof_group$pooling=="complete",
+                             'Comp',
+                             'PP'))
+gof_group$package <- ifelse(gof_group$package=="MPTinR",
+                      'MR',
+                      'TB')
+
+gof_group$method <- ifelse(gof_group$method=="PB/MLE",
+                     'PB',
+                     ifelse(gof_group$method=="asymptotic",
+                            'asy',
+                            ifelse(gof_group$method=="simple",
+                                   '',
+                                   ifelse(gof_group$method=="trait",
+                                          'trait',
+                                          ifelse(gof_group$method=="trait_uncorrelated",
+                                                 'trait_u',
+                                                 'beta')))))
+gof_group$focus <- ifelse(gof_group$focus=="mean",
+                    'Mean',
+                    ifelse(gof_group$focus=="cov",
+                           'Covariance',
+                           gof_group$focus))
+gof_group$condition <- ifelse(gof_group$condition=="strong_naming",
+                         'Strong wording',
+                         'Weak wording'
+)
+ggplot(gof_group, aes(y = p, 
                x = interaction(method, pooling, package), 
                col = condition)) + 
     geom_point(size=2) + ylim(0, 1) + 
@@ -861,6 +1401,6 @@ gg_gof2_3 <- unnest(results3, gof_group) %>%
     theme_bw() +
     coord_flip() +
     facet_wrap(~focus) +
-    ggtitle("Goodness of fit")
-plot(gg_gof2_3)
+    labs(x='Analysis approach',y='p value', title='Goodness of fit per condition: Q restricted')+
+  theme(plot.title=element_text(face = 'bold',size=12, hjust = 0.5))
 ```
