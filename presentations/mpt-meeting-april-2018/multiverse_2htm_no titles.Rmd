@@ -71,7 +71,6 @@ class: inline-grey
 
 class: small, center
 
-
 ```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 gof <- bind_rows(unnest(results1, gof),
                  unnest(results2, gof),
@@ -207,6 +206,7 @@ class: small, center
 
 ```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=8.5}
 core <- filter(pars, parameter %in% c("Do", "Dn", "g"))
+dd <- position_dodge(w = .9)
 ggplot(core, aes(y = est, x = model,
                  col=interaction(method, pooling,package),
                  shape=interaction(method, pooling,package))) +
