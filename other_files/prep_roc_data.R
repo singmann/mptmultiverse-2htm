@@ -11,7 +11,6 @@ table(roc6$exp)
 head(roc6)
 
 d1 <- roc6[ roc6$exp == "Jaeger_2012",]
-
 d2 <- roc6[ roc6$exp == "Koen-2013_immediate",]
 d3 <- roc6[ roc6$exp == "Dube_2012-P",]
 d4 <- roc6[ roc6$exp == "Dube_2012-W",]
@@ -20,7 +19,9 @@ d6 <- roc6[ roc6$exp == "Heathcote_2006_e2",]
 d7 <- roc6[ roc6$exp == "Jang_2009",]
 d8 <- roc6[ roc6$exp == "Koen_2010_pure",]
 d9 <- roc6[ roc6$exp == "Koen_2011",]
-
+d10 <- roc6[ roc6$exp == "Pratte_2010",]
+d11 <- roc6[ roc6$exp == "Smith_2004",]
+d12 <- roc6[ roc6$exp == "Koen-2013_full",]
 
 
 htm <- "
@@ -115,3 +116,10 @@ write.csv(d4, "Dube_2012-W.csv", row.names = FALSE)
 
 write.csv(d5, "Heathcote_2006_e1.csv", row.names = FALSE)
 write.csv(d6, "Heathcote_2006_e2.csv", row.names = FALSE)
+
+write.csv(d7, "Jang_2009.csv", row.names = FALSE)
+write.csv(d8, "Koen_2010_pure.csv", row.names = FALSE)
+write.csv(d9, "Koen_2011.csv", row.names = FALSE)
+write.csv(d10, "Pratte_2010.csv", row.names = FALSE)
+write.csv(d11, "Smith_2004.csv", row.names = FALSE)
+write.csv(d12, "Koen-2013_full.csv", row.names = FALSE)
