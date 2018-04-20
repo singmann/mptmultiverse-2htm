@@ -1,0 +1,14 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+jang_orig.eqn,Jang_2009.csv,no,MPTinR,PB/MLE,pb-G2,mean,98.70542322620963,NA,33,0.011976047904191617
+jang_orig.eqn,Jang_2009.csv,no,MPTinR,asymptotic,G2,mean,98.70542322620963,NA,33,1.8024424024804903e-8
+jang_orig.eqn,Jang_2009.csv,complete,MPTinR,asymptotic,G2,mean,1.079595897019317,NA,1,0.2987879741683782
+jang_orig.eqn,Jang_2009.csv,no,TreeBUGS,simple,T1_G2,mean,0.7777465389229388,0.27202323016228497,NA,0.02
+jang_orig.eqn,Jang_2009.csv,no,TreeBUGS,simple,T2,cov,150.9093010143589,76.7858906276414,NA,0.016
+jang_orig.eqn,Jang_2009.csv,complete,TreeBUGS,simple,T1_G2,mean,10.169362214361454,9.823566719523617,NA,0.4695
+jang_orig.eqn,Jang_2009.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+jang_orig.eqn,Jang_2009.csv,partial,TreeBUGS,trait,T1_G2,mean,0.34470338203987655,0.2752579516288749,NA,0.3505
+jang_orig.eqn,Jang_2009.csv,partial,TreeBUGS,trait,T2,cov,157.45332674106268,77.248682406388,NA,0.0115
+jang_orig.eqn,Jang_2009.csv,partial,TreeBUGS,beta,T1_G2,mean,0.282019423521977,0.277807380180743,NA,0.476
+jang_orig.eqn,Jang_2009.csv,partial,TreeBUGS,beta,T2,cov,184.0793866387507,78.16042580164304,NA,0.0015
+jang_orig.eqn,Jang_2009.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,0.28382432557750076,0.2761886175958878,NA,0.471
+jang_orig.eqn,Jang_2009.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,174.02406102274026,77.3145533457282,NA,0.0035

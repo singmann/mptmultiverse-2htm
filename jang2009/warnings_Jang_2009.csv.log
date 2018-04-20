@@ -1,0 +1,50 @@
+ ######################################################
+ ##############  MPTinR - no pooling 
+ ######################################################
+
+ ######################################################
+ ##############  MPTinR - complete pooling 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - simple 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - simple_pooling 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - trait 
+ ######################################################
+
+MCMC sampling started at  2018-04-20 19:21:44 
+MCMC sampling finished at 2018-04-20 19:28:40 
+  Time difference of 6.920005 mins
+Drawing additional samples for method =  trait . max(Rhat) =  1.2  ; min(n.eff) =  105 
+Drawing additional samples for method =  trait . max(Rhat) =  1.1  ; min(n.eff) =  239 
+ ######################################################
+ ##############  TreeBUGS - beta 
+ ######################################################
+
+MCMC sampling started at  2018-04-20 19:46:20 
+ ######################################################
+ ##############  TreeBUGS - trait_uncorrelated 
+ ######################################################
+
+MCMC sampling started at  2018-04-20 19:47:44 
+MCMC sampling finished at 2018-04-20 19:53:59 
+  Time difference of 6.248986 mins
+Drawing additional samples for method =  trait . max(Rhat) =  1.13  ; min(n.eff) =  389 
+Drawing additional samples for method =  trait . max(Rhat) =  1.28  ; min(n.eff) =  835 
+Drawing additional samples for method =  trait . max(Rhat) =  1.21  ; min(n.eff) =  1097 
+Drawing additional samples for method =  trait . max(Rhat) =  1.19  ; min(n.eff) =  1507 
+Drawing additional samples for method =  trait . max(Rhat) =  1.19  ; min(n.eff) =  1455 
+Drawing additional samples for method =  trait . max(Rhat) =  1.18  ; min(n.eff) =  1671 
+Drawing additional samples for method =  trait . max(Rhat) =  1.17  ; min(n.eff) =  2037 
+Drawing additional samples for method =  trait . max(Rhat) =  1.23  ; min(n.eff) =  1328 
+Drawing additional samples for method =  trait . max(Rhat) =  1.23  ; min(n.eff) =  1484 
+Drawing additional samples for method =  trait . max(Rhat) =  1.27  ; min(n.eff) =  1676 
+Drawing additional samples for method =  trait . max(Rhat) =  1.15  ; min(n.eff) =  1118 
+Drawing additional samples for method =  trait . max(Rhat) =  1.15  ; min(n.eff) =  1246 
+Drawing additional samples for method =  trait . max(Rhat) =  1.14  ; min(n.eff) =  1384 
