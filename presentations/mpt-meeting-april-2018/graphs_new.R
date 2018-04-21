@@ -519,6 +519,23 @@ params$model <- ifelse(params$model=="model_orig.eqn",
                                                                                                                                                                                        'R Restricted',
                                                                                                                                     params$model))))))))))))))))))))))))
 
+params$dataset <- factor(params$dataset, levels = c("exp1.txt", "Dube_2012-P.csv", "Dube_2012-W.csv", "Heathcote_2006_e1.csv", "Heathcote_2006_e2.csv", "Jaeger_2012.csv", "Koen_2013_immediate.csv"), 
+                         labels = c("Broeder et al. (2013)", "Dube & Rotello (2012, Exp. 1, Pictures)", "Dube & Rotello (2012, Exp. 1, Words)","Heathcote et al. (2006, Exp. 1)","Heathcote et al. (2006, Exp. 2)","Jaeger et al. (2012, Exp. 1, no cue)","Koen et al. (2013, Exp. 4, immediate test)"))
+
+
+params$condition <- factor(params$condition, levels = c("strong_naming", "weak_naming", "Dube_2012-P", "Dube_2012-W", "Heathcote_2006_e1", "Heathcote_2006_e2", "Jaeger_2012", "Koen-2013_immediate"), 
+                         labels = c("strong_naming", "weak_naming", "Dube_2012-P", "Dube_2012-W", "Heathcote_2006_e1", "Heathcote_2006_e2", "Jaeger_2012", "Koen-2013_immediate"))
+
+
+#params[params$dataset == "Broeder et al. (2013)" & params$condition == "weak_naming", "dataset"] <- "Broeder et al. (2013, Exp. 1, Weak wording)"
+
+# params$dataset <- as.character(params$dataset)
+# params$condition <- as.character(params$condition)
+# params$data <- ifelse(params$dataset == "Broeder et al. (2013)" & params$condition == "weak_naming",
+#                          params$dataset=="Broeder et al. (2013, Exp. 1, Weak wording)",
+#                          params$dataset)
+# 
+
 Core_all <- filter(params, parameter %in% c("Dn","Do","g") & model %in% c('R Restricted'))
 ggplot(Core_all, aes(y = est, x = inter,
                       color=dataset)) +
