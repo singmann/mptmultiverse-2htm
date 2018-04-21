@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+jang_rrest.eqn,Jang_2009.csv,no,MPTinR,PB/MLE,pb-G2,mean,14.102191311458341,NA,0,0.9760479041916168
+jang_rrest.eqn,Jang_2009.csv,no,MPTinR,asymptotic,G2,mean,14.102191311458341,NA,0,0
+jang_rrest.eqn,Jang_2009.csv,complete,MPTinR,asymptotic,G2,mean,0,NA,0,1
+jang_rrest.eqn,Jang_2009.csv,no,TreeBUGS,simple,T1_G2,mean,0.576071133975306,0.2734881636232203,NA,0.0825
+jang_rrest.eqn,Jang_2009.csv,no,TreeBUGS,simple,T2,cov,88.54989638290276,76.86859044587293,NA,0.325
+jang_rrest.eqn,Jang_2009.csv,complete,TreeBUGS,simple,T1_G2,mean,10.34813608221925,10.184250242049902,NA,0.4825
+jang_rrest.eqn,Jang_2009.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+jang_rrest.eqn,Jang_2009.csv,partial,TreeBUGS,trait,T1_G2,mean,0.31806712130083226,0.2729967793126227,NA,0.3965
+jang_rrest.eqn,Jang_2009.csv,partial,TreeBUGS,trait,T2,cov,88.71208078639307,77.20070432983775,NA,0.3495
+jang_rrest.eqn,Jang_2009.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,0.27470880614892523,0.27088911534118604,NA,0.491
+jang_rrest.eqn,Jang_2009.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,106.68414948761145,77.54772161546764,NA,0.186
