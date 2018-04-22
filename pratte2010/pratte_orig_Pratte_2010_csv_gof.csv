@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+pratte_orig.eqn,Pratte_2010.csv,no,MPTinR,PB/MLE,pb-G2,mean,526.8539496305507,NA,97,0.001996007984031936
+pratte_orig.eqn,Pratte_2010.csv,no,MPTinR,asymptotic,G2,mean,526.8539496305507,NA,97,2.571809956073628e-60
+pratte_orig.eqn,Pratte_2010.csv,complete,MPTinR,asymptotic,G2,mean,116.8288828266086,NA,1,3.1293519059677972e-27
+pratte_orig.eqn,Pratte_2010.csv,complete,TreeBUGS,simple,T1_G2,mean,125.89760878783865,9.965521509002341,NA,0
+pratte_orig.eqn,Pratte_2010.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+pratte_orig.eqn,Pratte_2010.csv,partial,TreeBUGS,trait,T1_G2,mean,1.054818385576019,0.09428773422071184,NA,0
+pratte_orig.eqn,Pratte_2010.csv,partial,TreeBUGS,trait,T2,cov,335.92456196384177,90.31429929665057,NA,0
+pratte_orig.eqn,Pratte_2010.csv,partial,TreeBUGS,beta,T1_G2,mean,1.0965397907884205,0.09371063075451161,NA,0
+pratte_orig.eqn,Pratte_2010.csv,partial,TreeBUGS,beta,T2,cov,382.99340687029144,90.80574163385889,NA,0
+pratte_orig.eqn,Pratte_2010.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,1.0911169751188385,0.09511518004201486,NA,0
+pratte_orig.eqn,Pratte_2010.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,372.4374274329526,90.43733832071017,NA,0
