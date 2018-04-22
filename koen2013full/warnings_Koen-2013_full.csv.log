@@ -2,3 +2,39 @@
  ##############  MPTinR - no pooling 
  ######################################################
 
+ ######################################################
+ ##############  MPTinR - complete pooling 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - simple 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - simple_pooling 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - trait 
+ ######################################################
+
+MCMC sampling started at  2018-04-22 18:40:06 
+MCMC sampling finished at 2018-04-22 18:51:02 
+  Time difference of 10.94595 mins
+Drawing additional samples for method =  trait . max(Rhat) =  1.13  ; min(n.eff) =  143 
+Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  407 
+Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  597 
+ ######################################################
+ ##############  TreeBUGS - beta 
+ ######################################################
+
+MCMC sampling started at  2018-04-22 19:29:19 
+MCMC sampling finished at 2018-04-22 19:36:20 
+  Time difference of 7.025696 mins
+ ######################################################
+ ##############  TreeBUGS - trait_uncorrelated 
+ ######################################################
+
+MCMC sampling started at  2018-04-22 19:38:09 
+MCMC sampling finished at 2018-04-22 19:47:52 
+  Time difference of 9.72624 mins
