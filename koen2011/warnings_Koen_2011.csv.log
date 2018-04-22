@@ -18,24 +18,23 @@
  ##############  TreeBUGS - trait 
  ######################################################
 
-MCMC sampling started at  2018-04-21 23:36:58 
-MCMC sampling finished at 2018-04-21 23:44:50 
-  Time difference of 7.86444 mins
-Drawing additional samples for method =  trait . max(Rhat) =  1.72  ; min(n.eff) =  55 
-Drawing additional samples for method =  trait . max(Rhat) =  1.17  ; min(n.eff) =  168 
-Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  257 
+MCMC sampling started at  2018-04-22 11:22:18 
+MCMC sampling finished at 2018-04-22 11:26:57 
+  Time difference of 4.655761 mins
+Drawing additional samples for method =  trait . max(Rhat) =  1.34  ; min(n.eff) =  88 
+Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  165 
+Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  232 
  ######################################################
  ##############  TreeBUGS - beta 
  ######################################################
 
-MCMC sampling started at  2018-04-22 00:12:42 
+MCMC sampling started at  2018-04-22 11:44:51 
+MCMC sampling finished at 2018-04-22 11:48:08 
+  Time difference of 3.287417 mins
  ######################################################
  ##############  TreeBUGS - trait_uncorrelated 
  ######################################################
 
-MCMC sampling started at  2018-04-22 00:17:21 
-MCMC sampling finished at 2018-04-22 00:24:14 
-  Time difference of 6.887419 mins
-Drawing additional samples for method =  trait . max(Rhat) =  1.14  ; min(n.eff) =  718 
-Drawing additional samples for method =  trait . max(Rhat) =  1.28  ; min(n.eff) =  1341 
-Drawing additional samples for method =  trait . max(Rhat) =  1.26  ; min(n.eff) =  2089 
+MCMC sampling started at  2018-04-22 11:49:12 
+MCMC sampling finished at 2018-04-22 11:53:28 
+  Time difference of 4.272722 mins
