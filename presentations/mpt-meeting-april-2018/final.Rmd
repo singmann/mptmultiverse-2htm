@@ -1,3 +1,30 @@
+---
+title: "A Multiverse Pipeline for MPT models "
+subtitle: "Applications to Recognition Memory"
+author: "Henrik Singmann (Twitter: <a href='https://twitter.com/HenrikSingmann'>@HenrikSingmann</a>)<br/>Georgia Eleni Kapetaniou<br/>University of Zurich"
+date: "April 2018"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "my-theme.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+# see: https://github.com/yihui/xaringan
+# install.packages("xaringan")
+# see: 
+# https://github.com/yihui/xaringan/wiki
+# https://github.com/gnab/remark/wiki/Markdown
+options(width=110)
+options(digits = 4)
 library("tidyr")
 library("dplyr")
 library("tibble")
@@ -21,10 +48,30 @@ results2 <- results
 
 load("../../broeder_exp1/model_orig_rrest.eqn-exp1.txt.RData")
 results3 <- results
+```
 
-##########################    1st slide    ###############################################
-##########################      params       ################################################  
 
+class: inline-grey
+# Information on experiment procedure and conditions
+
+- description
+- manipulations etc
+
+---
+
+# Models
+
+- Model restrictions
+    - **Model Original:** q_2 = q_7, q_3 = q_6 & r_3 = r_6 (all but highest confidence response mapping of uncertainty states equated and lowest two confidence response mapping of detection states equated)
+    - **Q restricted:** q_2 = q_7, q_3 = q_6 (all but highest confidence response mapping of uncertainty states equated) 
+    - `model.matrix()` and factor codings.
+    - **R restricted:** r_3 = r_6 (lowest two confidence response mapping of detection states equated)
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 gof <- bind_rows(unnest(results1, gof),
                  unnest(results2, gof),
                  unnest(results3, gof)
@@ -61,10 +108,13 @@ ggplot(gof, aes(y = p,
        color='Model', title='Goodness of fit')+
   theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))
+```
 
-############################      2nd slide   #######################################
-###########################   Core parameters  ######################################
+---
 
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 pars <- bind_rows(
   unnest(results1, est_group),
   unnest(results2, est_group),
@@ -111,11 +161,60 @@ ggplot(core, aes(y = est, x = inter,
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
-################################    3rd slide   ##################################
-############################   Core parameters   #################################
-############################    Reverse graph    #################################
+```
 
+---
 
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+core <- filter(pars, parameter %in% c("Do", "Dn", "g") & condition %in% c('Strong wording'))
+ggplot(core, aes(y = est, x = inter,
+                 shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) + 
+  labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+core <- filter(pars, parameter %in% c("Do", "Dn", "g") & condition %in% c('Weak wording'))
+ggplot(core, aes(y = est, x = inter,
+                 shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) + 
+  labs(x='Analysis approach',y='Estimate', color='Model',shape='Model', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+core <- filter(pars, parameter %in% c("Do", "Dn", "g"))
 ggplot(core, aes(y = est, x = model,
                  col=inter,
                  shape=inter)) +
@@ -132,9 +231,61 @@ ggplot(core, aes(y = est, x = model,
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
-#################################   4th slide   ####################################
-############################### differences core ###################################
+```
 
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+core <- filter(pars, parameter %in% c("Do", "Dn", "g") & condition %in% c('Strong wording'))
+ggplot(core, aes(y = est, x = model,
+                 col=inter,
+                 shape=inter)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) +  
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+core <- filter(pars, parameter %in% c("Do", "Dn", "g") & condition %in% c('Weak wording'))
+ggplot(core, aes(y = est, x = model,
+                 col=inter,
+                 shape=inter)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) +  
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 res_between <- bind_rows(
   unnest(results1, test_between),
   unnest(results2, test_between),
@@ -175,15 +326,20 @@ ggplot(core, aes(y = est_diff, x = inter,
   geom_point(position = dd, size=3.5) + 
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1), 
                      labels = c("-1", "0", "1")) +  
-  labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: Core Parameters')+
+  labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Differences Between Conditions Across Models: Core Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 2) +
   theme(text=element_text(size = 24))+
-  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.35))+
   coord_flip()
 
-#################################### 5th slide #################################
-################################# Q parameters #################################
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 
 params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est, x = inter,
@@ -201,9 +357,62 @@ ggplot(params_q, aes(y = est, x = inter,
   theme(text=element_text(size = 24))+
   coord_flip()
 
-#################################   6th slide   ####################################
-############################### differences Q #####################################
+```
 
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8") & condition %in% c('Strong wording'))
+ggplot(params_q, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8") & condition %in% c('Weak wording'))
+ggplot(params_q, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 params_q <- filter(res_between, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8"))
 ggplot(params_q, aes(y = est_diff, x = inter,
                      col=model,
@@ -213,15 +422,19 @@ ggplot(params_q, aes(y = est_diff, x = inter,
                 position = dd, width = 0.6)+
   geom_point(position = dd, size=3.5) +  
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+ 
-  labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: Q Parameters')+
+  labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Differences Between Conditions Across Models: Q Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
   theme(text=element_text(size = 24))+
-  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.3))+
   coord_flip()
+```
 
-#################################### 7th slide #################################
-################################# R parameters #################################
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 
 params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est, x = inter,
@@ -238,10 +451,59 @@ ggplot(params_r, aes(y = est, x = inter,
   theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
+```
 
-#################################   8th slide   ####################################
-############################### differences R #####################################
+---
 
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8") & condition %in% c('Strong wording'))
+ggplot(params_r, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8") & condition %in% c('Weak wording'))
+ggplot(params_r, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 params_r <- filter(res_between, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8"))
 ggplot(params_r, aes(y = est_diff, x = inter,
                      col=model,
@@ -251,17 +513,20 @@ ggplot(params_r, aes(y = est_diff, x = inter,
                 position = dd, width = 0.6)+
   geom_point(position = dd, size=3.5) + 
   scale_y_continuous(breaks=seq(-1,1,by=1),limits=c(-1,1))+ 
-  labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Parameter Differences Between Conditions Across Models: R Parameters')+
+  labs(x='Model',y='Estimated Difference', color='Analysis approach',shape='Analysis approach', title='Differences Between Conditions Across Models: R Parameters')+
   scale_shape_manual(values=shapes) +
   theme_bw() + geom_hline(yintercept = 0, lty = 3) +
   theme(text=element_text(size = 24))+
-  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.3))+
   coord_flip()
 
+```
 
-######################   GOF   ###################################
-###################  all data sets  ##############################
+---
 
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 load("../../dube2012p/dubep_orig.eqn-Dube_2012-P.csv.RData")
 results1_2 <- results
 
@@ -360,13 +625,16 @@ levels(gof_a$inter) <- c("No.PB", "No.asy", "Comp.asy", "No.Bayes",
 gof_a$focus <- factor(gof_a$focus, levels = c('cov', 'mean'),
                     labels = c('Covariance', 'Mean'))
 
-gof_a$model <- ifelse(gof_a$model=="dubep_orig.eqn"|params$model=="jaeger_orig.eqn"|params$model=="koen_orig.eqn"|params$model=="koen_orig.eqn"|params$model=="koen_orig.eqn"|params$model=="heathcote_orig.eqn"|params$model=="heathcote_orig.eqn"|params$model=="dubew_orig.eqn"|params$model=="heathcote2_orig.eqn"|params$model=="koen_orig.eqn",
+gof_a$model <- ifelse(gof_a$model=="dubep_orig.eqn"|gof_a$model=="jaeger_orig.eqn"|gof_a$model=="koen_orig.eqn"|gof_a$model=="koen_orig.eqn"|gof_a$model=="koen_orig.eqn"|gof_a$model=="heathcote_orig.eqn"|gof_a$model=="heathcote_orig.eqn"|gof_a$model=="dubew_orig.eqn"|gof_a$model=="heathcote2_orig.eqn"|gof_a$model=="koen_orig.eqn",
                        'Q & R Restr.',
-                       ifelse(gof_a$model=="dubep_qrest.eqn"|params$model=="jaeger_qrest.eqn"|params$model=="koen_qrest.eqn"|params$model=="heathcote_qrest.eqn"|params$model=="dubew_qrest.eqn"|params$model=="heathcote2_qrest.eqn"|params$model=="koen_qrest.eqn",
+                       ifelse(gof_a$model=="dubep_qrest.eqn"|gof_a$model=="jaeger_qrest.eqn"|gof_a$model=="koen_qrest.eqn"|gof_a$model=="heathcote_qrest.eqn"|gof_a$model=="dubew_qrest.eqn"|gof_a$model=="heathcote2_qrest.eqn"|gof_a$model=="koen_qrest.eqn",
                               'Q Restricted',
-                              ifelse(gof_a$model=="dubep_rrest.eqn"|params$model=="jaeger_rrest.eqn"|params$model=="koen_rrest.eqn"|params$model=="heathcote_rrest.eqn"|params$model=="dubew_rrest.eqn"|params$model=="heathcote2_rrest.eqn"|params$model=="koen_rrest.eqn",
+                              ifelse(gof_a$model=="dubep_rrest.eqn"|gof_a$model=="jaeger_rrest.eqn"|gof_a$model=="koen_rrest.eqn"|gof_a$model=="heathcote_rrest.eqn"|gof_a$model=="dubew_rrest.eqn"|gof_a$model=="heathcote2_rrest.eqn"|gof_a$model=="koen_rrest.eqn",
                                      'R Restricted',
-                                     params$model)))
+                                     gof_a$model)))
+
+gof_a$dataset <- factor(gof_a$dataset, levels = c("exp1.txt", "Dube_2012-P.csv", "Dube_2012-W.csv", "Heathcote_2006_e1.csv", "Heathcote_2006_e2.csv", "Jaeger_2012.csv", "Koen_2013_immediate.csv"), 
+                         labels = c("Broeder et al. (2013)", "Dube & Rotello (2012, P)", "Dube & Rotello (2012, W)","Heathcote et al. (2006, 1)","Heathcote et al. (2006, 2)","Jaeger et al. (2012)","Koen et al. (2013)"))
 
 
 gof_all <- filter(gof_a, focus %in% c("Mean"))
@@ -379,13 +647,18 @@ ggplot(gof_all, aes(y = p,
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0", "0.5", "1")) +
   labs(x='Analysis approach',y= expression(italic(p)), 
-       color='Model', title='Goodness of fit')+
-  theme(text=element_text(size = 24))+
+       color='Dataset', title='Goodness of fit')+
+  theme(text=element_text(size = 22))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))
 
-################# only r restricted ##############################
-######################   Core   ###################################
-###################  all data sets  ##############################
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 
 params <- bind_rows(
   unnest(results1_2, est_group),
@@ -430,7 +703,7 @@ params$model <- ifelse(params$model=="dubep_orig.eqn"|params$model=="jaeger_orig
                                   params$model)))
 
 params$dataset <- factor(params$dataset, levels = c("exp1.txt", "Dube_2012-P.csv", "Dube_2012-W.csv", "Heathcote_2006_e1.csv", "Heathcote_2006_e2.csv", "Jaeger_2012.csv", "Koen_2013_immediate.csv"), 
-                         labels = c("Broeder et al. (2013)", "Dube & Rotello (2012, Exp. 1, Pictures)", "Dube & Rotello (2012, Exp. 1, Words)","Heathcote et al. (2006, Exp. 1)","Heathcote et al. (2006, Exp. 2)","Jaeger et al. (2012, Exp. 1, no cue)","Koen et al. (2013, Exp. 4, immediate test)"))
+                         labels = c("Broeder et al. (2013)", "Dube & Rotello (2012, P)", "Dube & Rotello (2012, W)","Heathcote et al. (2006, 1)","Heathcote et al. (2006, 2)","Jaeger et al. (2012)","Koen et al. (2013)"))
 
 Core_all <- filter(params, parameter %in% c("Dn","Do","g") & model %in% c('R Restricted'))
 ggplot(Core_all, aes(y = est, x = inter,
@@ -442,15 +715,23 @@ ggplot(Core_all, aes(y = est, x = inter,
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0","0.5", "1")) + 
-  labs(x='Analysis approach', y='Estimate', color='Dataset', title='Estimates of Core Parameters Across Data sets for R Restricted')+
+  labs(x='Analysis approach', y='Estimate', color='Dataset', title='Core Parameters Across Data sets for R Restricted')+
   theme_bw() + 
   theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
 Core_all <- filter(params, parameter %in% c("Dn","Do","g") & model %in% c('R Restricted'))
 ggplot(Core_all, aes(y = est, x = dataset,
-                     color=inter, shape=inter)) +
+                  color=inter, shape=inter)) +
   facet_wrap( ~parameter, ncol=3) +
   geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
                 width = 0.6)+
@@ -458,13 +739,19 @@ ggplot(Core_all, aes(y = est, x = dataset,
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0","0.5", "1")) + 
-  labs(x='Dataset', y='Estimate', color='Analysis approach', shape='Analysis approach', title='Estimates of Core Parameters Across Data sets for R Restricted')+
+  labs(x='Dataset', y='Estimate', color='Analysis approach', shape='Analysis approach', title='Core Parameters Across Data sets for R Restricted')+
   theme_bw() + 
-  theme(text=element_text(size = 20))+
+  theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
-###theme(axis.text.y = element_text(angle = -10, vjust = 0, hjust = 1)) +
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 
 Q_all <- filter(params, parameter %in% c("q_1", "q_2", "q_5", "q_6") & model %in% c('R Restricted'))
 ggplot(Q_all, aes(y = est, x = inter,
@@ -476,12 +763,18 @@ ggplot(Q_all, aes(y = est, x = inter,
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0","0.5", "1")) + 
-  labs(x='Analysis approach', y='Estimate', color='Dataset', title='Estimates of Q Parameters Across Data sets for R Restricted')+
+  labs(x='Analysis approach', y='Estimate', color='Dataset', title='Q Parameters Across Data sets for R Restricted')+
   theme_bw() + 
   theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
+```
 
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 Q_all <- filter(params, parameter %in% c("q_1", "q_2", "q_5", "q_6") & model %in% c('R Restricted'))
 ggplot(Q_all, aes(y = est, x = dataset,
                   color=inter, shape=inter)) +
@@ -492,13 +785,19 @@ ggplot(Q_all, aes(y = est, x = dataset,
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0","0.5", "1")) + 
-  labs(x='Dataset', y='Estimate', color='Analysis approach', shape='Analysis approach', title='Estimates of Q Parameters Across Data sets for R Restricted')+
+  labs(x='Dataset', y='Estimate', color='Analysis approach', shape='Analysis approach', title='Q Parameters Across Data sets for R Restricted')+
   theme_bw() + 
   theme(text=element_text(size = 20))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
+```
 
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 R_all <- filter(params, parameter %in% c("r_1", "r_2", "r_6") & model %in% c('R Restricted'))
 ggplot(R_all, aes(y = est, x = inter,
                   color=dataset)) +
@@ -509,13 +808,18 @@ ggplot(R_all, aes(y = est, x = inter,
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0","0.5", "1")) + 
-  labs(x='Analysis approach', y='Estimate', color='Dataset', title='Estimates of R Parameters Across Data sets for R Restricted')+
+  labs(x='Analysis approach', y='Estimate', color='Dataset', title='R Parameters Across Data sets for R Restricted')+
   theme_bw() + 
   theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
+```
 
+---
 
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
 R_all <- filter(params, parameter %in% c("q_1", "q_2", "q_5", "q_6") & model %in% c('R Restricted'))
 ggplot(R_all, aes(y = est, x = dataset,
                   color=inter, shape=inter)) +
@@ -526,8 +830,20 @@ ggplot(R_all, aes(y = est, x = dataset,
   scale_shape_manual(values=shapes) +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
                      labels = c("0","0.5", "1")) + 
-  labs(x='Dataset', y='Estimate', color='Analysis approach', shape='Analysis approach', title='Estimates of R Parameters Across Data sets for R Restricted')+
+  labs(x='Dataset', y='Estimate', color='Analysis approach', shape='Analysis approach', title='R Parameters Across Data sets for R Restricted')+
   theme_bw() + 
   theme(text=element_text(size = 20))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
+```
+
+---
+
+class: small
+
+### References 
+- Bröder, A., Kellen, D., Schütz, J., & Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916–944. https://doi.org/10.1080/09658211.2013.767348
+- Dube, C., Starns, J. J., Rotello, C. M., & Ratcliff, R. (2012). Beyond ROC curvature: Strength effects and response time data support continuous-evidence models of recognition memory. *Journal of Memory and Language*, 67(3), 389–406. https://doi.org/10.1016/j.jml.2012.06.002
+- Jaeger, A., Cox, J. C., & Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282–301. https://doi.org/10.1037/a0025687
+- Koen, J. D., Aly, M., Wang, W.-C., & Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726–1741. https://doi.org/10.1037/a0033671
+- Steegen, S., Tuerlinckx, F., Gelman, A., & Vanpaemel, W. (2016). Increasing Transparency Through a Multiverse Analysis. *Perspectives on Psychological Science*, 11(5), 702–712. https://doi.org/10.1177/1745691616658637
