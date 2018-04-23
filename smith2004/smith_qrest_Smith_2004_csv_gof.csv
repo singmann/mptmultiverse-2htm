@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+smith_qrest.eqn,Smith_2004.csv,no,MPTinR,PB/MLE,pb-G2,mean,50.225027907333754,NA,0,0.4171656686626746
+smith_qrest.eqn,Smith_2004.csv,no,MPTinR,asymptotic,G2,mean,50.225027907333754,NA,0,0
+smith_qrest.eqn,Smith_2004.csv,complete,MPTinR,asymptotic,G2,mean,0.8251372330905724,NA,0,0
+smith_qrest.eqn,Smith_2004.csv,no,TreeBUGS,simple,T1_G2,mean,0.7218287509659724,0.3152719711993973,NA,0.0585
+smith_qrest.eqn,Smith_2004.csv,no,TreeBUGS,simple,T2,cov,101.47129114688076,82.77506037137344,NA,0.2535
+smith_qrest.eqn,Smith_2004.csv,complete,TreeBUGS,simple,T1_G2,mean,9.918993096981767,10.103021466194551,NA,0.512
+smith_qrest.eqn,Smith_2004.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+smith_qrest.eqn,Smith_2004.csv,partial,TreeBUGS,trait,T1_G2,mean,0.33907162204945207,0.3164480992272765,NA,0.456
+smith_qrest.eqn,Smith_2004.csv,partial,TreeBUGS,trait,T2,cov,93.54995120667537,82.58352647624645,NA,0.374
+smith_qrest.eqn,Smith_2004.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,0.33081566866324813,0.3152648684753544,NA,0.458
+smith_qrest.eqn,Smith_2004.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,131.80989947925514,81.30564727013969,NA,0.1095
