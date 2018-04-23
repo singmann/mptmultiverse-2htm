@@ -2,3 +2,42 @@
  ##############  MPTinR - no pooling 
  ######################################################
 
+ ######################################################
+ ##############  MPTinR - complete pooling 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - simple 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - simple_pooling 
+ ######################################################
+
+ ######################################################
+ ##############  TreeBUGS - trait 
+ ######################################################
+
+MCMC sampling started at  2018-04-23 12:34:00 
+MCMC sampling finished at 2018-04-23 12:58:55 
+  Time difference of 24.91983 mins
+Drawing additional samples for method =  trait . max(Rhat) =  3.65  ; min(n.eff) =  33 
+Drawing additional samples for method =  trait . max(Rhat) =  1.07  ; min(n.eff) =  73 
+Drawing additional samples for method =  trait . max(Rhat) =  1.12  ; min(n.eff) =  114 
+Drawing additional samples for method =  trait . max(Rhat) =  1.06  ; min(n.eff) =  161 
+ ######################################################
+ ##############  TreeBUGS - beta 
+ ######################################################
+
+MCMC sampling started at  2018-04-23 14:55:24 
+MCMC sampling finished at 2018-04-23 15:11:49 
+  Time difference of 16.41914 mins
+Drawing additional samples for method =  beta . max(Rhat) =  1.07  ; min(n.eff) =  1416 
+Drawing additional samples for method =  beta . max(Rhat) =  1.09  ; min(n.eff) =  2864 
+ ######################################################
+ ##############  TreeBUGS - trait_uncorrelated 
+ ######################################################
+
+MCMC sampling started at  2018-04-23 15:51:39 
+MCMC sampling finished at 2018-04-23 16:14:25 
+  Time difference of 22.76674 mins

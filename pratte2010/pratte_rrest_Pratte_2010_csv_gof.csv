@@ -1,0 +1,12 @@
+model,dataset,pooling,package,method,type,focus,stat_obs,stat_pred,stat_df,p
+pratte_rrest.eqn,Pratte_2010.csv,no,MPTinR,PB/MLE,pb-G2,mean,22.135762071558815,NA,0,0.9900199600798403
+pratte_rrest.eqn,Pratte_2010.csv,no,MPTinR,asymptotic,G2,mean,22.135762071558815,NA,0,0
+pratte_rrest.eqn,Pratte_2010.csv,complete,MPTinR,asymptotic,G2,mean,0,NA,0,1
+pratte_rrest.eqn,Pratte_2010.csv,no,TreeBUGS,simple,T1_G2,mean,0.3002277500547864,0.09432536226167926,NA,0.0165
+pratte_rrest.eqn,Pratte_2010.csv,no,TreeBUGS,simple,T2,cov,131.6141964589636,88.5374009412627,NA,0.1275
+pratte_rrest.eqn,Pratte_2010.csv,complete,TreeBUGS,simple,T1_G2,mean,9.993808791579458,10.041548051748094,NA,0.505
+pratte_rrest.eqn,Pratte_2010.csv,complete,TreeBUGS,simple,T2,cov,NA,NA,NA,NA
+pratte_rrest.eqn,Pratte_2010.csv,partial,TreeBUGS,trait,T1_G2,mean,0.09345520671191349,0.0943268578680943,NA,0.4925
+pratte_rrest.eqn,Pratte_2010.csv,partial,TreeBUGS,trait,T2,cov,91.66199151601901,89.233092328894,NA,0.4595
+pratte_rrest.eqn,Pratte_2010.csv,partial,TreeBUGS,trait_uncorrelated,T1_G2,mean,0.13242150108614262,0.09430043310333074,NA,0.2905
+pratte_rrest.eqn,Pratte_2010.csv,partial,TreeBUGS,trait_uncorrelated,T2,cov,169.42551423041158,88.65633377607378,NA,0.049
