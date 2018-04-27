@@ -1,0 +1,147 @@
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+dd <- position_dodge(w = .8)
+core <- filter(pars, parameter %in% c("Do", "Dn", "g") & condition %in% c('Strong wording'))
+ggplot(core, aes(y = est, x = model,
+                 col=inter,
+                 shape=inter)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) +  
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+core <- filter(pars, parameter %in% c("Do", "Dn", "g") & condition %in% c('Weak wording'))
+ggplot(core, aes(y = est, x = model,
+                 col=inter,
+                 shape=inter)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) +  
+  labs(x='Model',y='Estimate', color='Analysis approach',shape='Analysis approach', title='Estimates of Core Parameters Across Models')+
+  scale_shape_manual(values=shapes) +
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+```
+
+---
+
+
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8") & condition %in% c('Strong wording'))
+ggplot(params_q, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_q <- filter(pars, parameter %in% c("q_1", "q_2", "q_3", "q_6", "q_7", "q_8") & condition %in% c('Weak wording'))
+ggplot(params_q, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of Q Parameters Across Models')+
+  theme_bw() + 
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+```
+
+---
+
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8") & condition %in% c('Strong wording'))
+ggplot(params_r, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+```
+
+---
+
+class: small, center
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.5, dpi = 500, message=FALSE}
+
+params_r <- filter(pars, parameter %in% c("r_1", "r_2", "r_3", "r_6", "r_7", "r_8") & condition %in% c('Weak wording'))
+ggplot(params_r, aes(y = est, x = inter,
+                     shape=model, color=model)) +
+  facet_grid(condition ~parameter) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) + 
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Analysis approach', y='Estimate', color='Model',shape='Model', title='Estimates of R Parameters Across Models')+
+  theme_bw() + 
+  theme(text=element_text(size = 24))+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+```
+
+---

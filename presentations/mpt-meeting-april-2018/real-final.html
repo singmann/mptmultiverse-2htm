@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Multiverse Pipeline for MPT models</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Henrik Singmann (Twitter: @HenrikSingmann) Georgia Eleni Kapetaniou (kapetaniou.el@gmail.com) University of Zurich https://github.com/singmann/mptmultiverse-2htm" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# A Multiverse Pipeline for MPT models
+## Applications to Recognition Memory
+### Henrik Singmann (Twitter: <a href='https://twitter.com/HenrikSingmann'><span class="citation">@HenrikSingmann</span></a>)<br/>Georgia Eleni Kapetaniou (<a href="mailto:kapetaniou.el@gmail.com">kapetaniou.el@gmail.com</a>)<br/>University of Zurich<br/><a href="https://github.com/singmann/mptmultiverse-2htm" class="uri">https://github.com/singmann/mptmultiverse-2htm</a>
+### April 2018
+
+---
+
+
+
+
+
+
+class: small
+
+### 2-high threshold model  (2HTM) for 6-point confidence-rating data
+
+![](./model.png)
+
+- Bröder, Kellen, Schütz, &amp; Rohrmeier (2013, Exp. 1 &amp; 2): Parameter validation studies.
+- Large corpus of 6-point ROC data sets without any manipulation (taken from Klauer &amp; Kellen, 2015, JMP).
+
+---
+
+class: inline-grey
+# Bröder, Kellen, Schütz, &amp; Rohrmeier (2013), Experiment 1
+
+- Validation of response mapping parameters, via differently labeled response scales (between-subjects).
+- "The aim was to demonstrate the validity of the response mapping function which was added to the 2HTM in order to make it appropriate for the analysis of confidence rating data."
+- 68 participants in two groups that differed in wording of response scales:
+  1. **'strong wording' condition**:  end categories of scale read 'absolutely sure old/new', which were further emphasized with red exclamation marks
+  2. **'weak wording' condition**: end labels read 'pretty sure old/new'
+- Learning phase: 120 simple line drawings for 1.5 sec each
+- Test phase: 240 items, 120 old and 120 new 
+
+---
+class: small
+
+![](./model-small.png)
+
+- **Q &amp; R restricted:** q_2 = q_7, q_3 = q_6 &amp; r_3 = r_6 (all but highest confidence response mapping of uncertainty states equated and lowest two confidence response mapping of detection states equated), original restriction used in Bröder et al. (2013).
+- **Q restricted:** q_2 = q_7, q_3 = q_6 (all but highest confidence response mapping of uncertainty states equated) 
+- **R restricted:** r_3 = r_6 (lowest two confidence response mapping of detection states equated)
+
+---
+
+# Overview Results
+
+1. Model fit
+2. Parameter estimates core parameters: `\(D_o\)`, `\(D_n\)`, `\(g\)`
+   - estimation methods on `\(y\)`-axis
+   - restrictions on `\(y\)`-axis
+3. Differences in core parameters for different naming conditions.
+4. Parameter estimates of `\(q\)` parameters (i.e., response mapping in uncertainty states)
+4. Differences of `\(q\)` parameters 
+5. Parameter estimates of `\(r\)` parameters (i.e., response mapping in certainty states)
+5. Differences of `\(r\)` parameters
+
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+---
+
+# Summary: Bröder et al. (2013, Exp. 1)
+
+- Replicate conclusions of Bröder et al. across estimation methods:
+  - Manipulation of scale wording *does not* affect core parameters: `\(D_o\)`, `\(D_n\)`, `\(g\)`. 
+  - Manipulation of scale wording appears to affect response mapping parameters `\(q\)` (i.e., `\(q_1\)` and `\(q_8\)`) and maybe for `\(r\)` (i.e., `\(r_1\)` and `\(r_8\)`).
+
+- Overall influence of estimation methods appears to be larger than influence of parameter restrictions on both precision and location.
+  - Differences in precision and location across methods were dependent on both condition and parameter!
+  - For `\(D_n\)` (less for `\(D_o\)` and `\(g\)`), latent trait (specifically uncorrelated) larger CIs and largest different from rest.
+  - For response mapping parameters `\(q\)` and `\(r\)`, difference in location smaller, but CI for latent trait still comparatively large.
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+---
+
+class: small, center
+
+![](real-final_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+---
+
+class: small
+
+### References 
+- Bröder, A., Kellen, D., Schütz, J., &amp; Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916-944. https://doi.org/10.1080/09658211.2013.767348
+- Dube, C., Starns, J. J., Rotello, C. M., &amp; Ratcliff, R. (2012). Beyond ROC curvature: Strength effects and response time data support continuous-evidence models of recognition memory. *Journal of Memory and Language*, 67(3), 389â406. https://doi.org/10.1016/j.jml.2012.06.002
+- Jaeger, A., Cox, J. C., &amp; Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282â301. https://doi.org/10.1037/a0025687
+- Koen, J. D., Aly, M., Wang, W.-C., &amp; Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726â1741. https://doi.org/10.1037/a0033671
+- Steegen, S., Tuerlinckx, F., Gelman, A., &amp; Vanpaemel, W. (2016). Increasing Transparency Through a Multiverse Analysis. *Perspectives on Psychological Science*, 11(5), 702â712. https://doi.org/10.1177/1745691616658637
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
