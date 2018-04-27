@@ -105,6 +105,45 @@ ggplot(core, aes(y = est, x = inter)) +
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
+
+############################## new per wording
+
+
+core_w <- filter(core, condition %in% c('Strong wording')) 
+
+ggplot(core_w, aes(y = est, x = inter)) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  facet_grid(bias ~cp) +
+  geom_point(position = dd, size = 3.5) +  
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) + 
+  labs(x='Model',y='Estimate', title='Core Parameters for "Strong wording" condition')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+core_ww <- filter(core, condition %in% c('Weak wording')) 
+
+ggplot(core_ww, aes(y = est, x = inter)) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  facet_grid(bias ~cp) +
+  geom_point(position = dd, size = 3.5) +  
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
+                     labels = c("0", "0.5", "1")) + 
+  labs(x='Model',y='Estimate', title='Core Parameters for "Weak wording" condition')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+
 #######bn
 
 core_bn <- filter(core, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn","r_1_bn","r_2_bn","r_3_bn","r_7_bn","r_8_bn"))
@@ -251,6 +290,43 @@ ggplot(params_q, aes(y = est, x = inter)) +
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
   coord_flip()
 
+############################### new per wording
+
+q_wording <- filter(params_q, condition %in% c('Weak wording'))
+
+ggplot(q_wording, aes(y = est, x = inter)) +
+  facet_grid(bias ~pq) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) +  
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Model',y='Estimate', title='Q Parameters for "Weak wording" condition')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+q_word1 <- filter(params_q, condition %in% c('Strong wording'))
+
+ggplot(q_word1, aes(y = est, x = inter)) +
+  facet_grid(bias ~pq) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) +  
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Model',y='Estimate', title='Q Parameters for "Strong wording" condition')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+
 #######bn
 
 q_bn <- filter(params_q, parameter %in% c("Do_bn", "Dn_bn", "g_bn","q_1_bn", "q_2_bn","q_3_bn","q_6_bn","q_7_bn","q_8_bn"))
@@ -395,6 +471,41 @@ ggplot(params_r, aes(y = est, x = inter)) +
   theme_bw()+
   theme(text=element_text(size = 24))+
   theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  coord_flip()
+
+################################# new per condition
+
+r_cond <- filter(params_r, condition %in% c('Weak wording'))
+
+ggplot(r_cond, aes(y = est, x = inter)) +
+  facet_grid(bias ~pr) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) +  
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Model',y='Estimate', title='R Parameters for "Weak wording" condition')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
+  coord_flip()
+
+
+r_cond1 <- filter(params_r, condition %in% c('Strong wording'))
+
+ggplot(r_cond1, aes(y = est, x = inter)) +
+  facet_grid(bias ~pr) +
+  geom_errorbar(aes(ymin = est-se, ymax = est+se), position = dd, 
+                width = 0.6)+
+  geom_point(position = dd, size = 3.5) +  
+  scale_shape_manual(values=shapes) +
+  scale_y_continuous(breaks=seq(0,1,by=1),limits=c(0,1), 
+                     labels = c("0", "1")) + 
+  labs(x='Model',y='Estimate', title='R Parameters for "Strong wording" condition')+
+  theme_bw()+
+  theme(plot.title=element_text(face = 'bold',size=24, hjust = 0.5))+
+  theme(text=element_text(size = 24))+
   coord_flip()
 
 #######bn
