@@ -131,9 +131,13 @@ all_pars <- unnest(results, est_group)
 all_pars$intera <- with(all_pars, interaction(pooling, method, package, 
                                               drop = TRUE))
 exclude_methods <- c("no.asymptotic.MPTinR", 
-                     "no.simple.TreeBUGS", 
+                     #"no.simple.TreeBUGS", 
                      "partial.beta.TreeBUGS")
 all_pars <- droplevels( filter(all_pars, !(intera %in% exclude_methods)) )
+core_parameters <- c("Do", "Dn", "g")
+all_pars <- mutate(all_pars, 
+                   core = ifelse(parameter %in% core_parameters, 
+                                 "core", "aux"))
 
 pairs <- combn(sort(levels(all_pars$intera)), 2)
 
@@ -186,3 +190,25 @@ all_pars2 %>%
   ggtitle("...") +
   theme_bw()
 ggsave("pairsplot2.pdf", device = "pdf", width = 8, height = 8)
+str(all_pars)
+
+all_se <- all_pars %>% 
+  group_by(model, dataset, restriction, parameter) %>% 
+  mutate(reference = se[ intera == "complete.asymptotic.MPTinR" ]) %>% 
+  mutate(expansion = se/reference)
+
+all_se %>% 
+  filter(restriction == "orig") %>% 
+  ungroup() %>%
+  ggplot() +
+  geom_histogram(aes(expansion), bins = 50) +
+  facet_wrap(core ~ intera) +
+  theme_grey(base_size = 24)
+
+all_se %>% 
+  filter(restriction == "orig") %>% 
+  ungroup() %>%
+  ggplot() +
+  geom_histogram(aes(expansion), bins = 50) +
+  facet_wrap( ~ intera) +
+  theme_grey(base_size = 24)
