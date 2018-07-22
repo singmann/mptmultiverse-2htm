@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Bayesian and Frequentist Multiverse Pipeline for MPT models</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Henrik Singmann (University of Zurich)  Daniel W. Heck (Universität Mannheim)  Georgia Eleni Kapetaniou (University of Zurich)  Julia Groß (Heinrich-Heine-Universität Düsseldorf)  Beatrice G. Kuhlmann (Universität Mannheim)  https://github.com/mpt-network/MPTmultiverse" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# A Bayesian and Frequentist Multiverse Pipeline for MPT models
+## Applications to Recognition Memory
+### Henrik Singmann (University of Zurich) <br/>Daniel W. Heck (Universität Mannheim) <br/>Georgia Eleni Kapetaniou (University of Zurich) <br/>Julia Groß (Heinrich-Heine-Universität Düsseldorf) <br/>Beatrice G. Kuhlmann (Universität Mannheim) <br/><a href="https://github.com/mpt-network/MPTmultiverse" class="uri">https://github.com/mpt-network/MPTmultiverse</a>
+### July 2018
+
+---
+
+
+
+
+
+
+
+## Multiverse Approach
+
+- Statistical analysis usually requires several (more or less) *arbitrary* decisions between reasonable alternatives:
+  - Data processing and preparation (e.g., exclusion criteria, aggregation levels)
+  - Analysis framework (e.g., statistical vs. cognitive model, frequentist vs. Bayes)
+  - Statistical analysis (e.g., testing vs. estimation, fixed vs. random effects, pooling)
+
+--
+
+
+- Combination of decisions spans **multiverse** of data and results (Steegen, Tuerlinckx, Gelman, &amp; Vanpaemel, 2016):
+  - Usually one path through multiverse (*or* 'garden of forking paths', Gelman &amp; Loken, 2013) is reported.
+  - Valid conclusions cannot be contingent on arbitrary decisions.
+  
+--
+
+
+- **Multiverse analysis** attempts exploration of possible results space:
+  - Reduces problem of selective reporting by making fragility or robustness of results transparent.  
+  - Conclusions arising from many paths are more credible than conclusions arising from few paths.
+  - Helps identification of most consequential choices.
+
+
+--
+
+- **Limits of multiverse approach:**
+  - Implementation not trivial.
+  - Results must be commensurable across multiverse (e.g., estimation versus hypothesis testing).
+
+---
+class: small, inline-grey
+
+### Current Project
+
+- DFG 'Scientific Network' grant to Julia Groß and Beatrice Kuhlmann
+  - 6 meetings over 3 years with 15 people plus external experts
+  - "Hierarchical MPT Modeling - Methodological Comparisons and Application Guidelines"
+  - Multinomial processing tree (MPT) models: class of discrete-state cognitive models for multinomial data (Riefer &amp; Batchelder, 1988)
+  - MPT models traditionally analyzed with frequentist methods (i.e., `\(\chi^2/G^2\)`) and aggregated data
+  - Several hierarchical-Bayesian approaches exist. Do we need those?
+
+--
+
+### Our Multiverse
+
+- Statistical framework:
+  - Frequentist (i.e., maximum-likelihood)
+  - Bayesian (i.e., MCMC)
+- Pooling:
+  - Complete pooling (aggregated data)
+  - No pooling (individual-level data)
+  - Partial pooling (hierarchical-modeling): Individual-level parameters with group-level distribution
+
+  
+- Results:
+  1. Parameter point estimates: MLE and posterior mean
+  2. Parameter uncertainty: ML-SE and MCMC-SE
+  3. Model adequacy: `\(G^2\)` `\(p\)`-value and posterior predictive `\(p\)`-value (Klauer, 2010)
+
+---
+class: inline-grey
+
+## Our Multiverse Pipeline
+
+- Developed (with Daniel Heck) `R` script which performs MPT multiverse analysis:
+  - Requires participant-wise response frequencies and MPT model file (`eqn` syntax)
+  1. Traditional approach: Frequentist asymptotic complete pooling
+  2. Frequentist asymptotic no pooling
+  3. Frequentist no-pooling with parametric bootstrap
+  4. Bayesian complete pooling
+  5. Bayesian no pooling
+  6. Bayesian partial pooling I: Beta-MPT (Smith &amp; Batchelder, 2010)
+  6. Bayesian partial pooling II: Latent trait MPT (Klauer, 2010)
+  6. Bayesian partial pooling III: Latent trait MPT w/o correlation parameters 
+  
+
+- Frequentist approaches use `MPTinR` (Singmann &amp; Kellen, 2013)
+- Bayesian approaches use `TreeBUGS` (Heck, Arnold, &amp; Arnold, 2018), which uses `Jags`
+
+
+--
+
+
+- Currently developing (with Marius Barth) proper `R` package, `MPTmultiverse`:  
+  https://github.com/mpt-network/MPTmultiverse
+- Some new features and better usability
+
+---
+class: small
+
+### Recognition Memory Task with Confidence Rating
+
+![](recognition.png)
+
+---
+class: small
+
+### 2-high threshold model  (2HTM) for 6-point confidence-rating data (e.g., Bröder, et al., 2013)
+
+.pull-left2[
+![](./model8.png)
+
+]
+
+
+- `\(r1 = r_1\)`
+- `\(r2 = (1- r_1)r_2\)`
+- `\(r3 = (1- r_1)(1 - r_2)\)` 
+- same for `\(q\)` &lt;br/&gt;&lt;br/&gt;
+- `\(r6 = r_6\)` 
+- `\(r5 = (1- r_6)r_5\)`
+- `\(r4 = (1- r_6)(1 - r_5)\)`
+- same for `\(q\)` &lt;br/&gt;&lt;br/&gt;
+- For `\(r\)`, `\(r_1\)` and `\(r_6\)` expected to have most data
+- For `\(q\)`, `\(q_5\)` and `\(q_2\)` expected to have most data
+
+&lt;br&gt;&lt;br&gt;
+
+- Data provides 10 independent data points:
+  - 3 core parameters: `\(Dn\)`, `\(Do\)`, and `\(g\)`. 
+  - 8 response mapping parameters `\((r_1\)`, `\(q_1\)`, ...) 
+- For identifiability: `\(r_2 = r_5\)` (lowest two confidence response mapping of detection states equated)
+
+---
+
+### 6-point ROC Data Corpus from Klauer &amp; Kellen (2015): 12 Data Sets
+
+.pull-left2[
+
+| Data set        |Sample          | Mean No of Trials  |
+|:-------------|:-------------:|:-----:|
+|Dube &amp; Rotello (2012, Exp. 1, Pictures (P))| 27  | 400 |
+|Dube &amp; Rotello (2012, Exp. 1, Words (W))|  22      |   400 |
+|Heathcote et al. (2006, Exp. 1)  | 16     |    560 |
+|Heathcote et al. (2006, Exp. 2) | 23 | 560|
+|Jaeger et al. (2012, Exp. 1, no cue)|63|120|
+|Jang et al. (2009)|33|140|
+|Koen &amp; Yonelinas (2010, pure study)|32|320|
+|Koen &amp; Yonelinas (2011)|20|600|
+|Koen et al. (2013, Exp. 2, full attention)|48|200|
+|Koen et al. (2013, Exp. 4, immediate test)|48|300|
+|Pratte et al. (2010)|97|480|
+|Smith &amp; Duncan (2004, Exp. 2)|30|140|
+
+]
+
+.pull-right2[
+No manipulation, just comparison of estimation methods.
+
+1. Goodness of Fit, across estimation methods.
+2. Core parameters
+3. `\(q\)` parameters (response mapping for uncertainty states)
+4. `\(r\)` parameters (response mapping for certainty states)
+
+]
+
+
+---
+
+class: small, center
+
+
+
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+class: small
+
+.left-pull2[
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+]
+
+Mean concordance correlation coefficient (CCC)
+
+
+```
+## # A tibble: 8 x 3
+##   cond_y     mean   digits
+##   &lt;fct&gt;      &lt;chr&gt;   &lt;dbl&gt;
+## 1 Comp asy   0.9668      2
+## 2 Comp Bayes 0.9685      2
+## 3 No asy     0.9557      2
+## 4 No PB      0.956       2
+## 5 No Bayes   0.9598      2
+## 6 Beta PP    0.9738      2
+## 7 Trait PP   0.957       2
+## 8 Trait_u PP 0.9116      2
+```
+
+
+---
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Summary 6-point ROCs
+
+- R restricted provides better account across data sets and methods.
+
+
+- General: Effect of data set larger than estimation method.
+
+
+- For core parameters and `\(r\)` parameters, latent trait estimates have tendencey to have different location and less precision. But tendentially more so for data sets with less trials.
+- For `\(q\)`, similar pattern, but less extreme.
+
+
+
+---
+
+# General Discussion
+
+- Impact of estimation method seems non-negligible.
+
+- 
+
+---
+
+class: small
+
+### References 
+- Barchard, K. A. (2012). Examining the reliability of interval level data using root mean square differences and concordance correlation coefficients. *Psychological Methods*, 17(2), 294-308. https://doi.org/10.1037/a0023351
+- Bröder, A., Kellen, D., Schütz, J., &amp; Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916-944. https://doi.org/10.1080/09658211.2013.767348
+- Dube, C., Starns, J. J., Rotello, C. M., &amp; Ratcliff, R. (2012). Beyond ROC curvature: Strength effects and response time data support continuous-evidence models of recognition memory. *Journal of Memory and Language*, 67(3), 389-406. https://doi.org/10.1016/j.jml.2012.06.002
+- Jaeger, A., Cox, J. C., &amp; Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282-301. https://doi.org/10.1037/a0025687
+- Koen, J. D., Aly, M., Wang, W.-C., &amp; Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726-1741. https://doi.org/10.1037/a0033671
+- Steegen, S., Tuerlinckx, F., Gelman, A., &amp; Vanpaemel, W. (2016). Increasing Transparency Through a Multiverse Analysis. *Perspectives on Psychological Science*, 11(5), 702-712. https://doi.org/10.1177/1745691616658637
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
