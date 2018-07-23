@@ -34,6 +34,8 @@ library("tidyverse")
 library("reshape2")
 library("broom") # for tidy
 library("DescTools") # for CCC
+library("ggpol") # for geom_boxjitter
+data(roc6, package = "MPTinR")
 source("../../scripts/auxiliary_functions.R")
 source("../../scripts/summary_plots.R")
 
@@ -201,7 +203,7 @@ No manipulation, just comparison of estimation methods.
 
 class: small, center
 
-```{r, include=FALSE}
+```{r, include=FALSE, warning=FALSE}
 
 load("../../koen2010/koen2010_rrest.eqn-Koen_2010_pure.csv.RData")
 results3_2 <- results
@@ -257,6 +259,16 @@ results <- bind_rows(
   results3_13
 )
 
+results$exp <- str_remove(results$dataset, "\\.csv")
+
+tmp <- roc6 %>% 
+  mutate(sum = rowSums(select(., starts_with("OLD"), starts_with("NEW")))) %>%
+  group_by(exp) %>% 
+  summarise(participants = n(), trials = round(mean(sum)))
+
+results <- left_join(results, tmp)
+
+
 results$pooling <- factor(results$pooling, 
                           levels = c("no", "complete",  "partial"), 
                           labels = c("No", "Comp", "PP"))
@@ -311,7 +323,7 @@ gof_a$focus <- factor(gof_a$focus, levels = c('cov', 'mean'),
 gof_all <- filter(gof_a, focus %in% c("Mean"))
 ggplot(gof_all, aes(y = p, 
                     x = inter, col=dataset)) + 
-  geom_point(size=5) +  
+  geom_point(aes(size = participants)) +  
   geom_hline(yintercept = .05, lty = 2)+
   theme_bw() + coord_flip() +
   scale_y_continuous(breaks=seq(0,1,by=.5),limits=c(0,1), 
@@ -453,31 +465,123 @@ all_pars2 %>%
   theme_bw()
 ```
 
+---
+
+```{r, echo = FALSE, warning=FALSE, fig.width=12, fig.height=6.75, dpi = 500, message=FALSE}
+
+all_se <- all_pars %>% 
+  select(-starts_with("ci_"), -condition) %>% 
+  group_by(model, dataset, parameter) %>% 
+  mutate(reference = se[ inter == "Comp asy" ]) %>% 
+  mutate(expansion = se/reference,
+         lexpansion = log(se/reference)) %>% 
+  ungroup
+
+pos_x <- c(0.5, 1, 2, 4, 8)
+all_se %>% 
+  #filter(inter != "Comp asy") %>% 
+  filter(core == "core") %>% 
+  ggplot(aes(x = inter, y = lexpansion)) +
+  geom_boxjitter(outlier.color = NA, 
+                 jitter.shape = NA, 
+                 jitter.fill = c("transparent")) +
+  geom_jitter(aes(x = as.numeric(inter)-0+0.3, color = dataset, 
+                  size = participants), 
+              width = 0) +
+  scale_size(range = c(1, 4)) +
+  facet_wrap(~parameter) +
+  scale_y_continuous(breaks = log(pos_x), 
+                     labels = pos_x, 
+                     name = "SE-Expansion (log-scale)") +
+  xlab("") + ggtitle("Core Parameters") +
+  theme_bw(base_size = 24) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust = 0.25))
+
+```
 
 ---
 
-# Summary 6-point ROCs
-
-- R restricted provides better account across data sets and methods.
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.75, dpi = 500, message=FALSE}
 
 
-- General: Effect of data set larger than estimation method.
+all_se %>% 
+  filter(inter != "Comp asy") %>% 
+  filter(core == "aux", parameter %in% c("r_1", "r_2", "r_5", "r_6")) %>% 
+  ggplot(aes(x = inter, y = lexpansion)) +
+  geom_boxjitter(outlier.color = NA, 
+                 jitter.shape = NA, 
+                 jitter.fill = c("transparent")) +
+  geom_jitter(aes(x = as.numeric(inter)-1+0.3, color = dataset, 
+                  size = participants), 
+              width = 0) +
+  scale_size(range = c(1, 4)) +
+  facet_wrap(~parameter, nrow = 1) +
+  scale_y_continuous(breaks = log(pos_x), 
+                     labels = pos_x, 
+                     name = "SE-Expansion (log-scale)") +
+  xlab("") + ggtitle("Response Mapping: Detection States") +
+  theme_bw(base_size = 24) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust = 0.25))
+
+```
+---
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.75, dpi = 500, message=FALSE}
 
 
-- For core parameters and $r$ parameters, latent trait estimates have tendencey to have different location and less precision. But tendentially more so for data sets with less trials.
-- For $q$, similar pattern, but less extreme.
+all_se %>% 
+  filter(inter != "Comp asy") %>% 
+  filter(core == "aux", parameter %in% c("q_1", "q_2", "q_5", "q_6")) %>% 
+  ggplot(aes(x = inter, y = lexpansion)) +
+  geom_boxjitter(outlier.color = NA, 
+                 jitter.shape = NA, 
+                 jitter.fill = c("transparent")) +
+  geom_jitter(aes(x = as.numeric(inter)-1+0.3, color = dataset, 
+                  size = participants), 
+              width = 0) +
+  scale_size(range = c(1, 4)) +
+  facet_wrap(~parameter, nrow = 1) +
+  scale_y_continuous(breaks = log(pos_x), 
+                     labels = pos_x, 
+                     name = "SE-Expansion (log-scale)") +
+  xlab("") + ggtitle("Response Mapping: Uncertainty State") + 
+  theme_bw(base_size = 24) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust = 0.25)) +
+  theme(legend.position="none")
+
+```
 
 
 
 ---
+class: inline-grey
 
-# General Discussion
+# Summary and Conclusion
 
-- Impact of estimation method seems non-negligible.
+- Multiverse analysis of 6-point ROCs with 2HTM:
+  1. General agreement in terms of model evaluation: 2HTM provides adequate account; exception are no pooling methods.
+  2. Surprisingly strong agreement in terms of point estimates (~ .9)
+  3. Complete pooling (i.e., aggregated data) appears to provide overconfident SEs (rarely too large SEs). Size of overconfidence depends strongly on parameter.
+  
 
-- 
+--
+
+
+- **Note**: Results do not suggest that hierarchical models are not necessary. - Aggregation artifacts can occur:
+  - Learning & practice (e.g., Estes, 1956, Psych. Bull.; Evans, Brown, Mewhort, & Heathcote, in press, Psych. Review)
+  - ROCs (Trippas, Kellen, Singmann, et al., in press, PB&R)
+- Multiverse analysis (at least with a selection) appears generally advisable.
+  
+--
+
+
+- Future: Variety of different models (e.g., source-memory, prospective memory, IAT, process dissociation, hindsight bias)
+- `MPTmultiverse` provides `R` package for Bayesian and frequentist multiverse analysis of MPTs:
+  https://github.com/mpt-network/MPTmultiverse
+
 
 ---
+count: false
 
 class: small
 
@@ -489,4 +593,87 @@ class: small
 - Koen, J. D., Aly, M., Wang, W.-C., & Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726-1741. https://doi.org/10.1037/a0033671
 - Steegen, S., Tuerlinckx, F., Gelman, A., & Vanpaemel, W. (2016). Increasing Transparency Through a Multiverse Analysis. *Perspectives on Psychological Science*, 11(5), 702-712. https://doi.org/10.1177/1745691616658637
 
+---
+count: false
+
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.75, dpi = 500, message=FALSE}
+
+pos_x <- c(0.5, 1, 2, 4, 8)
+all_se %>% 
+  filter(inter != "Comp asy") %>% 
+  filter(core == "core") %>% 
+  ggplot(aes(x = inter, y = lexpansion)) +
+  geom_boxjitter(outlier.color = NA, 
+                 jitter.shape = NA, 
+                 jitter.fill = c("transparent")) +
+  geom_jitter(aes(x = as.numeric(inter)-1+0.3, color = dataset, 
+                  size = trials), 
+              width = 0) +
+  scale_size(range = c(1, 4)) +
+  facet_wrap(~parameter) +
+  scale_y_continuous(breaks = log(pos_x), 
+                     labels = pos_x, 
+                     name = "Expansion (log-scale)") +
+  xlab("") +
+  theme_bw(base_size = 24) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust = 0.25))
+
+```
+
+---
+count: false
+
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.75, dpi = 500, message=FALSE}
+
+
+all_se %>% 
+  filter(inter != "Comp asy") %>% 
+  filter(core == "aux", parameter %in% c("r_1", "r_2", "r_5", "r_6")) %>% 
+  ggplot(aes(x = inter, y = lexpansion)) +
+  geom_boxjitter(outlier.color = NA, 
+                 jitter.shape = NA, 
+                 jitter.fill = c("transparent")) +
+  geom_jitter(aes(x = as.numeric(inter)-1+0.3, color = dataset, 
+                  size = trials), 
+              width = 0) +
+  scale_size(range = c(1, 4)) +
+  facet_wrap(~parameter, nrow = 1) +
+  scale_y_continuous(breaks = log(pos_x), 
+                     labels = pos_x, 
+                     name = "Expansion (log-scale)") +
+  xlab("") + ggtitle("Response Mapping: Detection States") +
+  theme_bw(base_size = 24) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust = 0.25)) 
+
+```
+---
+count: false
+
+
+```{r, echo = FALSE, warning=FALSE, fig.width=11, fig.height=6.75, dpi = 500, message=FALSE}
+
+
+all_se %>% 
+  filter(inter != "Comp asy") %>% 
+  filter(core == "aux", parameter %in% c("q_1", "q_2", "q_5", "q_6")) %>% 
+  ggplot(aes(x = inter, y = lexpansion)) +
+  geom_boxjitter(outlier.color = NA, 
+                 jitter.shape = NA, 
+                 jitter.fill = c("transparent")) +
+  geom_jitter(aes(x = as.numeric(inter)-1+0.3, color = dataset, 
+                  size = trials), 
+              width = 0) +
+  scale_size(range = c(1, 4)) +
+  facet_wrap(~parameter, nrow = 1) +
+  scale_y_continuous(breaks = log(pos_x), 
+                     labels = pos_x, 
+                     name = "Expansion (log-scale)") +
+  xlab("") + ggtitle("Response Mapping: Uncertainty State") + 
+  theme_bw(base_size = 24) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust = 0.25)) +
+  theme(legend.position="none")
+
+```
 

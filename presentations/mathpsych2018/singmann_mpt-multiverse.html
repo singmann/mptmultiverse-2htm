@@ -223,31 +223,48 @@ Mean concordance correlation coefficient (CCC)
 
 ![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
+---
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ---
 
-# Summary 6-point ROCs
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+---
 
-- R restricted provides better account across data sets and methods.
-
-
-- General: Effect of data set larger than estimation method.
-
-
-- For core parameters and `\(r\)` parameters, latent trait estimates have tendencey to have different location and less precision. But tendentially more so for data sets with less trials.
-- For `\(q\)`, similar pattern, but less extreme.
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 
 
 
 ---
+class: inline-grey
 
-# General Discussion
+# Summary and Conclusion
 
-- Impact of estimation method seems non-negligible.
+- Multiverse analysis of 6-point ROCs with 2HTM:
+  1. General agreement in terms of model evaluation: 2HTM provides adequate account; exception are no pooling methods.
+  2. Surprisingly strong agreement in terms of point estimates (~ .9)
+  3. Complete pooling (i.e., aggregated data) appears to provide overconfident SEs (rarely too large SEs). Size of overconfidence depends strongly on parameter.
+  
 
-- 
+--
+
+
+- **Note**: Results do not suggest that hierarchical models are not necessary. - Aggregation artifacts can occur:
+  - Learning &amp; practice (e.g., Estes, 1956, Psych. Bull.; Evans, Brown, Mewhort, &amp; Heathcote, in press, Psych. Review)
+  - ROCs (Trippas, Kellen, Singmann, et al., in press, PB&amp;R)
+- Multiverse analysis (at least with a selection) appears generally advisable.
+  
+--
+
+
+- Future: Variety of different models (e.g., source-memory, prospective memory, IAT, process dissociation, hindsight bias)
+- `MPTmultiverse` provides `R` package for Bayesian and frequentist multiverse analysis of MPTs:
+  https://github.com/mpt-network/MPTmultiverse
+
 
 ---
+count: false
 
 class: small
 
@@ -258,6 +275,23 @@ class: small
 - Jaeger, A., Cox, J. C., &amp; Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282-301. https://doi.org/10.1037/a0025687
 - Koen, J. D., Aly, M., Wang, W.-C., &amp; Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726-1741. https://doi.org/10.1037/a0033671
 - Steegen, S., Tuerlinckx, F., Gelman, A., &amp; Vanpaemel, W. (2016). Increasing Transparency Through a Multiverse Analysis. *Perspectives on Psychological Science*, 11(5), 702-712. https://doi.org/10.1177/1745691616658637
+
+---
+count: false
+
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+count: false
+
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+---
+count: false
+
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
