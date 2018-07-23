@@ -150,14 +150,16 @@ class: small
 
 ---
 
-### 6-point ROC Data Corpus from Klauer &amp; Kellen (2015): 12 Data Sets
+## 6-point ROC Data Corpus from Klauer &amp; Kellen (2015): 12 Data Sets
+
+&lt;br/&gt;
 
 .pull-left2[
 
 | Data set        |Sample          | Mean No of Trials  |
 |:-------------|:-------------:|:-----:|
-|Dube &amp; Rotello (2012, Exp. 1, Pictures (P))| 27  | 400 |
-|Dube &amp; Rotello (2012, Exp. 1, Words (W))|  22      |   400 |
+|Dube &amp; Rotello (2012, E1, Pictures (P))| 27  | 400 |
+|Dube &amp; Rotello (2012, E1, Words (W))|  22      |   400 |
 |Heathcote et al. (2006, Exp. 1)  | 16     |    560 |
 |Heathcote et al. (2006, Exp. 2) | 23 | 560|
 |Jaeger et al. (2012, Exp. 1, no cue)|63|120|
@@ -172,12 +174,15 @@ class: small
 ]
 
 .pull-right2[
-No manipulation, just comparison of estimation methods.
+- Total N = 459
+- Mean trials = 350
 
-1. Goodness of Fit, across estimation methods.
-2. Core parameters
-3. `\(q\)` parameters (response mapping for uncertainty states)
-4. `\(r\)` parameters (response mapping for certainty states)
+
+
+3. Model adequacy: `\(G^2\)` `\(p\)`-value and posterior predictive `\(p\)`-value (Klauer, 2010)
+1. Parameter point estimates: MLE and posterior mean
+2. Parameter uncertainty: ML-SE and MCMC-SE
+  
 
 ]
 
@@ -205,6 +210,15 @@ Mean concordance correlation coefficient (CCC)
 
 
 ```
+## # A tibble: 3 x 3
+##   parameter mean   digits
+##   &lt;fct&gt;     &lt;chr&gt;   &lt;dbl&gt;
+## 1 Dn        0.9149      2
+## 2 Do        0.9631      2
+## 3 g         0.8459      2
+```
+
+```
 ## # A tibble: 8 x 3
 ##   cond_y     mean   digits
 ##   &lt;fct&gt;      &lt;chr&gt;   &lt;dbl&gt;
@@ -223,16 +237,45 @@ Mean concordance correlation coefficient (CCC)
 
 ![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
----
 
-![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+```
+## # A tibble: 7 x 3
+##   parameter mean   digits
+##   &lt;fct&gt;     &lt;chr&gt;   &lt;dbl&gt;
+## 1 q_1       0.8788      2
+## 2 q_2       0.8948      2
+## 3 q_5       0.9855      2
+## 4 q_6       0.9429      2
+## 5 r_1       0.731       2
+## 6 r_2       0.6975      2
+## 7 r_6       0.8887      2
+```
+
+```
+## # A tibble: 8 x 3
+##   cond_y     mean   digits
+##   &lt;fct&gt;      &lt;chr&gt;   &lt;dbl&gt;
+## 1 Comp asy   0.9811      2
+## 2 Comp Bayes 0.9826      2
+## 3 No asy     0.9827      2
+## 4 No PB      0.9824      2
+## 5 No Bayes   0.9674      2
+## 6 Beta PP    0.9902      2
+## 7 Trait PP   0.9731      2
+## 8 Trait_u PP 0.969       2
+```
+
 
 ---
 
 ![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
 ---
 
 ![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+---
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 
 
@@ -243,16 +286,18 @@ class: inline-grey
 
 - Multiverse analysis of 6-point ROCs with 2HTM:
   1. General agreement in terms of model evaluation: 2HTM provides adequate account; exception are no pooling methods.
-  2. Surprisingly strong agreement in terms of point estimates (~ .9)
+  2. Surprisingly strong agreement in terms of point estimates
   3. Complete pooling (i.e., aggregated data) appears to provide overconfident SEs (rarely too large SEs). Size of overconfidence depends strongly on parameter.
   
 
 --
 
 
-- **Note**: Results do not suggest that hierarchical models are not necessary. - Aggregation artifacts can occur:
+- **Note**: Results do not suggest that hierarchical models are not necessary.
+- **Aggregation artifacts can occur**:
   - Learning &amp; practice (e.g., Estes, 1956, Psych. Bull.; Evans, Brown, Mewhort, &amp; Heathcote, in press, Psych. Review)
-  - ROCs (Trippas, Kellen, Singmann, et al., in press, PB&amp;R)
+  - Confidence-rating ROCs in signal-detection theory (Trippas, Kellen, Singmann, et al., in press, PB&amp;R)
+- Whether or not aggregation artifacts occur, depends on task, model, and parameter. 
 - Multiverse analysis (at least with a selection) appears generally advisable.
   
 --
@@ -280,18 +325,18 @@ class: small
 count: false
 
 
-![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
-
----
-count: false
-
-
 ![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
 ---
 count: false
 
 
 ![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+---
+count: false
+
+
+![](singmann_mpt-multiverse_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({

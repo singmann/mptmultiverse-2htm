@@ -167,14 +167,16 @@ class: small
 
 ---
 
-### 6-point ROC Data Corpus from Klauer & Kellen (2015): 12 Data Sets
+## 6-point ROC Data Corpus from Klauer & Kellen (2015): 12 Data Sets
+
+<br/>
 
 .pull-left2[
 
 | Data set        |Sample          | Mean No of Trials  |
 |:-------------|:-------------:|:-----:|
-|Dube & Rotello (2012, Exp. 1, Pictures (P))| 27  | 400 |
-|Dube & Rotello (2012, Exp. 1, Words (W))|  22      |   400 |
+|Dube & Rotello (2012, E1, Pictures (P))| 27  | 400 |
+|Dube & Rotello (2012, E1, Words (W))|  22      |   400 |
 |Heathcote et al. (2006, Exp. 1)  | 16     |    560 |
 |Heathcote et al. (2006, Exp. 2) | 23 | 560|
 |Jaeger et al. (2012, Exp. 1, no cue)|63|120|
@@ -189,12 +191,15 @@ class: small
 ]
 
 .pull-right2[
-No manipulation, just comparison of estimation methods.
+- Total N = 459
+- Mean trials = 350
 
-1. Goodness of Fit, across estimation methods.
-2. Core parameters
-3. $q$ parameters (response mapping for uncertainty states)
-4. $r$ parameters (response mapping for certainty states)
+
+
+3. Model adequacy: $G^2$ $p$-value and posterior predictive $p$-value (Klauer, 2010)
+1. Parameter point estimates: MLE and posterior mean
+2. Parameter uncertainty: ML-SE and MCMC-SE
+  
 
 ]
 
@@ -405,15 +410,28 @@ Mean concordance correlation coefficient (CCC)
 
 ```{r, echo=FALSE}
 tmp <- all_pars2 %>% 
+  group_by(cond_x, cond_y, parameter) %>% 
+  summarise(ccc = CCC(x, y, na.rm = TRUE)$rho.c$est) %>% 
+  ungroup 
+tmp %>% 
+  select(cond_x, parameter, ccc) %>% 
+  rename(cond_y = cond_x) %>% 
+  bind_rows(select(tmp, cond_y, parameter, ccc)) %>% 
+  group_by(parameter) %>% 
+  summarise(mean = format(mean(ccc)), digits = 2)
+
+tmp <- all_pars2 %>% 
   group_by(cond_x, cond_y) %>% 
   summarise(ccc = CCC(x, y, na.rm = TRUE)$rho.c$est) %>% 
   ungroup 
+
 tmp %>% 
   select(cond_x, ccc) %>% 
   rename(cond_y = cond_x) %>% 
   bind_rows(select(tmp, cond_y, ccc)) %>% 
   group_by(cond_y) %>% 
   summarise(mean = format(mean(ccc)), digits = 2)
+
 ```
 
 
@@ -464,6 +482,32 @@ all_pars2 %>%
   xlab("") + ylab("") +
   theme_bw()
 ```
+
+```{r, echo=FALSE}
+tmp <- all_pars2 %>% 
+  group_by(cond_x, cond_y, parameter) %>% 
+  summarise(ccc = CCC(x, y, na.rm = TRUE)$rho.c$est) %>% 
+  ungroup 
+tmp %>% 
+  select(cond_x, parameter, ccc) %>% 
+  rename(cond_y = cond_x) %>% 
+  bind_rows(select(tmp, cond_y, parameter, ccc)) %>% 
+  group_by(parameter) %>% 
+  summarise(mean = format(mean(ccc)), digits = 2)
+
+tmp <- all_pars2 %>% 
+  group_by(cond_x, cond_y) %>% 
+  summarise(ccc = CCC(x, y, na.rm = TRUE)$rho.c$est) %>% 
+  ungroup 
+
+tmp %>% 
+  select(cond_x, ccc) %>% 
+  rename(cond_y = cond_x) %>% 
+  bind_rows(select(tmp, cond_y, ccc)) %>% 
+  group_by(cond_y) %>% 
+  summarise(mean = format(mean(ccc)), digits = 2)
+```
+
 
 ---
 
@@ -560,16 +604,18 @@ class: inline-grey
 
 - Multiverse analysis of 6-point ROCs with 2HTM:
   1. General agreement in terms of model evaluation: 2HTM provides adequate account; exception are no pooling methods.
-  2. Surprisingly strong agreement in terms of point estimates (~ .9)
+  2. Surprisingly strong agreement in terms of point estimates
   3. Complete pooling (i.e., aggregated data) appears to provide overconfident SEs (rarely too large SEs). Size of overconfidence depends strongly on parameter.
   
 
 --
 
 
-- **Note**: Results do not suggest that hierarchical models are not necessary. - Aggregation artifacts can occur:
+- **Note**: Results do not suggest that hierarchical models are not necessary.
+- **Aggregation artifacts can occur**:
   - Learning & practice (e.g., Estes, 1956, Psych. Bull.; Evans, Brown, Mewhort, & Heathcote, in press, Psych. Review)
-  - ROCs (Trippas, Kellen, Singmann, et al., in press, PB&R)
+  - Confidence-rating ROCs in signal-detection theory (Trippas, Kellen, Singmann, et al., in press, PB&R)
+- Whether or not aggregation artifacts occur, depends on task, model, and parameter. 
 - Multiverse analysis (at least with a selection) appears generally advisable.
   
 --
