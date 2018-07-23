@@ -2,10 +2,10 @@
 title: "A Bayesian and Frequentist Multiverse Pipeline for MPT models"
 subtitle: "Applications to Recognition Memory"
 author: "Henrik Singmann (University of Zurich)
-<br/>Daniel W. Heck (Universit‰t Mannheim)
+<br/>Daniel W. Heck (Universit√§t Mannheim)
 <br/>Georgia Eleni Kapetaniou (University of Zurich)
-<br/>Julia Groﬂ (Heinrich-Heine-Universit‰t D¸sseldorf)
-<br/>Beatrice G. Kuhlmann (Universit‰t Mannheim)
+<br/>Julia Gro√ü (Heinrich-Heine-Universit√§t D√ºsseldorf)
+<br/>Beatrice G. Kuhlmann (Universit√§t Mannheim)
 <br/>https://github.com/mpt-network/MPTmultiverse"
 date: "July 2018"
 output:
@@ -76,9 +76,9 @@ class: small, inline-grey
 
 ### Current Project
 
-- DFG 'Scientific Network' grant to Julia Groﬂ and Beatrice Kuhlmann
+- DFG 'Scientific Network' grant to Julia Gro√ü and Beatrice Kuhlmann
   - 6 meetings over 3 years with 15 people plus external experts
-  - "Hierarchical MPT Modeling - Methodological Comparisons and Application Guidelines"
+  - "Hierarchical MPT Modeling ‚Äì Methodological Comparisons and Application Guidelines"
   - Multinomial processing tree (MPT) models: class of discrete-state cognitive models for multinomial data (Riefer & Batchelder, 1988)
   - MPT models traditionally analyzed with frequentist methods (i.e., $\chi^2/G^2$) and aggregated data
   - Several hierarchical-Bayesian approaches exist. Do we need those?
@@ -139,10 +139,10 @@ class: small
 ---
 class: small
 
-### 2-high threshold model  (2HTM) for 6-point confidence-rating data (e.g., Brˆder, et al., 2013)
+### 2-high threshold model  (2HTM) for 6-point confidence-rating data (e.g., Br√∂der, et al., 2013)
 
 .pull-left2[
-![](./model8.png)
+![](model8.png)
 
 ]
 
@@ -633,7 +633,7 @@ class: small
 
 ### References 
 - Barchard, K. A. (2012). Examining the reliability of interval level data using root mean square differences and concordance correlation coefficients. *Psychological Methods*, 17(2), 294-308. https://doi.org/10.1037/a0023351
-- Brˆder, A., Kellen, D., Sch¸tz, J., & Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916-944. https://doi.org/10.1080/09658211.2013.767348
+- Br√∂der, A., Kellen, D., Sch√ºtz, J., & Rohrmeier, C. (2013). Validating a two-high-threshold measurement model for confidence rating data in recognition. *Memory*, 21(8), 916-944. https://doi.org/10.1080/09658211.2013.767348
 - Dube, C., Starns, J. J., Rotello, C. M., & Ratcliff, R. (2012). Beyond ROC curvature: Strength effects and response time data support continuous-evidence models of recognition memory. *Journal of Memory and Language*, 67(3), 389-406. https://doi.org/10.1016/j.jml.2012.06.002
 - Jaeger, A., Cox, J. C., & Dobbins, I. G. (2012). Recognition confidence under violated and confirmed memory expectations. *Journal of Experimental Psychology: General*, 141(2), 282-301. https://doi.org/10.1037/a0025687
 - Koen, J. D., Aly, M., Wang, W.-C., & Yonelinas, A. P. (2013). Examining the causes of memory strength variability: Recollection, attention failure, or encoding variability? *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 39(6), 1726-1741. https://doi.org/10.1037/a0033671
